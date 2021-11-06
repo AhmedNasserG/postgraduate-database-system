@@ -1,0 +1,92 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper} 
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\begin{document}
+\author{\textbf{linear Depression}}
+\title{\textbf{Relational Schema}}
+\date {\today}
+\maketitle
+
+\noindent
+\begin{itemize}
+ \item $User\ (\underline{user\_name},password) $
+ \newline
+ \item $Admin\ (\dashuline{\underline{user\_name}}) $ 
+ \newline Admin.user\_name refrences User.user\_name
+ \newline  
+ \item$Student \  (\underline{id},\dashuline{user\_name} ,firstName, lastName , faculty, gpa, email,type,address )$
+ \newline Student.userName refrences User.userName
+ \newline
+ \item$StudentsMobileNumbers\  (\dashuline{\underline{sid}}, \underline{mobile\_number})$
+    \newline StudentsMobileNumbers.sid references Student.id 
+ \newline
+ \item$ Gucian \ (\dashuline{\underline{sid}}, guc\_id)$
+    \newline Gucian.sid references Student.id   
+\newline
+\item$ NonGucian \ (\dashuline{\underline{sid}})$
+    \newline NonGucian.sid references Student.id
+\newline
+\item$Supervisor \ (\underline{id},\dashuline{userName}, name , faculty, email)$
+\newline Supervisor.userName refrences User.userName
+\item$Payable\ (\underline{id})$
+\newline
+\item$ Thesis \ (\underline{serial\_number}, start\_date, end\_date, duration , type,field, seminar\_date, number\_of\_extension$\newline$ ,\dashuline{student\_id} ,\dashuline{supervisor\_id} , \dashuline{payable\_id})$
+    \newline Thesis.student\_id references Student.id
+    \newline Thesis.supervisor\_id references Supervisor.id
+    \newline Thesis.payable\_id references Payable.id
+    \newline
+\item$CoSupervised \ (\dashuline{\underline{thesis\_number}}, \dashuline{\underline{supervisor\_id}})$
+    \newline CoSupervised.thesis\_number references Thesis.serial\_number
+    \newline CoSupervised.supervisor\_id references Supervisor.id 
+\newline        
+\item$ Report \ (\dashuline{\underline{serial\_number}}, \underline{date}, description, progress\_state)$
+    \newline Report.serial\_number seferences Thesis.serial\_number
+\newline    
+\item$Evaluated \ (\dashuline{\underline{thesis\_number}}, \dashuline{\underline{date}}, \dashuline{\underline{supervisor\_id}}, evaluation)$
+    \newline Evaluated.thesis\_number refrences report Report.serial\_number
+    \newline Evaluated.date refrences Report.date
+    \newline Evaluated.supervisor\_id refrences Supervisor.id 
+\newline    
+\item$Defense \ (\dashuline{\underline{serial\_number}}, date , location , grade )$
+    \newline Defense.serial\_number references Thesis.serial\_number
+   \newline
+\item$Examiner \ (\underline{id}, name , field\_of\_study , is\_national)$
+\newline
+\item$ ExaminedBy \ (\dashuline{\underline{serial\_number}}, \dashuline{\underline{examiner\_id}})$
+    \newline ExaminedBy.serial\_number references Defense.serial\_number
+    \newline ExaminedBy.examiner\_id references Examiner.id
+\newline
+\item$ Publication \ (\underline{id}, date, host, place, accepted, \dashuline{payable\_id})$
+    \newline Publication.payable\_id references Payable.id 
+\newline  
+\item$ Publish \ (\dashuline{student\_id}, \dashuline{thesis\_number}, \dashuline{publication\_id})$  
+    \newline Publish.student\_id references Student.id 
+    \newline Publish.thesis\_number references Thesis.serial\_number 
+    \newline Publish.publication\_id references Publication.id
+\newline
+\item$ Course\ (\underline{id}, code, credit\_hours, fees, \dashuline{payable\_id})$
+    \newline Course.payable\_id references Payable.id
+\newline
+\item$ TakenBy \ (\dashuline{\underline{student\_id}}, \dashuline{\underline{course\_id}})$
+    \newline TakenBy.student\_id references NonGucian.id 
+    \newline TakenBy.courseId references Course.id 
+\newline
+\item$ Payment \ (\underline{id}, fund\_percentage, numo\_of\_installment, total\_amount, \dashuline{payableId},\dashuline{student\_id })$
+    \newline Payment.payable\_id refrences Payable.id 
+    \newline Payment.student\_id references Student.id
+\newline 
+\item$ Installment\ (\dashuline{ \underline{payment\_id}}, \underline{date}, amount, status) $ 
+    \newline Installment.payment\_id references Payment.id 
+\end{itemize}
+
+\end{document}
