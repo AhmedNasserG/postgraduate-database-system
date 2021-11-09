@@ -19,74 +19,74 @@
 
 \noindent
 \begin{itemize}
- \item $User\ (\underline{user\_name},password) $
+\item $USER\ (\underline{User\_name},Password) $
  \newline
- \item $Admin\ (\dashuline{\underline{user\_name}}) $ 
- \newline Admin.user\_name refrences User.user\_name
+ \item $ADMIN\ (\dashuline{\underline{User\_name}}) $ 
+ \newline ADMIN.User\_name refrences USER.User\_name
  \newline  
- \item$Student \  (\underline{id},\dashuline{user\_name} ,firstName, lastName , faculty, gpa, email,type,address )$
- \newline Student.userName refrences User.userName
+ \item$STUDENT \  (\underline{Id},\dashuline{User\_name} ,First\_name, Last\_name , Faculty, Gpa, Email,Type,Address )$
+ \newline STUDENT.User\_name refrences User.User\_name
  \newline
- \item$StudentsMobileNumbers\  (\dashuline{\underline{sid}}, \underline{mobile\_number})$
-    \newline StudentsMobileNumbers.sid references Student.id 
+ \item$STUDENT\_MOBILE\_NUMBERS\  (\dashuline{\underline{Sid}}, \underline{Mobile\_number})$
+    \newline STUDENT\_MOBILE\_NUMBERS.Sid references STUDENT.Id
  \newline
- \item$ Gucian \ (\dashuline{\underline{sid}}, guc\_id)$
-    \newline Gucian.sid references Student.id   
+ \item$ GUCIAN \ (\dashuline{\underline{Sid}}, Guc\_id)$
+    \newline GUCIAN.Sid references STUDENT.id   
 \newline
-\item$ NonGucian \ (\dashuline{\underline{sid}})$
-    \newline NonGucian.sid references Student.id
+\item$ NONGUCIAN \ (\dashuline{\underline{Sid}})$
+    \newline NONGUCIAN.Sid references STUDENT.Id
 \newline
-\item$Supervisor \ (\underline{id},\dashuline{userName}, name , faculty, email)$
-\newline Supervisor.userName refrences User.userName
-\item$Payable\ (\underline{id})$
+\item$SUPERVISOR \ (\underline{Id},\dashuline{User\_name}, Name , Faculty, Email)$
+\newline SUPERVISOR.UserName refrences USER.User\-name
+\item$PAYABLE\ (\underline{Id})$
 \newline
-\item$ Thesis \ (\underline{serial\_number}, start\_date, end\_date, duration , type,field, seminar\_date, number\_of\_extension$\newline$ ,\dashuline{student\_id} ,\dashuline{supervisor\_id} , \dashuline{payable\_id})$
-    \newline Thesis.student\_id references Student.id
-    \newline Thesis.supervisor\_id references Supervisor.id
-    \newline Thesis.payable\_id references Payable.id
+\item$ THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payable\_id})$
+    \newline THESIS.Student\_id references STUDENT.Id
+    \newline THESIS.Supervisor\_id references SUPERVISOR.Id
+    \newline THESIS.Payable\_id references PAYABLE.Id
     \newline
-\item$CoSupervised \ (\dashuline{\underline{thesis\_number}}, \dashuline{\underline{supervisor\_id}})$
-    \newline CoSupervised.thesis\_number references Thesis.serial\_number
-    \newline CoSupervised.supervisor\_id references Supervisor.id 
+\item$CO\_SUPERVISED \ (\dashuline{\underline{Thesis\_number,Supervisor\_id}})$
+    \newline CO\_SUPERVISED.Thesis\_number references THESIS.Serial\_number
+    \newline CO\_SUPERVISED.Supervisor\_id references SUPERVISOR.Id 
 \newline        
-\item$ Report \ (\dashuline{\underline{serial\_number}}, \underline{date}, description, progress\_state)$
-    \newline Report.serial\_number seferences Thesis.serial\_number
+\item$ REPORT \ (\dashuline{\underline{Serial\_number}}, \underline{Date}, Description, Progress\_state)$
+    \newline REPORT.Serial\_number seferences THESIS.Serial\_number
 \newline    
-\item$Evaluated \ (\dashuline{\underline{thesis\_number}}, \dashuline{\underline{date}}, \dashuline{\underline{supervisor\_id}}, evaluation)$
-    \newline Evaluated.thesis\_number refrences report Report.serial\_number
-    \newline Evaluated.date refrences Report.date
-    \newline Evaluated.supervisor\_id refrences Supervisor.id 
+\item$EVALUATED \ (\dashuline{\underline{Thesis\_number}}, \dashuline{\underline{Date}}, \dashuline{\underline{Supervisor\_id}}, Evaluation)$
+    \newline EVALUATED.Thesis\_number refrences  REPORT.Serial\_number
+    \newline EVALUATED.Date refrences REPORT.Date
+    \newline EVALUATED.Supervisor\_id refrences SUPERVISOR.Id 
 \newline    
-\item$Defense \ (\dashuline{\underline{serial\_number}}, date , location , grade )$
-    \newline Defense.serial\_number references Thesis.serial\_number
+\item$DEFENSE \ (\dashuline{\underline{Serial\_number}}, Date , Location , Grade )$
+    \newline DEFENSE.Serial\_number references THESIS.Serial\_number
    \newline
-\item$Examiner \ (\underline{id}, name , field\_of\_study , is\_national)$
+\item$EXAMINER \ (\underline{Id}, Name , Field\_of\_study , Is\_national)$
 \newline
-\item$ ExaminedBy \ (\dashuline{\underline{serial\_number}}, \dashuline{\underline{examiner\_id}})$
-    \newline ExaminedBy.serial\_number references Defense.serial\_number
-    \newline ExaminedBy.examiner\_id references Examiner.id
+\item$ EXAMINED\_BY \ (\dashuline{\underline{Serial\_number}}, \dashuline{\underline{Examiner\_id}})$
+    \newline EXAMINED\_BY.Serial\_number references DEFENSE.Serial\_number
+    \newline EXAMINED\_BY.Examiner\_id references EXAMINER.Id
 \newline
-\item$ Publication \ (\underline{id}, date, host, place, accepted, \dashuline{payable\_id})$
-    \newline Publication.payable\_id references Payable.id 
+\item$ PUBLICATION \ (\underline{Id}, Date, Host, Place, Accepted, \dashuline{Payable\_id})$
+    \newline PUBLICATION.Payable\_id references Payable.id 
 \newline  
-\item$ Publish \ (\dashuline{student\_id}, \dashuline{thesis\_number}, \dashuline{publication\_id})$  
-    \newline Publish.student\_id references Student.id 
-    \newline Publish.thesis\_number references Thesis.serial\_number 
-    \newline Publish.publication\_id references Publication.id
+\item$ PUBLISH \ (\dashuline{Student\_id}, \dashuline{Thesis\_number}, \dashuline{Publication\_id})$  
+    \newline PUBLISH.Student\_id references STUDENT.Id 
+    \newline PUBLISH.Thesis\_number references THESIS.Serial\_number 
+    \newline PUBLISH.Publication\_id references PUBLICATION.Id
 \newline
-\item$ Course\ (\underline{id}, code, credit\_hours, fees, \dashuline{payable\_id})$
-    \newline Course.payable\_id references Payable.id
+\item$ COURSE\ (\underline{ID}, Code, Credit\_hours, Fees, \dashuline{Payable\_id})$
+    \newline COURSE.Payable\_id references PAYABLE.Id
 \newline
-\item$ TakenBy \ (\dashuline{\underline{student\_id}}, \dashuline{\underline{course\_id}})$
-    \newline TakenBy.student\_id references NonGucian.id 
-    \newline TakenBy.courseId references Course.id 
+\item$ TAKEN\_BY \ (\dashuline{\underline{Student\_id}}, \dashuline{\underline{Course\_id}})$
+    \newline TAKEN\_BY.Student\_id references NONGUCIAN.Id 
+    \newline TAKEN\_BY.CourseId references COURSE.Id 
 \newline
-\item$ Payment \ (\underline{id}, fund\_percentage, numo\_of\_installment, total\_amount, \dashuline{payableId},\dashuline{student\_id })$
-    \newline Payment.payable\_id refrences Payable.id 
-    \newline Payment.student\_id references Student.id
+\item$ PAYMENT \ (\underline{Id}, Fund\_percentage, Num\_of\_installment, Total\_amount, \dashuline{PayableId},\dashuline{Student\_id })$
+    \newline PAYMENT.Payable\_id refrences PAYABLE.Id 
+    \newline PAYMENT.Student\_id references STUDENT.Id
 \newline 
-\item$ Installment\ (\dashuline{ \underline{payment\_id}}, \underline{date}, amount, status) $ 
-    \newline Installment.payment\_id references Payment.id 
+\item$ INSTALLMENT\ (\dashuline{ \underline{Payment\_id}}, \underline{Date}, Amount, Status) $ 
+    \newline INSTALLMENT.Payment\_id references PAYMENT.Id 
 \end{itemize}
 
 \end{document}
