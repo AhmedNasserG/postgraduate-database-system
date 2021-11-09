@@ -19,13 +19,13 @@
 
 \noindent
 \begin{itemize}
-\item $USER\ (\underline{User\_name},Password) $
+\item $USER\ (\underline{Id},User\_name,Password) $
  \newline
- \item $ADMIN\ (\dashuline{\underline{User\_name}}) $ 
- \newline ADMIN.User\_name refrences USER.User\_name
+ \item $ADMIN\ (\dashuline{\underline{Id}}) $ 
+ \newline ADMIN.User\_name refrences USER.Id
  \newline  
- \item$STUDENT \  (\underline{Id},\dashuline{User\_name} ,First\_name, Last\_name , Faculty, Gpa, Email,Type,Address )$
- \newline STUDENT.User\_name refrences User.User\_name
+ \item$STUDENT \  (\dashuline{\underline{Id}},First\_name, Last\_name , Faculty, Gpa, Email,Type,Address )$
+ \newline STUDENT.Id refrences User.Id
  \newline
  \item$STUDENT\_MOBILE\_NUMBERS\  (\dashuline{\underline{Sid}}, \underline{Mobile\_number})$
     \newline STUDENT\_MOBILE\_NUMBERS.Sid references STUDENT.Id
@@ -36,11 +36,12 @@
 \item$ NONGUCIAN \ (\dashuline{\underline{Sid}})$
     \newline NONGUCIAN.Sid references STUDENT.Id
 \newline
-\item$SUPERVISOR \ (\underline{Id},\dashuline{User\_name}, Name , Faculty, Email)$
-\newline SUPERVISOR.UserName refrences USER.User\-name
+\item$SUPERVISOR \ (\dashuline{\underline{Id}}, Name , Faculty, Email)$
+\newline SUPERVISOR.UserName refrences USER.User.iD
 \item$PAYABLE\ (\underline{Id})$
 \newline
 \item$ THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payable\_id})$
+    \newline Duration = end\_date - start\_date
     \newline THESIS.Student\_id references STUDENT.Id
     \newline THESIS.Supervisor\_id references SUPERVISOR.Id
     \newline THESIS.Payable\_id references PAYABLE.Id
@@ -69,15 +70,14 @@
 \item$ PUBLICATION \ (\underline{Id}, Date, Host, Place, Accepted, \dashuline{Payable\_id})$
     \newline PUBLICATION.Payable\_id references Payable.id 
 \newline  
-\item$ PUBLISH \ (\dashuline{Student\_id}, \dashuline{Thesis\_number}, \dashuline{Publication\_id})$  
-    \newline PUBLISH.Student\_id references STUDENT.Id 
+\item$ PUBLISHED\_FOR\ (\dashuline{\underline{Thesis\_number,Publication\_id}})$  
     \newline PUBLISH.Thesis\_number references THESIS.Serial\_number 
     \newline PUBLISH.Publication\_id references PUBLICATION.Id
 \newline
 \item$ COURSE\ (\underline{ID}, Code, Credit\_hours, Fees, \dashuline{Payable\_id})$
     \newline COURSE.Payable\_id references PAYABLE.Id
 \newline
-\item$ TAKEN\_BY \ (\dashuline{\underline{Student\_id}}, \dashuline{\underline{Course\_id}})$
+\item$ TAKEN\_BY \ (\dashuline{\underline{Student\_id}}, \dashuline{\underline{Course\_id}}, Grade)$
     \newline TAKEN\_BY.Student\_id references NONGUCIAN.Id 
     \newline TAKEN\_BY.CourseId references COURSE.Id 
 \newline
@@ -87,6 +87,8 @@
 \newline 
 \item$ INSTALLMENT\ (\dashuline{ \underline{Payment\_id}}, \underline{Date}, Amount, Status) $ 
     \newline INSTALLMENT.Payment\_id references PAYMENT.Id 
+
+    
 \end{itemize}
 
 \end{document}
