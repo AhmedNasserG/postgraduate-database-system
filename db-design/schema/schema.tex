@@ -48,7 +48,7 @@
           \newline SUPERVISOR.UserName refrences USERS.Id
     \item PAYABLE\ (\underline{Id})
           \newline
-    \item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payment\_id})
+    \item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration ,Title, Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payment\_id})
           \newline THESIS.Student\_id references STUDENT.Id
           \newline THESIS.Supervisor\_id references SUPERVISOR.Id
           \newline THESIS.Payment\_id references PAYMENT.Id
@@ -75,10 +75,10 @@
           \newline EXAMINED\_BY.Serial\_number references DEFENSE.Serial\_number
           \newline EXAMINED\_BY.Examiner\_id references EXAMINER.Id
           \newline
-    \item PUBLICATION \ (\underline{Id}, Date, Host, Place, Accepted, \dashuline{Payable\_id})
+    \item PUBLICATION \ (\underline{Id}, Date, Host, Place, \dashuline{Payable\_id})
           \newline PUBLICATION.Payable\_id references Payable.id
           \newline
-    \item PUBLISHED\_FOR\ (\dashuline{\underline{Thesis\_number}},\dashuline{\underline{Publication\_id}})
+    \item PUBLISHED\_FOR\ (\dashuline{\underline{Thesis\_number}},\dashuline{\underline{Publication\_id}},Accepted)
           \newline PUBLISH.Thesis\_number references THESIS.Serial\_number
           \newline PUBLISH.Publication\_id references PUBLICATION.Id
           \newline
