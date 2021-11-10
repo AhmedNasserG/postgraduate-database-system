@@ -48,12 +48,14 @@
           \newline SUPERVISOR.UserName refrences USERS.Id
     \item PAYABLE\ (\underline{Id})
           \newline
-    \item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payable\_id})
-          \newline THESIS.Student\_id references STUDENT.Id
-          \newline THESIS.Supervisor\_id references SUPERVISOR.Id
+    \item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension, \dashuline{Payable\_id})
           \newline THESIS.Payable\_id references PAYABLE.Id
           \newline where Duration = End\_date - Start\_date
           \newline
+    \item SUPERVISE \ (\specdash{Thesis\_number}, \dashuline{Student\_id},\dashuline{Supervisor\_id})
+    \newline SUPERVISE.Thesis\_number references Thesis.Serial\_number
+    \newline SUPERVISE.Student\_id references STUDENT.Id
+    \newline SUPERVISE.Supervisor\_id references SUPERVISOR.Id    
     \item CO\_SUPERVISED \ (\specdash{Thesis\_number,Supervisor\_id})
           \newline CO\_SUPERVISED.Thesis\_number references THESIS.Serial\_number
           \newline CO\_SUPERVISED.Supervisor\_id references SUPERVISOR.Id
