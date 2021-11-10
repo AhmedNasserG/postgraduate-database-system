@@ -27,76 +27,76 @@
 
 \noindent
 \begin{itemize}
-\item USERS\ (\underline{Id},User\_name,Password) 
- \newline
- \item ADMIN\ (\specdash{Id}) 
- \newline ADMIN.User\_name refrences USERS.Id
- \newline  
- \item STUDENT \ (\specdash{Id} , First\_name, Last\_name , Faculty, Gpa, Email,Type,Address )
- \newline STUDENT.Id refrences UserS.Id
- \newline
- \item STUDENT\_MOBILE\_NUMBERS\ (\specdash{Sid}, \underline{Mobile\_number})
-    \newline STUDENT\_MOBILE\_NUMBERS.Sid references STUDENT.Id
- \newline
- \item GUCIAN \ (\specdash{Sid}, Guc\_id)
-    \newline GUCIAN.Sid references STUDENT.id   
-\newline
-\item NONGUCIAN \ (\specdash{Sid})
-    \newline NONGUCIAN.Sid references STUDENT.Id
-\newline
-\item SUPERVISOR \ (\specdash{Id}, Name , Faculty, Email)
-\newline SUPERVISOR.UserName refrences USERS.Id
-\item PAYABLE\ (\underline{Id})
-\newline
-\item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payable\_id})
-    \newline THESIS.Student\_id references STUDENT.Id
-    \newline THESIS.Supervisor\_id references SUPERVISOR.Id
-    \newline THESIS.Payable\_id references PAYABLE.Id
-    \newline where Duration = End\_date - Start\_date
-    \newline
-\item CO\_SUPERVISED \ (\specdash{Thesis\_number,Supervisor\_id})
-    \newline CO\_SUPERVISED.Thesis\_number references THESIS.Serial\_number
-    \newline CO\_SUPERVISED.Supervisor\_id references SUPERVISOR.Id 
-\newline        
-\item REPORT \ (\dashuline{\underline{Serial\_number}}, \underline{Date}, Description, Progress\_state)
-    \newline REPORT.Serial\_number seferences THESIS.Serial\_number
-\newline    
-\item EVALUATED \ (\specdash{Thesis\_number,Date,Supervisor\_id}, Evaluation)
-    \newline EVALUATED.Thesis\_number refrences  REPORT.Serial\_number
-    \newline EVALUATED.Date refrences REPORT.Date
-    \newline EVALUATED.Supervisor\_id refrences SUPERVISOR.Id 
-\newline    
-\item DEFENSE \ (\dashuline{\underline{Serial\_number}}, Date , Location , Grade )
-    \newline DEFENSE.Serial\_number references THESIS.Serial\_number
-   \newline
-\item EXAMINER \ (\underline{Id}, Name , Field\_of\_study , Is\_national)
-\newline
-\item EXAMINED\_BY \ (\dashuline{\underline{Serial\_number}}, \dashuline{\underline{Examiner\_id}},Comments)
-    \newline EXAMINED\_BY.Serial\_number references DEFENSE.Serial\_number
-    \newline EXAMINED\_BY.Examiner\_id references EXAMINER.Id
-\newline
-\item PUBLICATION \ (\underline{Id}, Date, Host, Place, Accepted, \dashuline{Payable\_id})
-    \newline PUBLICATION.Payable\_id references Payable.id 
-\newline  
-\item PUBLISHED\_FOR\ (\dashuline{\underline{Thesis\_number}},\dashuline{\underline{Publication\_id}})  
-    \newline PUBLISH.Thesis\_number references THESIS.Serial\_number 
-    \newline PUBLISH.Publication\_id references PUBLICATION.Id
-\newline
-\item COURSE\ (\underline{ID}, Code, Credit\_hours, Fees, \dashuline{Payable\_id})
-    \newline COURSE.Payable\_id references PAYABLE.Id
-\newline
-\item TAKEN\_BY \ (\specdash{Student\_id, Course\_id}, Grade)
-    \newline TAKEN\_BY.Student\_id references NONGUCIAN.Id 
-    \newline TAKEN\_BY.CourseId references COURSE.Id 
-\newline
-\item PAYMENT \ (\underline{Id}, Fund\_percentage, Num\_of\_installment, Total\_amount, \dashuline{PayableId},\dashuline{Student\_id })
-    \newline PAYMENT.Payable\_id refrences PAYABLE.Id 
-    \newline PAYMENT.Student\_id references STUDENT.Id
-\newline 
-\item INSTALLMENT\ (\specdash{Payment\_id}, \underline{Date}, Amount, Status)  
-    \newline INSTALLMENT.Payment\_id references PAYMENT.Id 
+    \item USERS\ (\underline{Id},User\_name,Password)
+          \newline
+    \item ADMIN\ (\specdash{Id})
+          \newline ADMIN.User\_name refrences USERS.Id
+          \newline
+    \item STUDENT \ (\specdash{Id} , First\_name, Last\_name , Faculty, Gpa, Email,Type,Address )
+          \newline STUDENT.Id refrences UserS.Id
+          \newline
+    \item STUDENT\_MOBILE\_NUMBERS\ (\specdash{Sid}, \underline{Mobile\_number})
+          \newline STUDENT\_MOBILE\_NUMBERS.Sid references STUDENT.Id
+          \newline
+    \item GUCIAN \ (\specdash{Sid}, Guc\_id)
+          \newline GUCIAN.Sid references STUDENT.id
+          \newline
+    \item NONGUCIAN \ (\specdash{Sid})
+          \newline NONGUCIAN.Sid references STUDENT.Id
+          \newline
+    \item SUPERVISOR \ (\specdash{Id}, Name , Faculty, Email)
+          \newline SUPERVISOR.UserName refrences USERS.Id
+    \item PAYABLE\ (\underline{Id})
+          \newline
+    \item  THESIS \ (\underline{Serial\_number}, Start\_date, End\_date, Duration , Type,Field, Seminar\_date$\newline$ , Number\_of\_extension,\dashuline{Student\_id} ,\dashuline{Supervisor\_id} , \dashuline{Payable\_id})
+          \newline THESIS.Student\_id references STUDENT.Id
+          \newline THESIS.Supervisor\_id references SUPERVISOR.Id
+          \newline THESIS.Payable\_id references PAYABLE.Id
+          \newline where Duration = End\_date - Start\_date
+          \newline
+    \item CO\_SUPERVISED \ (\specdash{Thesis\_number,Supervisor\_id})
+          \newline CO\_SUPERVISED.Thesis\_number references THESIS.Serial\_number
+          \newline CO\_SUPERVISED.Supervisor\_id references SUPERVISOR.Id
+          \newline
+    \item REPORT \ (\dashuline{\underline{Serial\_number}}, \underline{Date}, Description, Progress\_state)
+          \newline REPORT.Serial\_number seferences THESIS.Serial\_number
+          \newline
+    \item EVALUATED \ (\specdash{Thesis\_number,Date,Supervisor\_id}, Evaluation)
+          \newline EVALUATED.Thesis\_number refrences  REPORT.Serial\_number
+          \newline EVALUATED.Date refrences REPORT.Date
+          \newline EVALUATED.Supervisor\_id refrences SUPERVISOR.Id
+          \newline
+    \item DEFENSE \ (\dashuline{\underline{Serial\_number}}, Date , Location , Grade )
+          \newline DEFENSE.Serial\_number references THESIS.Serial\_number
+          \newline
+    \item EXAMINER \ (\underline{Id}, Name , Field\_of\_study , Is\_national)
+          \newline
+    \item EXAMINED\_BY \ (\dashuline{\underline{Serial\_number}}, \dashuline{\underline{Examiner\_id}},Comments)
+          \newline EXAMINED\_BY.Serial\_number references DEFENSE.Serial\_number
+          \newline EXAMINED\_BY.Examiner\_id references EXAMINER.Id
+          \newline
+    \item PUBLICATION \ (\underline{Id}, Date, Host, Place, Accepted, \dashuline{Payable\_id})
+          \newline PUBLICATION.Payable\_id references Payable.id
+          \newline
+    \item PUBLISHED\_FOR\ (\dashuline{\underline{Thesis\_number}},\dashuline{\underline{Publication\_id}})
+          \newline PUBLISH.Thesis\_number references THESIS.Serial\_number
+          \newline PUBLISH.Publication\_id references PUBLICATION.Id
+          \newline
+    \item COURSE\ (\underline{ID}, Code, Credit\_hours, Fees, \dashuline{Payable\_id})
+          \newline COURSE.Payable\_id references PAYABLE.Id
+          \newline
+    \item TAKEN\_BY \ (\specdash{Student\_id, Course\_id}, Grade)
+          \newline TAKEN\_BY.Student\_id references NONGUCIAN.Id
+          \newline TAKEN\_BY.CourseId references COURSE.Id
+          \newline
+    \item PAYMENT \ (\underline{Id}, Fund\_percentage, Num\_of\_installment, Total\_amount, \dashuline{PayableId},\dashuline{Student\_id })
+          \newline PAYMENT.Payable\_id refrences PAYABLE.Id
+          \newline PAYMENT.Student\_id references STUDENT.Id
+          \newline
+    \item INSTALLMENT\ (\specdash{Payment\_id}, \underline{Date}, Amount, Status)
+          \newline INSTALLMENT.Payment\_id references PAYMENT.Id
 
-    
+
 \end{itemize}
 
 \end{document}
