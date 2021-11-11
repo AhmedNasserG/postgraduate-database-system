@@ -1,4 +1,4 @@
- _USERS ( id int primary key identity, USER_NAME varchar (20) not null,||
+ _USERS ( id int primary key identity, USER_NAME varchar (20) not null,
  PASSWORD varchar (20) not null,) || _ADMIN ( id int primary key identity ,
  foreign key(id) references _USERS) || _STUDENT ( id int primary key identity,
  FOREIGN KEY(id) references _USERS, FIRST_NAME varchar(20) not null, LAST_NAME
