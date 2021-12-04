@@ -1,0 +1,11 @@
+User (user_name varchar(30), password varchar (30), primary key (user_name))||
+Admin (user name varchar(30), primary key (user_name) , foreign key (user_name) references User )||
+Student (id int identity , user_name varchar(30), first_name varchar(15), last_name varchar(15), faculty varchar (20), gpa real , email varchar (40), type varchar (5), address text, primary key (id), foreign key (user_name) references User)||
+StudentsMobileNumbers (sid int , mobile_number varchar(11), primary key (sid, mobile_number), foreign_key(sid) references Student)||
+Gucian (sid int, guc id int ,primary key (sid), foreign key (sid) references student)||
+NonGucian (sid int primary key (sid), foreign key(sid))||
+Supervisor (id int, user_name varchar(30), name varchar (50), faculty varchar (20), email varchar(40), primary key (id), foreign key (user_name) references User)||
+Payable (id int identity, primary key (id))||
+Thesis (serial number int identity , start date datetime, end date datetime, duration int, type varchar(5) , field varchar (50), seminar date datetime, number_of_extension int
+, student_id int, supervisor_id int, payable_id, primary key (serial_number), foreign key (student_id) references Student , foreign key (supervisor_id) references Supervisor, foreign key (payable_id) references Payable)||
+CoSupervised (thesis_number int, supervisor_id int, primary key (thesis_number, supervisor_id), foreign_key(thesis_number) references Thesis, foreign key (supervisor_id) references Supervisor)||
