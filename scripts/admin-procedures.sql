@@ -12,7 +12,7 @@ CREATE PROC StudentRegister
     @faculty VARCHAR(20),
     @type BIT,
     @email VARCHAR(50),
-    @address VARCHAR(10)
+    @address VARCHAR(50)
 AS
 INSERT INTO
     USERS
@@ -21,6 +21,15 @@ values
 
 INSERT INTO
     STUDENT
+    (
+    id,
+    first_name,
+    last_name,
+    faculty,
+    email,
+    type,
+    address
+    )
 VALUES
     (
         SCOPE_IDENTITY(),
@@ -148,7 +157,7 @@ GO
 -- List all supervisors’ names currently supervising students, theses title, student name.
 CREATE PROC AdminViewStudentThesisBySupervisor
 AS
-SELECT sup.first_name , sup.last_name, t.title, stu.first_name, stu.last_name
+SELECT sup.first_name AS Supervisor_F_Name , sup.last_name AS Supervisor_L_Name, t.title AS Thesis_Title, stu.first_name AS Student_F_Name, stu.last_name AS Student_L_Name
 FROM SUPERVISOR sup INNER JOIN SUPERVISED ON sup.id = SUPERVISED.supervisor_id
     INNER JOIN THESIS t ON SUPERVISED.thesis_serial_number = t.serial_number
     INNER JOIN STUDENT stu ON stu.id = t.student_id
