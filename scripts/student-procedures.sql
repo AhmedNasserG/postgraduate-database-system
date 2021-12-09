@@ -1,4 +1,3 @@
--- USE CompanyDB
 USE pg_database
 
 GO
