@@ -4,7 +4,7 @@ GO
 
 -- As a Gucian graduate, add my undergraduate ID
 
-CREATE PROC AddUndergradID
+CREATE PROC addUndergradID
     @studentID INT,
     @undergradID INT
 AS
@@ -118,7 +118,7 @@ GO
 
 -- Add publication
 
-CREATE PROC AddPublication
+CREATE PROC addPublication
     @title VARCHAR(50),
     @pubDate DATETIME,
     @host VARCHAR(50),
@@ -132,7 +132,7 @@ GO
 
 -- Link publication to my thesis
 
-CREATE PROC LinkPubThesis
+CREATE PROC linkPubThesis
     @pubID INT,
     @thesisSerialNo INT
 AS
