@@ -10,7 +10,7 @@ CREATE PROC StudentRegister
     @last_name VARCHAR(20),
     @password VARCHAR(20),
     @faculty VARCHAR(20),
-    @type BIT,
+    @Gucian BIT,
     @email VARCHAR(50),
     @address VARCHAR(50)
 AS
@@ -18,6 +18,23 @@ INSERT INTO
     USERS
 values
     (@password)
+
+IF @Gucian = 1
+BEGIN
+    INSERT INTO
+        GUCIAN
+        (id)
+    values
+        (SCOPE_IDENTITY())
+END
+ELSE
+BEGIN
+    INSERT INTO
+        NON_GUCIAN
+        (id)
+    values
+        (SCOPE_IDENTITY())
+END
 
 INSERT INTO
     STUDENT
@@ -49,8 +66,7 @@ CREATE PROC SupervisorRegister
     @last_name VARCHAR(20),
     @password VARCHAR(20),
     @faculty VARCHAR(20),
-    @email VARCHAR(50),
-    @address VARCHAR(10)
+    @email VARCHAR(50)
 AS
 INSERT INTO
     USERS
@@ -76,31 +92,17 @@ GO
 CREATE PROC userLogin
     @id INT,
     @password VARCHAR(20),
-    @success BIT OUTPUT,
-    @Type INT OUTPUT
+    @success BIT OUTPUT
 As
 IF EXISTS (SELECT *
 FROM USERS
 WHERE id = @id AND password = @password)
 BEGIN
     SET @success = 1
-    IF EXISTS (SELECT *
-    FROM STUDENT
-    WHERE id = @id)
-    BEGIN
-        SET @Type = 1
-    END
-    ELSE IF EXISTS (SELECT *
-    FROM SUPERVISOR
-    WHERE id = @id)
-    BEGIN
-        SET @Type = 2
-    END
 END
 ELSE 
 BEGIN
     SET @success = 0
-    SET @Type = 0
 END
 
 GO
