@@ -24,7 +24,7 @@ CREATE TABLE STUDENT
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     faculty VARCHAR(20) NOT NULL,
-    gpa DECIMAL(3, 2) NOT NULL CHECK (
+    gpa DECIMAL(3, 2) CHECK (
         gpa >= 0.7
             AND gpa <= 5
     ),
@@ -47,7 +47,7 @@ CREATE TABLE MOBILE
 CREATE TABLE GUCIAN
 (
     id INT PRIMARY KEY,
-    guc_id INT UNIQUE,
+    guc_id INT ,
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE SUPERVISOR
 -- Create Course Table
 CREATE TABLE COURSE
 (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     code VARCHAR(10) NOT NULL,
     credit_hours INT NOT NULL,
     fees DECIMAL(7, 2) NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE TAKEN_BY
 -- Create Payment Table
 CREATE TABLE PAYMENT
 (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     fund_percentage DECIMAL(3, 2) NOT NULL CHECK (
         fund_percentage >= 0.0
             AND fund_percentage <= 1.0
@@ -125,13 +125,17 @@ CREATE TABLE THESIS
 (
     serial_number INT IDENTITY PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    duration AS YEAR(end_date) - YEAR(start_date),
+    start_date DATETIME NOT NULL,
+    end_date DATETIME NOT NULL,
+    duration AS DATEDIFF(day,start_date, end_date),
     type BIT,
     field VARCHAR(50) NOT NULL,
-    seminar_date DATE NOT NULL,
+    seminar_date DATETIME NOT NULL,
     number_of_extensions INT NOT NULL,
+    grade DECIMAL(5,2) CHECK (
+        grade >= 0.0
+            AND grade <= 100.0
+    ),
     student_id INT,
     payment_id INT Unique,
     FOREIGN KEY (student_id) REFERENCES STUDENT(id),
@@ -154,8 +158,8 @@ CREATE TABLE REPORT
     thesis_serial_number INT NOT NULL,
     state INT NOT NULL,
     report_date DATE NOT NULL,
-    report_number INT NOT NULL,
-    description VARCHAR(20) NOT NULL,
+    report_number INT NOT NULL IDENTITY,
+    description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
 );
 
@@ -182,9 +186,9 @@ CREATE TABLE EVALUATED_BY
 CREATE TABLE DEFENSE
 (
     thesis_serial_number INT NOT NULL,
-    defense_date DATE NOT NULL,
-    location VARCHAR(50) NOT NULL,
-    grade DECIMAL(5, 2) NOT NULL CHECK (
+    defense_date DATETIME NOT NULL,
+    location VARCHAR(15) NOT NULL,
+    grade DECIMAL(5, 2) CHECK (
         grade >= 0.0
             AND grade <= 100.0
     ),
@@ -195,10 +199,10 @@ CREATE TABLE DEFENSE
 -- create table examiner
 CREATE TABLE EXAMINER
 (
-    id INT NOT NULL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    id INT PRIMARY KEY IDENTITY,
+    name VARCHAR(20) NOT NULL,
     is_national BIT NOT NULL,
-    field_of_work VARCHAR(50) NOT NULL,
+    field_of_work VARCHAR(20) NOT NULL,
 );
 
 -- create table examined by
@@ -206,8 +210,8 @@ CREATE TABLE EXAMINED_BY
 (
     examiner_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
-    defense_date DATE NOT NULL,
-    comments VARCHAR(300) NOT NULL,
+    defense_date DATETIME NOT NULL,
+    comments VARCHAR(300) ,
     PRIMARY KEY (examiner_id, thesis_serial_number, defense_date),
     FOREIGN KEY (examiner_id) REFERENCES EXAMINER(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (thesis_serial_number, defense_date) REFERENCES DEFENSE(thesis_serial_number, defense_date) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -218,7 +222,7 @@ CREATE TABLE PUBLICATION
 (
     id INT IDENTITY PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    publication_date DATE NOT NULL,
+    publication_date DATETIME NOT NULL,
     place VARCHAR(50) NOT NULL,
     host VARCHAR(50) NOT NULL,
     is_accepted BIT NOT NULL,
