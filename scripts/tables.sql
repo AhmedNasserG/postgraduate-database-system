@@ -26,7 +26,9 @@ CREATE TABLE STUDENT (
         AND gpa <= 5
     ),
     email VARCHAR(50) NOT NULL,
-    type BIT,
+    type VARCHAR(10) CHECK (
+        type in ('Masters','PHD')
+    ),
     address VARCHAR(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
@@ -45,6 +47,7 @@ CREATE TABLE GUCIAN (
     guc_id INT UNIQUE,
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
+
 
 -- Create NON_GUCIAN Table
 CREATE TABLE NON_GUCIAN (
@@ -116,6 +119,10 @@ CREATE TABLE THESIS (
     end_date DATE NOT NULL,
     duration AS YEAR(end_date) - YEAR(start_date),
     type BIT,
+    grade DECIMAL(5, 2)  CHECK (
+        grade >= 0.0
+        AND grade <= 100.0
+    ),
     field VARCHAR(50) NOT NULL,
     seminar_date DATE NOT NULL,
     number_of_extensions INT NOT NULL,
@@ -139,7 +146,7 @@ CREATE TABLE REPORT (
     thesis_serial_number INT NOT NULL,
     state INT NOT NULL,
     report_date DATE NOT NULL,
-    report_number INT NOT NULL,
+    report_number INT NOT NULL IDENTITY,
     description VARCHAR(20) NOT NULL,
     PRIMARY KEY (thesis_serial_number, report_number),
 );
@@ -165,9 +172,9 @@ CREATE TABLE EVALUATED_BY (
 -- create table defense
 CREATE TABLE DEFENSE (
     thesis_serial_number INT NOT NULL,
-    defense_date DATE NOT NULL,
+    defense_date DATETIME NOT NULL,
     location VARCHAR(50) NOT NULL,
-    grade DECIMAL(5, 2) NOT NULL CHECK (
+    grade DECIMAL(5, 2) CHECK (
         grade >= 0.0
         AND grade <= 100.0
     ),
@@ -177,10 +184,10 @@ CREATE TABLE DEFENSE (
 
 -- create table examiner
 CREATE TABLE EXAMINER (
-    id INT NOT NULL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    id INT NOT NULL IDENTITY PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
     is_national BIT NOT NULL,
-    field_of_work VARCHAR(50) NOT NULL,
+    field_of_work VARCHAR(20) NOT NULL,
 );
 
 -- create table examined by
@@ -188,7 +195,7 @@ CREATE TABLE EXAMINED_BY (
     examiner_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     defense_date DATE NOT NULL,
-    comments VARCHAR(300) NOT NULL,
+    comments VARCHAR(300) ,
     PRIMARY KEY (examiner_id, thesis_serial_number, defense_date),
     FOREIGN KEY (examiner_id) REFERENCES EXAMINER(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (thesis_serial_number, defense_date) REFERENCES DEFENSE(thesis_serial_number, defense_date) ON DELETE CASCADE ON UPDATE CASCADE,

@@ -34,12 +34,9 @@ Declare @student_id INT
 SELECT @student_id = student_id
 From THESIS
 where THESIS.serial_number = @ThesisSerialNo
-DECLARE @CountOfFailedCourses INT
-SELECT @CountOfFailedCourses = COUNT(*)
+IF NOT EXISTS (SELECT G.id
 FROM NON_GUCIAN G INNER JOIN TAKEN_BY T on(G.id = T.student_id)
-where G.id = @student_id AND
-    (T.grade < 50 OR T.grade IS NULL)
-IF (@CountOfFailedCourses = 0)
+where G.id = @student_id AND T.grade < 50 )
     BEGIN
     INSERT INTO DEFENSE
         (thesis_serial_number, defense_date, location)
@@ -49,5 +46,138 @@ IF (@CountOfFailedCourses = 0)
 END
 ELSE
 BEGIN
-    PRINT('student must pass all courses')
+    PRINT('Student must pass all courses ')
 END    
+
+GO
+-- prodecure for adding examiner to some defense
+CREATE PROC AddExaminer
+    @ThesisSerialNo int ,
+    @DefenseDate Datetime ,
+    @ExaminerName varchar(20),
+    @National bit,
+    @fieldOfWork varchar(20)
+AS
+If NOT EXISTS(SELECT E.id
+From EXAMINER E
+where E.name = @ExaminerName and E.field_of_work = @fieldOfWork and E.is_national = @is_national)
+BEGIN
+    INSERT INTO EXAMINER
+        (name, is_national, field_of_work)
+    VALUES
+        (@ExaminerName, @National, @fieldOfWork)
+    INSERT INTO EXAMINED_BY
+        (examiner_id, thesis_serial_number, defense_date)
+    VALUES
+        (
+            SCOPE_IDENTITY(),
+            @ThesisSerialNo ,
+            @DefenseDate
+    )
+END
+ELSE
+BEGIN
+    Declare @examiner_id INT
+    SELECT @examiner_id = examiner_id
+    From EXAMINER
+    where name = @ExaminerName and field_of_work = @fieldOfWork and is_national = @National
+
+    INSERT INTO EXAMINED_BY
+        (examiner_id, thesis_serial_number, defense_date)
+    VALUES
+        (
+            @examiner_id,
+            @ThesisSerialNo ,
+            @DefenseDate
+    )
+END
+
+GO
+-- prodecure for cancelling thesis if evaluation of last report is zero
+CREATE PROC CancelThesis
+    @ThesisSerialNo INT
+AS
+DECLARE @latest_Report_No INT
+SELECT @latest_Report_NO = R.report_number
+From THESIS t INNER JOIN REEPORT R ON (t.serial_number = R.thesis_serial_number)
+WHERE EXISTS (SELECT R1.thesis_serial_number , MAX(R1.report_date)
+FROM REPORT R2
+where R1.report_date = R1.report_date
+GROUP BY R1.thesis_serial_number
+HAVING R1.thesis_serial_number = @ThesisSerialNo 
+)
+IF EXISTS (SELECT E.report_number
+FROM EVALUATED_BY E
+where E.report_number = @latest_Report_No AND E.evaluation = 0)
+BEGIN
+    DELETE FROM THESIS 
+    WHERE THESIS.serial_number = @ThesisSerialNo
+END
+GO
+-- procedure for adding grade for thesis
+CREATE PROC AddGrade
+    @ThesisSerialNo INT,
+    @grade DECIMAL
+AS
+UPDATE THESIS
+SET grade = @grade
+WHERE serial_number = @ThesisSerialNo
+
+GO
+
+-- procedure for adding a grade to defense
+CREATE PROC AddDefenseGrade
+    @ThesisSerialNo int ,
+    @DefenseDate Datetime ,
+    @grade decimal
+AS
+UPDATE DEFENSE
+SET grade = @grade 
+WHERE thesis_serial_number = @ThesisSerialNumber AND defense_date = @DefenseDate
+
+GO
+-- procedure to add comments for defense
+CREATE PROC AddCommentsGrade
+    @ExaminerID int ,
+    @ThesisSerialNo int ,
+    @DefenseDate Datetime ,
+    @comments varchar(300)
+AS
+INSERT INTO EXAMINED_BY
+VALUES
+    (@ExaminerID, @ThesisSerialNo, @DefenseDate, @comments)
+
+GO
+-- procedure to view my profile as student
+CREATE PROC viewMyProfile
+    @studentId int
+AS
+SELECT *
+FROM STUDENT
+WHERE
+id = @student_id
+
+GO
+-- procedure to edit profile as student
+CREATE PROC editMyProfile
+    @studentID int,
+    @firstName varchar(10),
+    @lastName varchar(10),
+    @password varchar(10),
+    @email varchar(10),
+    @address varchar(10),
+    @type varchar(10)
+AS
+UPDATE STUDENT 
+set first_name = @firstName,
+last_name = @lastName,
+address = @address,
+email = @email,
+type = @type
+WHERE id = @studentID
+
+UPDATE USERS 
+SET PASSWORD = @password
+WHERE id = @student_id
+
+GO
