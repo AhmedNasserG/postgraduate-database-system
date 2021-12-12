@@ -34,9 +34,9 @@ Declare @student_id INT
 SELECT @student_id = student_id
 From THESIS
 where THESIS.serial_number = @ThesisSerialNo
-IF NOT EXISTS (SELECT G.id
-FROM NON_GUCIAN G INNER JOIN TAKEN_BY T on(G.id = T.student_id)
-where G.id = @student_id AND T.grade < 50 )
+IF NOT EXISTS (SELECT T.student_id
+FROM TAKEN_BY T 
+where T.grade < 50 and T.student_id = @student_id )
     BEGIN
     INSERT INTO DEFENSE
         (thesis_serial_number, defense_date, location)
@@ -98,17 +98,13 @@ CREATE PROC CancelThesis
     @ThesisSerialNo INT
 AS
 DECLARE @latest_Report_No INT
-SELECT @latest_Report_NO = R.report_number
-From THESIS t INNER JOIN REEPORT R ON (t.serial_number = R.thesis_serial_number)
-WHERE EXISTS (SELECT R1.thesis_serial_number , MAX(R1.report_date)
-FROM REPORT R2
-where R1.report_date = R1.report_date
-GROUP BY R1.thesis_serial_number
-HAVING R1.thesis_serial_number = @ThesisSerialNo 
-)
+SELECT @latest_Report_Date = Max(R.report_date)
+From REEPORT R
+WHERE R.thesis_serial_number = @ThesisSerialNo
+
 IF EXISTS (SELECT E.report_number
 FROM EVALUATED_BY E
-where E.report_number = @latest_Report_No AND E.evaluation = 0)
+where E.report_date = @latest_Report_Date AND E.evaluation = 0)
 BEGIN
     DELETE FROM THESIS 
     WHERE THESIS.serial_number = @ThesisSerialNo
@@ -143,9 +139,9 @@ CREATE PROC AddCommentsGrade
     @DefenseDate Datetime ,
     @comments varchar(300)
 AS
-INSERT INTO EXAMINED_BY
-VALUES
-    (@ExaminerID, @ThesisSerialNo, @DefenseDate, @comments)
+UPDATE EXAMINED_BY
+SET comments = @comments
+where examiner_id = @Examiner_id AND thesis_serial_number = @ThesisSerialNo And defense_date = @DefenseDate
 
 GO
 -- procedure to view my profile as student
