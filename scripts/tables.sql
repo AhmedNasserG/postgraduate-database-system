@@ -131,7 +131,7 @@ CREATE TABLE THESIS
     type BIT,
     field VARCHAR(50) NOT NULL,
     seminar_date DATETIME NOT NULL,
-    number_of_extensions INT NOT NULL,
+    number_of_extensions INT DEFAULT 0,
     grade DECIMAL(5,2) CHECK (
         grade >= 0.0
             AND grade <= 100.0
