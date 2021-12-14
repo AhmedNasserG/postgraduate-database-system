@@ -4,7 +4,7 @@ go
 CREATE PROC ViewAStudentPublications
     @StudentId INT
 AS
-SELECT P.*
+SELECT distinct P.*
 FROM THESIS T INNER JOIN PUBLISHED_FOR PUB ON (T.serial_number = PUB.thesis_serial_number)
     INNER JOIN PUBLICATION P ON (PUB.publication_id = P.id)
 WHERE T.student_id = @StudentId
@@ -35,7 +35,7 @@ SELECT @student_id = student_id
 From THESIS
 where THESIS.serial_number = @ThesisSerialNo
 IF NOT EXISTS (SELECT T.student_id
-FROM TAKEN_BY T 
+FROM TAKEN_BY T
 where T.grade < 50 and T.student_id = @student_id )
     BEGIN
     INSERT INTO DEFENSE
@@ -50,6 +50,7 @@ BEGIN
 END    
 
 GO
+
 -- prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
     @ThesisSerialNo int ,
@@ -60,7 +61,7 @@ CREATE PROC AddExaminer
 AS
 If NOT EXISTS(SELECT E.id
 From EXAMINER E
-where E.name = @ExaminerName and E.field_of_work = @fieldOfWork and E.is_national = @is_national)
+where E.name = @ExaminerName and E.field_of_work = @fieldOfWork and E.is_national = @National)
 BEGIN
     INSERT INTO EXAMINER
         (name, is_national, field_of_work)
@@ -78,7 +79,7 @@ END
 ELSE
 BEGIN
     Declare @examiner_id INT
-    SELECT @examiner_id = examiner_id
+    SELECT @examiner_id = id
     From EXAMINER
     where name = @ExaminerName and field_of_work = @fieldOfWork and is_national = @National
 
@@ -97,14 +98,17 @@ GO
 CREATE PROC CancelThesis
     @ThesisSerialNo INT
 AS
-DECLARE @latest_Report_No INT
-SELECT @latest_Report_Date = Max(R.report_date)
-From REEPORT R
-WHERE R.thesis_serial_number = @ThesisSerialNo
+DECLARE @latest_report_number INT
+SELECT @latest_report_number = R.report_number
+From REPORT R
+WHERE R.thesis_serial_number = @ThesisSerialNo AND R.report_Date > =ALL(select R1.report_Date
+    FROM REPORT R1
+    where R1.thesis_serial_number = R.thesis_serial_number)
+
 
 IF EXISTS (SELECT E.report_number
 FROM EVALUATED_BY E
-where E.report_date = @latest_Report_Date AND E.evaluation = 0)
+where E.report_number = @latest_report_number AND E.evaluation = 0)
 BEGIN
     DELETE FROM THESIS 
     WHERE THESIS.serial_number = @ThesisSerialNo
@@ -129,7 +133,7 @@ CREATE PROC AddDefenseGrade
 AS
 UPDATE DEFENSE
 SET grade = @grade 
-WHERE thesis_serial_number = @ThesisSerialNumber AND defense_date = @DefenseDate
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 
 GO
 -- procedure to add comments for defense
@@ -141,7 +145,7 @@ CREATE PROC AddCommentsGrade
 AS
 UPDATE EXAMINED_BY
 SET comments = @comments
-where examiner_id = @Examiner_id AND thesis_serial_number = @ThesisSerialNo And defense_date = @DefenseDate
+where examiner_id = @ExaminerID AND thesis_serial_number = @ThesisSerialNo And defense_date = @DefenseDate
 
 GO
 -- procedure to view my profile as student
@@ -151,7 +155,7 @@ AS
 SELECT *
 FROM STUDENT
 WHERE
-id = @student_id
+id = @studentId
 
 GO
 -- procedure to edit profile as student
@@ -174,6 +178,6 @@ WHERE id = @studentID
 
 UPDATE USERS 
 SET PASSWORD = @password
-WHERE id = @student_id
+WHERE id = @studentID
 
 GO
