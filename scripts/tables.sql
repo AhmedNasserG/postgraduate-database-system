@@ -84,7 +84,7 @@ CREATE TABLE TAKEN_BY
 (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    grade Decimal(5, 2) NOT NULL check (
+    grade Decimal(5, 2) check (
         grade >= 0.0
             AND grade <= 100.0
     ),
