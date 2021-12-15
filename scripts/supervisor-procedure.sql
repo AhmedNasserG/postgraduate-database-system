@@ -34,9 +34,7 @@ begin
             (SELECT student_id
             FROM THESIS
             WHERE serial_number = @thesis_serial_number),
-            (SELECT course_id
-            FROM THESIS
-            WHERE serial_number = @thesis_serial_number)
+            NULL
 )
 
     UPDATE THESIS
@@ -109,14 +107,12 @@ Go
 -- Add courses and link courses to students.
 
 CREATE PROC AddCourse
-    @course_id int,
     @credit_hours int,
     @fees decimal(7,2)
 
 AS
 INSERT INTO COURSE
     (
-    course_id,
     credit_hours,
     fees
     )
@@ -161,17 +157,17 @@ UPDATE TAKEN_BY
 
 GO
 CREATE PROC ViewExamSupDefense
-    @defense_date DATE
+    @defense_date DATETIME
 AS
 
 SELECT
     E.name, S2.name
-EXAMINER E INNER JOIN EXAMINED_BY EB ON E.id = EB.examiner_id
-INNER JOIN THESIS T
-ON EB.thesis_serial_number = T.serial_number
-WHERE T.defense_date = @defense_date INNER JOIN
-SUPERVISED S ON T.serial_number = S.thesis_serial_number INNER JOIN
-SUPERVISOR S2 ON S.supervisor_id = S2.id
+FROM
+    EXAMINER E INNER JOIN EXAMINED_BY EB ON E.id = EB.examiner_id
+    INNER JOIN THESIS T ON EB.thesis_serial_number = T.serial_number
+    INNER JOIN SUPERVISED S ON T.serial_number = S.thesis_serial_number
+    INNER JOIN SUPERVISOR S2 ON S.supervisor_id = S2.id
+WHERE T.defense_date = @defense_date
 
 GO
 
@@ -191,7 +187,7 @@ UPDATE EVALUATED_BY
     GO
 
 -- View all my students’s names and years spent in the thesis
-CREAE
+CREATE
 PROC ViewSupStudentsYears
     @supervisor_id INT
 AS
@@ -202,12 +198,15 @@ SET @current_date = GETDATE()
 SELECT
     S.name,
     DATEDIFF(year, S.start_date, @current_date) AS years
-SUPERVISED S INNER JOIN SUPERVISED S2 ON
+FROM
+    SUPERVISOR S INNER JOIN SUPERVISED S2 ON
     S.id = S2.supervisor_id
     INNER JOIN THESIS T ON S2.thesis_serial_number = T.serial_number
     INNER JOIN STUDENT S3 ON T.student_id = S3.id
 
 -- View my profile and update my personal information.
+GO
+
 CREATE PROC SupViewProfile
     @supervisor_id INT
 AS
