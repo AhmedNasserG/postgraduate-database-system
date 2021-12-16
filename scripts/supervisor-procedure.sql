@@ -107,18 +107,20 @@ Go
 -- Add courses and link courses to students.
 
 CREATE PROC AddCourse
+    @courseCode varchar(10),
     @credit_hours int,
     @fees decimal(7,2)
 
 AS
 INSERT INTO COURSE
     (
+    code,
     credit_hours,
     fees
     )
 VALUES
     (
-        @course_id,
+        @courseCode,
         @credit_hours,
         @fees
         )
@@ -203,6 +205,7 @@ FROM
     S.id = S2.supervisor_id
     INNER JOIN THESIS T ON S2.thesis_serial_number = T.serial_number
     INNER JOIN STUDENT S3 ON T.student_id = S3.id
+WHERE S2.id = @supervisor_id
 
 -- View my profile and update my personal information.
 GO
@@ -228,5 +231,3 @@ UPDATE SUPERVISOR
     WHERE supervisor_id = @supervisor_id
 
     GO
-
-
