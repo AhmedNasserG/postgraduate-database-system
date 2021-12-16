@@ -1,40 +1,42 @@
 CREATE DATABASE pg_database;
 
 GO
-    USE pg_database;
+USE pg_database;
 
 -- Create Users Table
-CREATE TABLE USERS (
+CREATE TABLE USERS
+(
     id INT IDENTITY PRIMARY KEY,
     password VARCHAR(20) NOT NULL,
 );
 
 -- Create Admin Table
-CREATE TABLE ADMIN (
+CREATE TABLE ADMIN
+(
     id INT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 -- Create Student Table
-CREATE TABLE STUDENT (
+CREATE TABLE STUDENT
+(
     id INT PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     faculty VARCHAR(20) NOT NULL,
-    gpa DECIMAL(3, 2) NOT NULL CHECK (
+    gpa DECIMAL(3, 2) CHECK (
         gpa >= 0.7
-        AND gpa <= 5
+            AND gpa <= 5
     ),
     email VARCHAR(50) NOT NULL,
-    type VARCHAR(10) CHECK (
-        type in ('Masters','PHD')
-    ),
+    type VARCHAR(10),
     address VARCHAR(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 -- Create Mobile Table
-CREATE TABLE MOBILE (
+CREATE TABLE MOBILE
+(
     id INT,
     number VARCHAR(20) NOT NULL,
     PRIMARY KEY (id, number),
@@ -42,21 +44,24 @@ CREATE TABLE MOBILE (
 );
 
 -- Create GUCIAN Table
-CREATE TABLE GUCIAN (
+CREATE TABLE GUCIAN
+(
     id INT PRIMARY KEY,
-    guc_id INT UNIQUE,
+    guc_id INT ,
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 
 -- Create NON_GUCIAN Table
-CREATE TABLE NON_GUCIAN (
+CREATE TABLE NON_GUCIAN
+(
     id INT PRIMARY KEY,
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 -- Create Supervisor Table
-CREATE TABLE SUPERVISOR (
+CREATE TABLE SUPERVISOR
+(
     id INT PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
@@ -67,20 +72,22 @@ CREATE TABLE SUPERVISOR (
 );
 
 -- Create Course Table
-CREATE TABLE COURSE (
-    id INT PRIMARY KEY,
+CREATE TABLE COURSE
+(
+    id INT PRIMARY KEY IDENTITY,
     code VARCHAR(10) NOT NULL,
     credit_hours INT NOT NULL,
     fees DECIMAL(7, 2) NOT NULL,
 );
 
 -- create table taken_by
-CREATE TABLE TAKEN_BY (
+CREATE TABLE TAKEN_BY
+(
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    grade Decimal(5, 2) NOT NULL check (
+    grade Decimal(5, 2) check (
         grade >= 0.0
-        AND grade <= 100.0
+            AND grade <= 100.0
     ),
     PRIMARY KEY (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES NON_GUCIAN(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -88,11 +95,12 @@ CREATE TABLE TAKEN_BY (
 );
 
 -- Create Payment Table
-CREATE TABLE PAYMENT (
-    id INT PRIMARY KEY,
+CREATE TABLE PAYMENT
+(
+    id INT PRIMARY KEY IDENTITY,
     fund_percentage DECIMAL(3, 2) NOT NULL CHECK (
         fund_percentage >= 0.0
-        AND fund_percentage <= 1.0
+            AND fund_percentage <= 1.0
     ),
     num_of_installments INT NOT NULL CHECK (num_of_installments >= 1),
     total_amount DECIMAL(7, 2) NOT NULL,
@@ -103,29 +111,36 @@ CREATE TABLE PAYMENT (
 );
 
 -- create table installment
-CREATE TABLE INSTALLMENT (
+CREATE TABLE INSTALLMENT
+(
     payment_id INT NOT NULL,
     amount DECIMAL(7, 2) NOT NULL,
+    is_paid BIT DEFAULT 0,
     installment_date DATE NOT NULL,
     PRIMARY KEY (payment_id, installment_date),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 -- Create Thesis Table
-CREATE TABLE THESIS (
+CREATE TABLE THESIS
+(
     serial_number INT IDENTITY PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    duration AS YEAR(end_date) - YEAR(start_date),
+    start_date DATETIME NOT NULL,
+    end_date DATETIME NOT NULL,
+    duration AS DATEDIFF(day,start_date, end_date),
     type BIT,
     grade DECIMAL(5, 2)  CHECK (
         grade >= 0.0
         AND grade <= 100.0
     ),
     field VARCHAR(50) NOT NULL,
-    seminar_date DATE NOT NULL,
-    number_of_extensions INT NOT NULL,
+    seminar_date DATETIME NOT NULL,
+    number_of_extensions INT DEFAULT 0,
+    grade DECIMAL(5,2) CHECK (
+        grade >= 0.0
+            AND grade <= 100.0
+    ),
     student_id INT,
     payment_id INT Unique,
     FOREIGN KEY (student_id) REFERENCES STUDENT(id),
@@ -133,7 +148,8 @@ CREATE TABLE THESIS (
 );
 
 -- create table supervised
-CREATE TABLE SUPERVISED (
+CREATE TABLE SUPERVISED
+(
     supervisor_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     PRIMARY KEY (supervisor_id, thesis_serial_number),
@@ -142,23 +158,25 @@ CREATE TABLE SUPERVISED (
 );
 
 -- create table report
-CREATE TABLE REPORT (
+CREATE TABLE REPORT
+(
     thesis_serial_number INT NOT NULL,
-    state INT NOT NULL,
+    state INT,
     report_date DATE NOT NULL,
     report_number INT NOT NULL IDENTITY,
-    description VARCHAR(20) NOT NULL,
+    description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
 );
 
 -- create table evaluted by
-CREATE TABLE EVALUATED_BY (
+CREATE TABLE EVALUATED_BY
+(
     supervisor_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     report_number INT NOT NULL,
     evaluation int NOT NULL CHECK (
         evaluation >= 0
-        AND evaluation <= 3
+            AND evaluation <= 3
     ),
     PRIMARY KEY (
         supervisor_id,
@@ -170,31 +188,35 @@ CREATE TABLE EVALUATED_BY (
 );
 
 -- create table defense
-CREATE TABLE DEFENSE (
+CREATE TABLE DEFENSE
+(
     thesis_serial_number INT NOT NULL,
     defense_date DATETIME NOT NULL,
-    location VARCHAR(50) NOT NULL,
+    location VARCHAR(15) NOT NULL,
     grade DECIMAL(5, 2) CHECK (
         grade >= 0.0
-        AND grade <= 100.0
+            AND grade <= 100.0
     ),
     PRIMARY KEY (thesis_serial_number, defense_date),
     FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
 -- create table examiner
-CREATE TABLE EXAMINER (
-    id INT NOT NULL IDENTITY PRIMARY KEY,
+CREATE TABLE EXAMINER
+(
+    id INT PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
     is_national BIT NOT NULL,
     field_of_work VARCHAR(20) NOT NULL,
+    FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- create table examined by
-CREATE TABLE EXAMINED_BY (
+CREATE TABLE EXAMINED_BY
+(
     examiner_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
-    defense_date DATE NOT NULL,
+    defense_date DATETIME NOT NULL,
     comments VARCHAR(300) ,
     PRIMARY KEY (examiner_id, thesis_serial_number, defense_date),
     FOREIGN KEY (examiner_id) REFERENCES EXAMINER(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -202,17 +224,19 @@ CREATE TABLE EXAMINED_BY (
 );
 
 -- create table publication
-CREATE TABLE PUBLICATION (
+CREATE TABLE PUBLICATION
+(
     id INT IDENTITY PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
-    publication_date DATE NOT NULL,
+    publication_date DATETIME NOT NULL,
     place VARCHAR(50) NOT NULL,
     host VARCHAR(50) NOT NULL,
     is_accepted BIT NOT NULL,
 );
 
 -- create table published_for
-CREATE TABLE PUBLISHED_FOR (
+CREATE TABLE PUBLISHED_FOR
+(
     publication_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     PRIMARY KEY (publication_id, thesis_serial_number),
