@@ -29,7 +29,7 @@ CREATE TABLE STUDENT
             AND gpa <= 5
     ),
     email VARCHAR(50) NOT NULL,
-    type BIT,
+    type VARCHAR(10),
     address VARCHAR(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
@@ -156,7 +156,7 @@ CREATE TABLE SUPERVISED
 CREATE TABLE REPORT
 (
     thesis_serial_number INT NOT NULL,
-    state INT NOT NULL,
+    state INT,
     report_date DATE NOT NULL,
     report_number INT NOT NULL IDENTITY,
     description VARCHAR(200),
@@ -199,10 +199,11 @@ CREATE TABLE DEFENSE
 -- create table examiner
 CREATE TABLE EXAMINER
 (
-    id INT PRIMARY KEY IDENTITY,
+    id INT PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
     is_national BIT NOT NULL,
     field_of_work VARCHAR(20) NOT NULL,
+    FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- create table examined by

@@ -44,7 +44,6 @@ INSERT INTO
     last_name,
     faculty,
     email,
-    type,
     address
     )
 VALUES
@@ -54,7 +53,6 @@ VALUES
         @last_name,
         @faculty,
         @email,
-        @type,
         @address
     )
 
