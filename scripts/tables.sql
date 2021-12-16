@@ -51,6 +51,7 @@ CREATE TABLE GUCIAN
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
+
 -- Create NON_GUCIAN Table
 CREATE TABLE NON_GUCIAN
 (
@@ -129,6 +130,10 @@ CREATE TABLE THESIS
     end_date DATETIME NOT NULL,
     duration AS DATEDIFF(day,start_date, end_date),
     type BIT,
+    grade DECIMAL(5, 2)  CHECK (
+        grade >= 0.0
+        AND grade <= 100.0
+    ),
     field VARCHAR(50) NOT NULL,
     seminar_date DATETIME NOT NULL,
     number_of_extensions INT DEFAULT 0,
