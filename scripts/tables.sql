@@ -137,12 +137,8 @@ CREATE TABLE THESIS
     field VARCHAR(50) NOT NULL,
     seminar_date DATETIME NOT NULL,
     number_of_extensions INT DEFAULT 0,
-    grade DECIMAL(5,2) CHECK (
-        grade >= 0.0
-            AND grade <= 100.0
-    ),
     student_id INT,
-    payment_id INT Unique,
+    payment_id INT, 
     FOREIGN KEY (student_id) REFERENCES STUDENT(id),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(id),
 );
