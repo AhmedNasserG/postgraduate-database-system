@@ -170,7 +170,7 @@ CREATE TABLE EVALUATED_BY
     supervisor_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     report_number INT NOT NULL,
-    evaluation int NOT NULL CHECK (
+    evaluation int CHECK (
         evaluation >= 0
             AND evaluation <= 3
     ),
