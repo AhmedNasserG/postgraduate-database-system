@@ -134,23 +134,66 @@ VALUES('asdhfawhrfihraw');
 INSERT INTO EXAMINER
 VALUES(15, 'Omneya Rabie', 1, 'Database Design');
 
+-- Payment Insertion
+INSERT INTO PAYMENT 
+VALUES(0.1, 1, 500, 1, null)
+
+INSERT INTO PAYMENT 
+VALUES(0.2, 2, 1000, 2, null)
+
+INSERT INTO PAYMENT 
+VALUES(0.3, 2, 1900, 3, null)
+
+INSERT INTO PAYMENT 
+VALUES(0.4, 1, 1700, 4, null)
+-- link these with courses
+INSERT INTO PAYMENT 
+VALUES(0.1, 1, 500, 1, null)
+
+INSERT INTO PAYMENT 
+VALUES(0.1, 1, 500, 1, null)
+
+INSERT INTO INSTALLMENT 
+VALUES (1,'2/2/2021', 500, 1)
+
+INSERT INTO INSTALLMENT 
+VALUES (2,'2/2/2021', 500, 1)
+
+INSERT INTO INSTALLMENT 
+VALUES (2,'8/2/2021', 500, 0)
+
+INSERT INTO INSTALLMENT 
+VALUES (3,'11/11/2021', 850, 1)
+
+INSERT INTO INSTALLMENT 
+VALUES (3,'3/5/2022', 850, 0)
+
+INSERT INTO INSTALLMENT 
+VALUES (4,'4/5/2021', 1700, 1)
+
+INSERT INTO INSTALLMENT 
+VALUES (5,'6/4/2021', 500, 1)
+
+INSERT INTO INSTALLMENT 
+VALUES (6,'5/4/2021', 500, 1)
+
 -- Thesis Insertions
 
 INSERT INTO THESIS
 VALUES('Feature detection on FPGA', '1/1/2021', '3/3/2021', 0, NULL,
-                'Hardware', '2/2/2021', 0, NULL, NULL);
+                'Hardware', '2/2/2021', 0, 1, 1);
 
 INSERT INTO THESIS
 VALUES('Human Activity Recognition', '1/1/2020', '5/6/2021', 1, NULL,
-                'Machine Learning', '2/2/2021', 0, NULL, NULL);
+                'Machine Learning', '2/2/2021', 0, 2,2);
 
 INSERT INTO THESIS
 VALUES('Arabic Text Summarization', '10/10/2020', '3/3/2021', 0, NULL,
-                'Natural Language Processing', '2/2/2021', 0, NULL, NULL);
+                'Natural Language Processing', '2/2/2021', 0, 3, 3);
 
 INSERT INTO THESIS
 VALUES('Analysis of Algorithms', '12/12/2020', '4/4/2021', 1, NULL,
-                'Computer Science', '3/4/2021', 0, NULL, NULL);
+                'Computer Science', '3/4/2021', 0, 4, 4);
 
 INSERT INTO THESIS
 VALUES('Quantum Computing', '9/9/2020', '5/5/2021', 0, NULL,
@@ -199,32 +242,71 @@ VALUES('Water Recognition on Mars', '11/11/2021', '3/3/2022', 0, NULL,
 -- Progress Reports' insertions
 
 INSERT INTO REPORT
-VALUES(1, NULL, '2/3/2021', NULL);
+VALUES(1, 1, '2/3/2021','done with first half of thesis');
 
 INSERT INTO REPORT
-VALUES(2, NULL, '4/4/2021', NULL);
+VALUES(2, 2, '4/4/2021', 'finished the research part');
 
 INSERT INTO REPORT
-VALUES(3, NULL, '1/1/2021', NULL);
+VALUES(3, 3, '1/1/2021', 'It comes to an end possibly');
 
 INSERT INTO REPORT
-VALUES(4, NULL, '3/3/2021', NULL);
+VALUES(4, 3, '3/3/2021', 'done with the implementaion');
 
 INSERT INTO REPORT
-VALUES(5, NULL, '2/2/2021', NULL);
+VALUES(5, 3, '2/2/2021', 'just missing final points');
+
+INSERT INTO REPORT
+VALUES(1, 1, '3/3/2021','done with second half of thesis');
 
 INSERT INTO EVALUATED_BY
-VALUES(9, 1, 1, NULL);
+VALUES(9, 1, 1, 1);
 
 INSERT INTO EVALUATED_BY
-VALUES(10, 2, 2, NULL);
+VALUES(10, 2, 2, 2);
 
 INSERT INTO EVALUATED_BY
-VALUES(11, 3, 3, NULL);
+VALUES(11, 3, 3, 3);
 
 INSERT INTO EVALUATED_BY
-VALUES(12, 4, 4, NULL);
+VALUES(12, 4, 4, 2);
 
 
 INSERT INTO EVALUATED_BY
-VALUES(13, 5, 5, NULL);
+VALUES(13, 5, 5, 1);
+
+INSERT INTO EVALUATED_BY 
+VALUES(13,1,6,0)
+
+-- defenses insertion
+
+INSERT INTO DEFENSE 
+VALUES (1,'2/2/2021','GUC',Null)
+
+INSERT INTO DEFENSE
+VALUES (2,'3/3/2021','Cairo Uni',NULL)
+
+INSERT INTO DEFENSE 
+Values (4,'3/4/2021','H13',NULL)
+
+INSERT INTO DEFENSE 
+VALUES (3,'2/2/2021','GUC',Null)
+
+GO
+
+INSERT INTO EXAMINED_BY 
+VALUES (14,1,'2/2/2021','very good presentation')
+
+INSERT INTO EXAMINED_BY
+VALUES (15,2,'3/3/2021','poor presentation and writing skills')
+
+INSERT INTO EXAMINED_BY 
+Values (14,2,'3/3/2021','Eh Elgamadan dh')
+
+INSERT INTO EXAMINED_BY 
+Values (14,4,'3/4/2021','3azamaaaa')
+
+INSERT INTO EXAMINED_BY 
+VALUES (14,3,'2/2/2021','amazing work')
+
+

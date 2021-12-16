@@ -1,3 +1,4 @@
+--drop database pg_database
 CREATE DATABASE pg_database;
 
 GO
@@ -114,9 +115,9 @@ CREATE TABLE PAYMENT
 CREATE TABLE INSTALLMENT
 (
     payment_id INT NOT NULL,
+    installment_date DATE NOT NULL,
     amount DECIMAL(7, 2) NOT NULL,
     is_paid BIT DEFAULT 0,
-    installment_date DATE NOT NULL,
     PRIMARY KEY (payment_id, installment_date),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
