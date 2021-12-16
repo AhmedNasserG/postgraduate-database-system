@@ -59,39 +59,19 @@ CREATE PROC AddExaminer
     @National bit,
     @fieldOfWork varchar(20)
 AS
-If NOT EXISTS(SELECT E.id
-From EXAMINER E
-where E.name = @ExaminerName and E.field_of_work = @fieldOfWork and E.is_national = @National)
-BEGIN
-    INSERT INTO EXAMINER
-        (name, is_national, field_of_work)
-    VALUES
-        (@ExaminerName, @National, @fieldOfWork)
-    INSERT INTO EXAMINED_BY
-        (examiner_id, thesis_serial_number, defense_date)
-    VALUES
-        (
-            SCOPE_IDENTITY(),
-            @ThesisSerialNo ,
-            @DefenseDate
-    )
-END
-ELSE
-BEGIN
-    Declare @examiner_id INT
-    SELECT @examiner_id = id
-    From EXAMINER
-    where name = @ExaminerName and field_of_work = @fieldOfWork and is_national = @National
+Declare @examiner_id INT
+SELECT @examiner_id = id
+From EXAMINER
+where name = @ExaminerName and field_of_work = @fieldOfWork and is_national = @National
 
-    INSERT INTO EXAMINED_BY
-        (examiner_id, thesis_serial_number, defense_date)
-    VALUES
-        (
-            @examiner_id,
-            @ThesisSerialNo ,
-            @DefenseDate
+INSERT INTO EXAMINED_BY
+    (examiner_id, thesis_serial_number, defense_date)
+VALUES
+    (
+        @examiner_id,
+        @ThesisSerialNo ,
+        @DefenseDate
     )
-END
 
 GO
 -- prodecure for cancelling thesis if evaluation of last report is zero
@@ -116,9 +96,12 @@ END
 GO
 -- procedure for adding grade for thesis
 CREATE PROC AddGrade
-    @ThesisSerialNo INT,
-    @grade DECIMAL
+    @ThesisSerialNo INT
 AS
+DECLARE @grade DECIMAL
+SELECT @grade = grade
+FROM DEFENSE
+WHERE DEFENSE.thesis_serial_number = @ThesisSerialNo
 UPDATE THESIS
 SET grade = @grade
 WHERE serial_number = @ThesisSerialNo
