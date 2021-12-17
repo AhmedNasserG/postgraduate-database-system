@@ -1,4 +1,4 @@
-USE pg_database;
+USE pg_database2;
 
 GO
 
@@ -134,6 +134,57 @@ VALUES('asdhfawhrfihraw');
 INSERT INTO EXAMINER
 VALUES(15, 'Omneya Rabie', 1, 'Database Design');
 
+
+-- Course Insertions
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN301', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN501', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN605', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN701', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN901', 6, 6000.00);
+
+
+-- Taken by Insertions
+
+INSERT INTO TAKEN_BY
+VALUES
+        (1, 1, 100.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (3, 1, 95.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (4, 4, 80.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (7, 4, 90.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (1, 2, 75.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (7, 5, 55.00);
+
+
 -- Payment Insertion
 INSERT INTO PAYMENT
 VALUES(0.1, 1, 500, 1, null)
@@ -263,6 +314,26 @@ INSERT INTO THESIS
 VALUES('Water Recognition on Mars', '11/11/2021', '3/3/2022', 0, NULL,
                 'Data Science', '2/2/2022', 0, NULL, NULL);
 
+-- SUPERVISED BY INSERTION
+INSERT INTO SUPERVISED 
+VALUES (9 ,1 )
+
+INSERT INTO SUPERVISED 
+VALUES (13 ,1 )
+
+INSERT INTO SUPERVISED 
+VALUES (10 ,2 )
+
+INSERT INTO SUPERVISED 
+VALUES (11 ,3)
+
+INSERT INTO SUPERVISED 
+VALUES (12 ,4 )
+
+INSERT INTO SUPERVISED 
+VALUES (13 ,5)
+
+
 -- Progress Reports' insertions
 
 INSERT INTO REPORT
@@ -342,54 +413,32 @@ INSERT INTO EXAMINED_BY
 VALUES
         (14, 3, '2/2/2021', 'amazing work')
 
+-- publication Insertion 
+INSERT INTO PUBLICATION
+VALUES ('Further Research for Computer Architecture','2/2/2021','Cairo','IEEE Conference',1)
 
--- Course Insertions
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN301', 6, 6000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN501', 6, 6000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN605', 4, 4000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN701', 4, 4000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN901', 6, 6000.00);
+INSERT INTO PUBLICATION
+VALUES ('New NLP Technique for voice recognition','2/2/2021','Cairo','ML Conference',1)
 
 
--- Taken by Insertions
+INSERT INTO PUBLICATION
+VALUES ('Big O Notation','2/2/2021','Cairo','CS Conference',0)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (1, 1, 100.00);
+INSERT INTO PUBLISHED_FOR
+VALUES (1,1)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (3, 1, 95.00);
+INSERT INTO PUBLISHED_FOR
+VALUES (1,2)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (4, 4, 80.00);
+INSERT INTO PUBLISHED_FOR
+VALUES (2,2)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (7, 4, 90.00);
+INSERT INTO PUBLISHED_FOR
+VALUES (2,3)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (1, 2, 75.00);
+INSERT INTO PUBLISHED_FOR
+VALUES (3,4)
 
-INSERT INTO TAKEN_BY
-VALUES
-        (7, 5, 55.00);
+
 
 
