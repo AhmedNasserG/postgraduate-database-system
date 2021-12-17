@@ -68,7 +68,7 @@ CREATE TABLE SUPERVISOR
     last_name VARCHAR(20) NOT NULL,
     faculty VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    address VARCHAR(50) NOT NULL,
+    address VARCHAR(50),
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
@@ -131,15 +131,15 @@ CREATE TABLE THESIS
     end_date DATETIME NOT NULL,
     duration AS DATEDIFF(day,start_date, end_date),
     type BIT,
-    grade DECIMAL(5, 2)  CHECK (
+    grade DECIMAL(5, 2) CHECK (
         grade >= 0.0
-        AND grade <= 100.0
+            AND grade <= 100.0
     ),
     field VARCHAR(50) NOT NULL,
     seminar_date DATETIME NOT NULL,
     number_of_extensions INT DEFAULT 0,
     student_id INT,
-    payment_id INT, 
+    payment_id INT,
     FOREIGN KEY (student_id) REFERENCES STUDENT(id),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(id),
 );

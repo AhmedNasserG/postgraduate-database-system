@@ -158,6 +158,7 @@ VALUES
         ('CSEN901', 6, 6000.00);
 
 
+
 -- Taken by Insertions
 
 INSERT INTO TAKEN_BY
@@ -183,6 +184,7 @@ VALUES
 INSERT INTO TAKEN_BY
 VALUES
         (7, 5, 55.00);
+
 
 
 -- Payment Insertion
@@ -272,7 +274,7 @@ VALUES('Analysis of Algorithms', '12/12/2020', '4/4/2021', 1, NULL,
 
 INSERT INTO THESIS
 VALUES('Quantum Computing', '9/9/2020', '5/5/2021', 0, NULL,
-                'Quantum COMPUTER Science', '3/3/2021', 0, NULL, NULL);
+                'Quantum COMPUTER Science', '3/3/2021', 0, 4, NULL);
 
 INSERT INTO THESIS
 VALUES('Cloud Computing', '10/10/2021', '1/1/2022', 1, NULL,
