@@ -28,8 +28,8 @@ GO
 CREATE PROC ViewCoursesGrades
     @studentID INT
 AS
-SELECT grade
-FROM TAKEN_BY
+SELECT *
+FROM TAKEN_BY TB INNER JOIN COURSE C ON TB.course_id =  C.id
 where student_id = @studentID;
 
 GO
