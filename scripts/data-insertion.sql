@@ -71,7 +71,7 @@ INSERT INTO USERS
 VALUES('asdfg');
 
 INSERT INTO STUDENT
-VALUES(7, 'Philo', 'Hany', 'Civil', 0.9, 'philo@email.com', 'phd',
+VALUES(7, 'Philo', 'Hany', 'Civil', 0.9, 'philo@email.com', 'Phd',
                 'New Cairo');
 
 INSERT INTO NON_GUCIAN
@@ -135,47 +135,71 @@ INSERT INTO EXAMINER
 VALUES(15, 'Omneya Rabie', 1, 'Database Design');
 
 -- Payment Insertion
-INSERT INTO PAYMENT 
+INSERT INTO PAYMENT
 VALUES(0.1, 1, 500, 1, null)
 
-INSERT INTO PAYMENT 
+INSERT INTO PAYMENT
 VALUES(0.2, 2, 1000, 2, null)
 
-INSERT INTO PAYMENT 
+INSERT INTO PAYMENT
 VALUES(0.3, 2, 1900, 3, null)
 
-INSERT INTO PAYMENT 
+INSERT INTO PAYMENT
 VALUES(0.4, 1, 1700, 4, null)
--- link these with courses
-INSERT INTO PAYMENT 
-VALUES(0.1, 1, 500, 1, null)
 
-INSERT INTO PAYMENT 
-VALUES(0.1, 1, 500, 1, null)
+-- Courses Payment Insertion
 
-INSERT INTO INSTALLMENT 
-VALUES (1,'2/2/2021', 500, 1)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 1, 1)
 
-INSERT INTO INSTALLMENT 
-VALUES (2,'2/2/2021', 500, 1)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 1, 2)
 
-INSERT INTO INSTALLMENT 
-VALUES (2,'8/2/2021', 500, 0)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 3, 1)
 
-INSERT INTO INSTALLMENT 
-VALUES (3,'11/11/2021', 850, 1)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 4, 4)
 
-INSERT INTO INSTALLMENT 
-VALUES (3,'3/5/2022', 850, 0)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 7, 4)
 
-INSERT INTO INSTALLMENT 
-VALUES (4,'4/5/2021', 1700, 1)
+INSERT INTO PAYMENT
+VALUES(0.1, 1, 500, 7, 5)
 
-INSERT INTO INSTALLMENT 
-VALUES (5,'6/4/2021', 500, 1)
 
-INSERT INTO INSTALLMENT 
-VALUES (6,'5/4/2021', 500, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (1, '2/2/2021', 500, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (2, '2/2/2021', 500, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (2, '8/2/2021', 500, 0)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (3, '11/11/2021', 850, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (3, '3/5/2022', 850, 0)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (4, '4/5/2021', 1700, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (5, '6/4/2021', 500, 1)
+
+INSERT INTO INSTALLMENT
+VALUES
+        (6, '5/4/2021', 500, 1)
 
 -- Thesis Insertions
 
@@ -185,7 +209,7 @@ VALUES('Feature detection on FPGA', '1/1/2021', '3/3/2021', 0, NULL,
 
 INSERT INTO THESIS
 VALUES('Human Activity Recognition', '1/1/2020', '5/6/2021', 1, NULL,
-                'Machine Learning', '2/2/2021', 0, 2,2);
+                'Machine Learning', '2/2/2021', 0, 2, 2);
 
 INSERT INTO THESIS
 VALUES('Arabic Text Summarization', '10/10/2020', '3/3/2021', 0, NULL,
@@ -242,7 +266,7 @@ VALUES('Water Recognition on Mars', '11/11/2021', '3/3/2022', 0, NULL,
 -- Progress Reports' insertions
 
 INSERT INTO REPORT
-VALUES(1, 1, '2/3/2021','done with first half of thesis');
+VALUES(1, 1, '2/3/2021', 'done with first half of thesis');
 
 INSERT INTO REPORT
 VALUES(2, 2, '4/4/2021', 'finished the research part');
@@ -257,7 +281,7 @@ INSERT INTO REPORT
 VALUES(5, 3, '2/2/2021', 'just missing final points');
 
 INSERT INTO REPORT
-VALUES(1, 1, '3/3/2021','done with second half of thesis');
+VALUES(1, 1, '3/3/2021', 'done with second half of thesis');
 
 INSERT INTO EVALUATED_BY
 VALUES(9, 1, 1, 1);
@@ -275,38 +299,97 @@ VALUES(12, 4, 4, 2);
 INSERT INTO EVALUATED_BY
 VALUES(13, 5, 5, 1);
 
-INSERT INTO EVALUATED_BY 
-VALUES(13,1,6,0)
+INSERT INTO EVALUATED_BY
+VALUES(13, 1, 6, 0)
 
 -- defenses insertion
 
-INSERT INTO DEFENSE 
-VALUES (1,'2/2/2021','GUC',Null)
+INSERT INTO DEFENSE
+VALUES
+        (1, '2/2/2021', 'GUC', Null)
 
 INSERT INTO DEFENSE
-VALUES (2,'3/3/2021','Cairo Uni',NULL)
+VALUES
+        (2, '3/3/2021', 'Cairo Uni', NULL)
 
-INSERT INTO DEFENSE 
-Values (4,'3/4/2021','H13',NULL)
+INSERT INTO DEFENSE
+Values
+        (4, '3/4/2021', 'H13', NULL)
 
-INSERT INTO DEFENSE 
-VALUES (3,'2/2/2021','GUC',Null)
+INSERT INTO DEFENSE
+VALUES
+        (3, '2/2/2021', 'GUC', Null)
 
 GO
 
-INSERT INTO EXAMINED_BY 
-VALUES (14,1,'2/2/2021','very good presentation')
+INSERT INTO EXAMINED_BY
+VALUES
+        (14, 1, '2/2/2021', 'very good presentation')
 
 INSERT INTO EXAMINED_BY
-VALUES (15,2,'3/3/2021','poor presentation and writing skills')
+VALUES
+        (15, 2, '3/3/2021', 'poor presentation and writing skills')
 
-INSERT INTO EXAMINED_BY 
-Values (14,2,'3/3/2021','Eh Elgamadan dh')
+INSERT INTO EXAMINED_BY
+Values
+        (14, 2, '3/3/2021', 'Eh Elgamadan dh')
 
-INSERT INTO EXAMINED_BY 
-Values (14,4,'3/4/2021','3azamaaaa')
+INSERT INTO EXAMINED_BY
+Values
+        (14, 4, '3/4/2021', '3azamaaaa')
 
-INSERT INTO EXAMINED_BY 
-VALUES (14,3,'2/2/2021','amazing work')
+INSERT INTO EXAMINED_BY
+VALUES
+        (14, 3, '2/2/2021', 'amazing work')
+
+
+-- Course Insertions
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN301', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN501', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN605', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN701', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN901', 6, 6000.00);
+
+
+-- Taken by Insertions
+
+INSERT INTO TAKEN_BY
+VALUES
+        (1, 1, 100.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (3, 1, 95.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (4, 4, 80.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (7, 4, 90.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (1, 2, 75.00);
+
+INSERT INTO TAKEN_BY
+VALUES
+        (7, 5, 55.00);
 
 
