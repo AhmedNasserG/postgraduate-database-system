@@ -134,6 +134,28 @@ VALUES('asdhfawhrfihraw');
 INSERT INTO EXAMINER
 VALUES(15, 'Omneya Rabie', 1, 'Database Design');
 
+-- Course Insertions
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN301', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN501', 6, 6000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN605', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN701', 4, 4000.00);
+
+INSERT INTO COURSE
+VALUES
+        ('CSEN901', 6, 6000.00);
+
 -- Payment Insertion
 INSERT INTO PAYMENT
 VALUES(0.1, 1, 500, 1, null)
@@ -342,28 +364,6 @@ INSERT INTO EXAMINED_BY
 VALUES
         (14, 3, '2/2/2021', 'amazing work')
 
-
--- Course Insertions
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN301', 6, 6000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN501', 6, 6000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN605', 4, 4000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN701', 4, 4000.00);
-
-INSERT INTO COURSE
-VALUES
-        ('CSEN901', 6, 6000.00);
 
 
 -- Taken by Insertions

@@ -73,14 +73,14 @@ values
 
 INSERT INTO
     SUPERVISOR
+    (id, first_name, last_name, faculty, email)
 VALUES
     (
         SCOPE_IDENTITY(),
         @first_name,
         @last_name,
         @faculty,
-        @email,
-        @address
+        @email
     )
 
 -- Registered user
