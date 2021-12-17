@@ -1,27 +1,27 @@
-USE pg_database
+USE pg_database;
 
 GO
 
 EXEC AddUndergradID 3, 76
 
-EXEC ViewCoursesGrades 4
+EXEC ViewCoursesGrades 1
 
-EXEC ViewCoursePaymentsInstall 4
+EXEC ViewCoursePaymentsInstall 1
 
-EXEC ViewThesisPaymentsInstall 4
+EXEC ViewThesisPaymentsInstall 2
 
-EXEC ViewUpcomingInstallments 4
+EXEC ViewUpcomingInstallments 3
 
-EXEC ViewMissedInstallments 4
+EXEC ViewMissedInstallments 2
 
-EXEC AddProgressReport 2, '2021-5-3'
+EXEC AddProgressReport 10, '2021-5-3'
 
-EXEC FillProgressReport 2, 2, 6, 'This report is the worst'
+EXEC FillProgressReport 10, 8, 13, 'almost done'
 
-EXEC ViewEvalProgressReport 2, 2
+EXEC ViewEvalProgressReport 1, 6
 
-EXEC AddPublication 'Riemann Hypothesis Solved', '2021-8-7', 'Berlin',
- 'GUC', 1
+EXEC AddPublication 'Collatz Conjecture solved', '2021-8-9', 'GUC Brain',
+ 'Cairo', 0
 
-EXEC LinkPubThesis 1, 1
+EXEC LinkPubThesis 5, 10
 
