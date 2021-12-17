@@ -1,4 +1,4 @@
-USE pg_database2;
+USE pg_database;
 
 GO
 
@@ -171,7 +171,7 @@ VALUES
 
 INSERT INTO TAKEN_BY
 VALUES
-        (4, 4, 80.00);
+        (4, 4, 49.00);
 
 INSERT INTO TAKEN_BY
 VALUES
@@ -278,43 +278,43 @@ VALUES('Quantum Computing', '9/9/2020', '5/5/2021', 0, NULL,
 
 INSERT INTO THESIS
 VALUES('Cloud Computing', '10/10/2021', '1/1/2022', 1, NULL,
-                'DevOps', '12/12/2021', 0, NULL, NULL);
+                'DevOps', '12/12/2021', 0, 5, NULL);
 
 INSERT INTO THESIS
 VALUES('Internet of things', '8/8/2021', '3/3/2022', 0, NULL,
-                'Computer Science', '11/11/2021', 0, NULL, NULL);
+                'Computer Science', '11/11/2021', 0, 6, NULL);
 
 INSERT INTO THESIS
 VALUES('Embedded Systems', '1/1/2021', '6/6/2022', 1, NULL,
-                'Hardware', '3/3/2022', 0, NULL, NULL);
+                'Hardware', '3/3/2022', 0, 7, NULL);
 
 INSERT INTO THESIS
 VALUES('Differential Gemoetry', '10/10/2021', '4/4/2021', 0, NULL,
-                'Mathematics', '2/2/2021', 0, NULL, NULL);
+                'Mathematics', '2/2/2021', 0, 8, NULL);
 
 INSERT INTO THESIS
 VALUES('Abstract Algebra', '10/10/2020', '3/3/2021', 1, NULL,
-                'Mathematics', '2/2/2021', 0, NULL, NULL);
+                'Mathematics', '2/2/2021', 0, 7, NULL);
 
 INSERT INTO THESIS
 VALUES('Non-Linear Algebra', '10/10/2020', '3/3/2021', 0, NULL,
-                'Mathematics', '2/2/2021', 0, NULL, NULL);
+                'Mathematics', '2/2/2021', 0, 7, NULL);
 
 INSERT INTO THESIS
 VALUES('Deep Learning', '1/1/2022', '5/6/2022', 0, NULL,
-                'Machine Learning', '2/2/2022', 0, NULL, NULL);
+                'Machine Learning', '2/2/2022', 0, 6, NULL);
 
 INSERT INTO THESIS
 VALUES('Data Mining', '11/11/2021', '3/5/2022', 0, NULL,
-                'Data Science', '2/2/2021', 0, NULL, NULL);
+                'Data Science', '2/2/2021', 0, 5, NULL);
 
 INSERT INTO THESIS
 VALUES('Virtual Reality', '12/12/2021', '3/3/2022', 0, NULL,
-                'Computer Science', '2/2/2022', 0, NULL, NULL);
+                'Computer Science', '2/2/2022', 0, 4, NULL);
 
 INSERT INTO THESIS
 VALUES('Water Recognition on Mars', '11/11/2021', '3/3/2022', 0, NULL,
-                'Data Science', '2/2/2022', 0, NULL, NULL);
+                'Data Science', '2/2/2022', 0, 3, NULL);
 
 -- SUPERVISED BY INSERTION
 INSERT INTO SUPERVISED 
@@ -334,6 +334,43 @@ VALUES (12 ,4 )
 
 INSERT INTO SUPERVISED 
 VALUES (13 ,5)
+
+INSERT INTO SUPERVISED 
+VALUES (13 ,6)
+
+INSERT INTO SUPERVISED 
+VALUES (10 ,7)
+
+INSERT INTO SUPERVISED 
+VALUES (9 ,8)
+
+
+INSERT INTO SUPERVISED 
+VALUES (13 ,9)
+
+
+INSERT INTO SUPERVISED 
+VALUES (12 ,10)
+
+
+INSERT INTO SUPERVISED 
+VALUES (13 ,11)
+
+
+INSERT INTO SUPERVISED 
+VALUES (11 ,12)
+
+
+INSERT INTO SUPERVISED 
+VALUES (10 ,13)
+
+
+INSERT INTO SUPERVISED 
+VALUES (8 ,14)
+
+
+INSERT INTO SUPERVISED 
+VALUES (9 ,15)
 
 
 -- Progress Reports' insertions

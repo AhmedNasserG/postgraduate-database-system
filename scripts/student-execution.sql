@@ -23,5 +23,6 @@ EXEC ViewEvalProgressReport 1, 6
 EXEC AddPublication 'Collatz Conjecture solved', '2021-8-9', 'GUC Brain',
  'Cairo', 0
 
-EXEC LinkPubThesis 5, 10
+go 
 
+EXEC LinkPubThesis 5, 10

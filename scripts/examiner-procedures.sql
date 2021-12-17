@@ -64,14 +64,17 @@ SELECT @examiner_id = id
 From EXAMINER
 where name = @ExaminerName and field_of_work = @fieldOfWork and is_national = @National
 
-INSERT INTO EXAMINED_BY
-    (examiner_id, thesis_serial_number, defense_date)
-VALUES
-    (
-        @examiner_id,
-        @ThesisSerialNo ,
-        @DefenseDate
-    )
+IF (@examiner_id is not NULL ) 
+BEGIN
+    INSERT INTO EXAMINED_BY
+        (examiner_id, thesis_serial_number, defense_date)
+    VALUES
+        (
+            @examiner_id,
+            @ThesisSerialNo ,
+            @DefenseDate
+        )
+END
 
 GO
 -- prodecure for cancelling thesis if evaluation of last report is zero
@@ -135,11 +138,21 @@ GO
 CREATE PROC viewMyProfile
     @studentId int
 AS
-SELECT *
-FROM STUDENT
-WHERE
+IF (Exists (Select id
+from GUCIAN
+where id = @studentId ) )
+BEGIN
+    SELECT S.* , G.guc_id
+    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id)
+    where S.id = @studentId
+end
+ELSE
+BEGIN
+    SELECT S.*
+    FROM STUDENT S
+    WHERE
 id = @studentId
-
+End
 GO
 -- procedure to edit profile as student
 CREATE PROC editMyProfile
