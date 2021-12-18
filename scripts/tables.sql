@@ -1,5 +1,5 @@
--- drop database pg_database
 CREATE DATABASE pg_database;
+
 GO
 
 USE pg_database;
@@ -48,7 +48,7 @@ CREATE TABLE MOBILE
 CREATE TABLE GUCIAN
 (
     id INT PRIMARY KEY,
-    guc_id INT ,
+    guc_id INT,
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
@@ -86,7 +86,7 @@ CREATE TABLE TAKEN_BY
 (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    grade Decimal(5, 2) check (
+    grade Decimal(5, 2) CHECK (
         grade >= 0.0
             AND grade <= 100.0
     ),
@@ -171,7 +171,7 @@ CREATE TABLE EVALUATED_BY
     supervisor_id INT NOT NULL,
     thesis_serial_number INT NOT NULL,
     report_number INT NOT NULL,
-    evaluation int CHECK (
+    evaluation INT CHECK (
         evaluation >= 0
             AND evaluation <= 3
     ),
@@ -180,7 +180,7 @@ CREATE TABLE EVALUATED_BY
         thesis_serial_number,
         report_number
     ),
-    Foreign Key (thesis_serial_number, report_number) REFERENCES REPORT(thesis_serial_number, report_number) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (thesis_serial_number, report_number) REFERENCES REPORT(thesis_serial_number, report_number) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (supervisor_id) REFERENCES SUPERVISOR(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 

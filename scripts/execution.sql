@@ -3,16 +3,11 @@ USE pg_database;
 GO
 
 EXEC StudentRegister 'mazen', 'Nasr', 'student123', 'MET', 0, 'ahmed@student.guc.edu.eg', 'New Cairo'
-SELECT * FROM STUDENT;
-SELECT * FROM GUCIAN;
-SELECT * FROM NON_GUCIAN;
+
 GO
 
 EXEC SupervisorRegister 'Rami', 'Younes', 'supervisor123', 'MET', 'rami@guc.edu.eg'
 
-select * from USERS;
-select * from GUCIAN;
-SELECT * FROM MOBILE;
 GO
 
 DECLARE @success INT
@@ -47,93 +42,149 @@ GO
 
 EXEC AdminUpdateExtension '1'
 
-
-
------ PLEASE INSERT  YOUR EXECUTION ABOUELYES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--- PS: WITHOUT COPILOT BECAUSE YOU DONT KNOW HOW TO USE IT
--- THANKS BEST REGARDS YOU
-
 GO
-exec ViewAStudentPublications 1
 
-GO
-exec ViewAStudentPublications 2
-
-GO
-exec AddDefenseNonGucian 5 ,'3/4/2021' ,'GUC'
-
-GO
-exec AddDefenseNonGucian 8 ,'3/3/2022', 'auc'
-
-GO
-exec AddDefenseGucian 6 ,'12/12/2021', 'Harvard'
-
-GO
-exec AddExaminer 8,'3/3/2022','Ibrahim Abou Elenein', 0, 'String theory'
-
-GO
-exec CancelThesis 1
-
-GO
-exec CancelThesis 2
+DECLARE @success INT
+EXEC AdminIssueThesisPayment 10, 15000, 3, 0.5, @success
 
 GO
 
-exec AddDefenseGrade 5 ,'3/4/2021' , 75
+EXEC AdminViewStudentProfile 2
 
 GO
-exec AddCommentsGrade  14,8, '3/3/2022','great'
+
+EXEC AdminIssueInstallPayment 11, '1/1/2021'
 
 GO
-exec AddGrade 5
+
+EXEC AdminListAcceptPublication
 
 GO
-exec viewMyProfile 1
+
+EXEC AddCourse '502', 6, 10000
 
 GO
-exec viewMYProfile 2
+
+EXEC linkCourseStudent 6, 7
 
 GO
-exec editMyProfile 1 ,'Dina' , 'Khaled', '555', 'dina@gmail', 'nasrciry', 'phd'
+
+EXEC addStudentCourseGrade 7, 6, 88
+
+GO
+
+EXEC ViewExamSupDefense '2/2/2021'
+
+GO
+
+EXEC EvaluateProgressReport 12, 4, 4, 3
+
+GO
+
+EXEC ViewSupStudentsYears 12
+
+GO
+
+EXEC SupViewProfile 12
+
+GO
+
+EXEC UpdateSupProfile 17, 'Hany', 'Basmaga'
+
+GO
+
+EXEC ViewAStudentPublications 1
+
+GO
+
+EXEC ViewAStudentPublications 2
+
+GO
+
+EXEC AddDefenseNonGucian 5 ,'3/4/2021' ,'GUC'
+
+GO
+
+EXEC AddDefenseNonGucian 8 ,'3/3/2022', 'auc'
+
+GO
+
+EXEC AddDefenseGucian 6 ,'12/12/2021', 'Harvard'
+
+GO
+
+EXEC AddExaminer 8,'3/3/2022','Ibrahim Abou Elenein', 0, 'String theory'
+
+GO
+
+EXEC CancelThesis 1
+
+GO
+
+EXEC CancelThesis 2
+
+GO
+
+EXEC AddDefenseGrade 5 ,'3/4/2021' , 75
+
+GO
+
+EXEC AddCommentsGrade  14,8, '3/3/2022','great'
+
+GO
+
+EXEC AddGrade 5
+
+GO
+
+EXEC viewMyProfile 1
+
+GO
+
+EXEC viewMYProfile 2
+
+GO
+
+EXEC editMyProfile 1 ,'Dina' , 'Khaled', '555', 'dina@gmail', 'nasrciry', 'phd'
 
 GO
 
 EXEC AddUndergradID 3, 76
 
-
 GO
+
 EXEC ViewCoursesGrades 1
 
-
 GO
+
 EXEC ViewCoursePaymentsInstall 1
 
-
 GO
+
 EXEC ViewThesisPaymentsInstall 2
 
-
 GO
+
 EXEC ViewUpcomingInstallments 3
 
-
 GO
+
 EXEC ViewMissedInstallments 2
 
-
 GO
+
 EXEC AddProgressReport 10, '2021-5-3'
 
-
 GO
+
 EXEC FillProgressReport 10, 8, 13, 'almost done'
 
-
 GO
+
 EXEC ViewEvalProgressReport 1, 6
 
-
 GO
+
 EXEC AddPublication 'Collatz Conjecture solved', '2021-8-9', 'GUC Brain',
  'Cairo', 0
 
