@@ -1,7 +1,7 @@
---drop database pg_database
+-- drop database pg_database
 CREATE DATABASE pg_database;
-
 GO
+
 USE pg_database;
 
 -- Create Users Table
@@ -65,7 +65,7 @@ CREATE TABLE SUPERVISOR
 (
     id INT PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
-    last_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20),
     faculty VARCHAR(20) NOT NULL,
     email VARCHAR(50) NOT NULL,
     address VARCHAR(50),
