@@ -178,9 +178,8 @@ EXEC AddProgressReport 10, '2021-5-3'
 
 GO
 
-EXEC FillProgressReport 10, 8, 13, 'almost done'
+EXEC FillProgressReport 10, 7, 13, 'almost done'
 
-GO
 
 EXEC ViewEvalProgressReport 1, 6
 
