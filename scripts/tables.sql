@@ -48,7 +48,7 @@ CREATE TABLE MOBILE
 CREATE TABLE GUCIAN
 (
     id INT PRIMARY KEY,
-    guc_id INT,
+    guc_id VARCHAR(10),
     FOREIGN KEY (id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
@@ -78,7 +78,7 @@ CREATE TABLE COURSE
     id INT PRIMARY KEY IDENTITY,
     code VARCHAR(10) NOT NULL,
     credit_hours INT NOT NULL,
-    fees DECIMAL(7, 2) NOT NULL,
+    fees DECIMAL(8, 2) NOT NULL,
 );
 
 -- create table taken_by
@@ -99,12 +99,9 @@ CREATE TABLE TAKEN_BY
 CREATE TABLE PAYMENT
 (
     id INT PRIMARY KEY IDENTITY,
-    fund_percentage DECIMAL(3, 2) NOT NULL CHECK (
-        fund_percentage >= 0.0
-            AND fund_percentage <= 1.0
-    ),
+    fund_percentage DECIMAL(5, 2) NOT NULL,
     num_of_installments INT NOT NULL CHECK (num_of_installments >= 1),
-    total_amount DECIMAL(7, 2) NOT NULL,
+    total_amount DECIMAL(8, 2) NOT NULL,
     student_id INT NOT NULL,
     course_id INT,
     FOREIGN KEY (student_id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -116,7 +113,7 @@ CREATE TABLE INSTALLMENT
 (
     payment_id INT NOT NULL,
     installment_date DATE NOT NULL,
-    amount DECIMAL(7, 2) NOT NULL,
+    amount DECIMAL(8, 2) NOT NULL,
     is_paid BIT DEFAULT 0,
     PRIMARY KEY (payment_id, installment_date),
     FOREIGN KEY (payment_id) REFERENCES PAYMENT(id) ON DELETE CASCADE ON UPDATE CASCADE,

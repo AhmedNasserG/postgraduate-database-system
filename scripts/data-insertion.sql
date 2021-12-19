@@ -99,7 +99,7 @@ INSERT INTO USERS
 VALUES('sadascca');
 
 INSERT INTO SUPERVISOR
-VALUES(10, 'Milad', 'Ghantous', 'EMS', 'milad-mawakef@email.com',
+VALUES(10, 'Milad', 'Ghantous', 'EMS', 'milad@email.com',
                 'Al Mansoura');
 
 INSERT INTO USERS
@@ -258,7 +258,7 @@ VALUES
 -- Thesis Insertions
 
 INSERT INTO THESIS
-VALUES('Feature detection on FPGA', '1/1/2021', '3/3/2021', 0, NULL,
+VALUES('Feature detection on FPGA', '1/1/2021', '3/3/2027', 0, NULL,
                 'Hardware', '2/2/2021', 0, 1, 1);
 
 INSERT INTO THESIS
@@ -290,7 +290,7 @@ VALUES('Embedded Systems', '1/1/2021', '6/6/2022', 1, NULL,
                 'Hardware', '3/3/2022', 0, 7, NULL);
 
 INSERT INTO THESIS
-VALUES('Differential Gemoetry', '10/10/2021', '4/4/2021', 0, NULL,
+VALUES('Differential Gemoetry', '10/10/2021', '4/4/2026', 0, NULL,
                 'Mathematics', '2/2/2021', 0, 8, NULL);
 
 INSERT INTO THESIS
@@ -318,60 +318,76 @@ VALUES('Water Recognition on Mars', '11/11/2021', '3/3/2022', 0, NULL,
                 'Data Science', '2/2/2022', 0, 3, NULL);
 
 -- SUPERVISED BY INSERTION
-INSERT INTO SUPERVISED 
-VALUES (9 ,1 )
+INSERT INTO SUPERVISED
+VALUES
+        (9 , 1 )
 
-INSERT INTO SUPERVISED 
-VALUES (13 ,1 )
+INSERT INTO SUPERVISED
+VALUES
+        (13 , 1 )
 
-INSERT INTO SUPERVISED 
-VALUES (10 ,2 )
+INSERT INTO SUPERVISED
+VALUES
+        (10 , 2 )
 
-INSERT INTO SUPERVISED 
-VALUES (11 ,3)
+INSERT INTO SUPERVISED
+VALUES
+        (11 , 3)
 
-INSERT INTO SUPERVISED 
-VALUES (12 ,4 )
+INSERT INTO SUPERVISED
+VALUES
+        (12 , 4 )
 
-INSERT INTO SUPERVISED 
-VALUES (13 ,5)
+INSERT INTO SUPERVISED
+VALUES
+        (13 , 5)
 
-INSERT INTO SUPERVISED 
-VALUES (13 ,6)
+INSERT INTO SUPERVISED
+VALUES
+        (13 , 6)
 
-INSERT INTO SUPERVISED 
-VALUES (10 ,7)
+INSERT INTO SUPERVISED
+VALUES
+        (10 , 7)
 
-INSERT INTO SUPERVISED 
-VALUES (9 ,8)
-
-
-INSERT INTO SUPERVISED 
-VALUES (13 ,9)
-
-
-INSERT INTO SUPERVISED 
-VALUES (12 ,10)
-
-
-INSERT INTO SUPERVISED 
-VALUES (13 ,11)
+INSERT INTO SUPERVISED
+VALUES
+        (9 , 8)
 
 
-INSERT INTO SUPERVISED 
-VALUES (11 ,12)
+INSERT INTO SUPERVISED
+VALUES
+        (13 , 9)
 
 
-INSERT INTO SUPERVISED 
-VALUES (10 ,13)
+INSERT INTO SUPERVISED
+VALUES
+        (12 , 10)
 
 
-INSERT INTO SUPERVISED 
-VALUES (9 ,14)
+INSERT INTO SUPERVISED
+VALUES
+        (13 , 11)
 
 
-INSERT INTO SUPERVISED 
-VALUES (9 ,15)
+INSERT INTO SUPERVISED
+VALUES
+        (11 , 12)
+
+
+INSERT INTO SUPERVISED
+VALUES
+        (10 , 13)
+
+
+INSERT INTO SUPERVISED
+VALUES
+        (9 , 14)
+
+
+INSERT INTO SUPERVISED
+VALUES
+        (9 , 15)
 
 
 -- Progress Reports' insertions
@@ -455,29 +471,37 @@ VALUES
 
 -- publication Insertion 
 INSERT INTO PUBLICATION
-VALUES ('Further Research for Computer Architecture','2/2/2021','Cairo','IEEE Conference',1)
+VALUES
+        ('Further Research for Computer Architecture', '2/2/2021', 'Cairo', 'IEEE Conference', 1)
 
 INSERT INTO PUBLICATION
-VALUES ('New NLP Technique for voice recognition','2/2/2021','Cairo','ML Conference',1)
+VALUES
+        ('New NLP Technique for voice recognition', '2/2/2021', 'Cairo', 'ML Conference', 1)
 
 
 INSERT INTO PUBLICATION
-VALUES ('Big O Notation','2/2/2021','Cairo','CS Conference',0)
+VALUES
+        ('Big O Notation', '2/2/2021', 'Cairo', 'CS Conference', 0)
 
 INSERT INTO PUBLISHED_FOR
-VALUES (1,1)
+VALUES
+        (1, 1)
 
 INSERT INTO PUBLISHED_FOR
-VALUES (1,2)
+VALUES
+        (1, 2)
 
 INSERT INTO PUBLISHED_FOR
-VALUES (2,2)
+VALUES
+        (2, 2)
 
 INSERT INTO PUBLISHED_FOR
-VALUES (2,3)
+VALUES
+        (2, 3)
 
 INSERT INTO PUBLISHED_FOR
-VALUES (3,4)
+VALUES
+        (3, 4)
 
 
 

@@ -13,6 +13,7 @@ GO
 DECLARE @success INT
 EXEC userLogin '18', 'supervisor123' , @success OUTPUT
 PRINT @success
+SELECT @success as 'Success bit'
 
 GO
 
@@ -81,7 +82,7 @@ EXEC EvaluateProgressReport 12, 4, 4, 3
 
 GO
 
-EXEC ViewSupStudentsYears 12
+EXEC ViewSupStudentsYears 13
 
 GO
 
@@ -89,7 +90,7 @@ EXEC SupViewProfile 12
 
 GO
 
-EXEC UpdateSupProfile 17, 'Hany', 'Basmaga'
+EXEC UpdateSupProfile 17, 'Hany', 'El Sharkawy'
 
 GO
 

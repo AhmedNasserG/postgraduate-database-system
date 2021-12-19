@@ -249,12 +249,12 @@ CREATE PROC AdminIssueInstallPayment
     @installment_date DATE
 
 AS
-Declare @num_of_installments INT
+Declare @num_of_installments INT, @counter INT
 SELECT @num_of_installments = num_of_installments
 FROM PAYMENT
 WHERE id = @payment_id
-
-WHILE @num_of_installments > 0
+SET @counter = @num_of_installments
+WHILE @counter > 0
     BEGIN
     INSERT INTO INSTALLMENT
         (
@@ -271,7 +271,7 @@ WHILE @num_of_installments > 0
             WHERE id = @payment_id)
             )
     SET @installment_date = DATEADD(month, 6, @installment_date)
-    SET @num_of_installments = @num_of_installments - 1
+    SET @counter = @counter - 1
 END
 
 GO
@@ -279,7 +279,6 @@ GO
 -- list the title(s) of accepted publication(s) per thesis.
 CREATE PROC AdminListAcceptPublication
 AS
-
 SELECT
     P.title, T.title, T.serial_number
 FROM PUBLICATION P
@@ -295,7 +294,7 @@ GO
 CREATE PROC AddCourse
     @courseCode VARCHAR(10),
     @credit_hours INT,
-    @fees DECIMAL(7,2)
+    @fees DECIMAL(8,2)
 
 AS
 INSERT INTO COURSE
@@ -335,7 +334,6 @@ CREATE PROC addStudentCourseGrade
     @student_id INT,
     @course_id INT,
     @grade DECIMAL(5,2)
-
 AS
 UPDATE TAKEN_BY
     SET grade = @grade
@@ -455,7 +453,7 @@ FROM THESIS
 WHERE THESIS.serial_number = @ThesisSerialNo
 IF NOT EXISTS (SELECT T.student_id
 FROM TAKEN_BY T
-WHERE T.grade < 50 AND T.student_id = @student_id )
+WHERE T.grade <= 50 AND T.student_id = @student_id )
     BEGIN
     INSERT INTO DEFENSE
         (thesis_serial_number, defense_date, location)
@@ -503,7 +501,7 @@ AS
 DECLARE @latest_report_number INT
 SELECT @latest_report_number = R.report_number
 FROM REPORT R
-WHERE R.thesis_serial_number = @ThesisSerialNo AND R.report_Date > =ALL(SELECT R1.report_Date
+WHERE R.thesis_serial_number = @ThesisSerialNo AND R.report_Date >=ALL(SELECT R1.report_Date
     FROM REPORT R1
     WHERE R1.thesis_serial_number = R.thesis_serial_number)
 
@@ -535,7 +533,7 @@ GO
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
-    @grade DECIMAL
+    @grade DECIMAL(5, 2)
 AS
 UPDATE DEFENSE
 SET grade = @grade 
@@ -581,8 +579,8 @@ CREATE PROC editMyProfile
     @lastName VARCHAR(10),
     @password VARCHAR(10),
     @email VARCHAR(10),
-    @ADDRESS VARCHAR(10),
-    @TYPE VARCHAR(10)
+    @address VARCHAR(10),
+    @type VARCHAR(10)
 AS
 UPDATE STUDENT 
 SET first_name = @firstName,
@@ -602,7 +600,7 @@ GO
 
 CREATE PROC addUndergradID
     @studentID INT,
-    @undergradID INT
+    @undergradID VARCHAR(10)
 AS
 IF NOT EXISTS(SELECT guc_id
 FROM GUCIAN
@@ -662,7 +660,7 @@ CREATE PROC ViewUpcomingInstallments
 AS
 SELECT I.*
 FROM PAYMENT P INNER JOIN INSTALLMENT I ON P.id = I.payment_id
-WHERE I.installment_date > GETDATE() AND P.student_id = @studentID;
+WHERE I.installment_date >= GETDATE() AND P.student_id = @studentID;
 
 GO
 
@@ -706,7 +704,7 @@ CREATE PROC ViewEvalProgressReport
     @thesisSerialNo INT,
     @progressReportNo INT
 AS
-SELECT evaluation
+SELECT *
 FROM EVALUATED_BY
 WHERE thesis_serial_number = @thesisSerialNo AND report_number = @progressReportNo
 
@@ -726,7 +724,7 @@ VALUES(@title, @pubDate, @place, @host, @accepted);
 
 GO
 
--- Link publication to my thesis
+-- 6) i) Link publication to my thesis 
 
 CREATE PROC linkPubThesis
     @pubID INT,
