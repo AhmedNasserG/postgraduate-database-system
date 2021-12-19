@@ -4,7 +4,7 @@ GO
 
 -- Unregisetered user
 
--- Student
+-- 1) a) Student 
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
     @last_name VARCHAR(20),
@@ -60,7 +60,7 @@ END
 
 GO
 
--- Supervisor
+-- 1) a) Supervisor
 CREATE PROC SupervisorRegister
     @first_name VARCHAR(20),
     @last_name VARCHAR(20),
@@ -88,7 +88,7 @@ VALUES
 -- Registered user
 
 GO
--- Login
+-- 2) a) Login
 CREATE PROC userLogin
     @id INT,
     @password VARCHAR(20),
@@ -106,7 +106,7 @@ BEGIN
 END
 
 GO
--- Adding mobile numbers
+-- 2) b) Adding mobile numbers
 CREATE PROC addMobile
     @id INT,
     @mobile_number VARCHAR(20)
@@ -122,14 +122,14 @@ VALUES
 -- Admin
 
 GO
--- List Supervisors
+-- 3) a) List Supervisors
 CREATE PROC AdminListSup
 AS
 SELECT *
 FROM SUPERVISOR
 
 GO
--- View supervisor profile
+-- 3) b) View supervisor profile
 CREATE PROC AdminViewSupervisorProfile
     @id INT
 AS
@@ -138,14 +138,14 @@ FROM SUPERVISOR
 WHERE id = @id
 
 GO
--- View Theses
+-- 3) c) View Theses
 CREATE PROC AdminViewAllTheses
 AS
 SELECT *
 FROM THESIS
 
 GO
--- List the number of on going theses
+-- 3) d) List the number of on going theses
 CREATE PROC AdminViewOnGoingTheses
     @count INT OUTPUT
 AS
@@ -156,7 +156,7 @@ WHERE start_date <= GETDATE() AND end_date >= GETDATE()
 )
 
 GO
--- List all supervisors’ names currently supervising students, theses title, student name.
+-- 3) e) List all supervisors’ names currently supervising students, theses title, student name.
 CREATE PROC AdminViewStudentThesisBySupervisor
 AS
 SELECT sup.first_name AS Supervisor_F_Name , sup.last_name AS Supervisor_L_Name, t.title AS Thesis_Title, stu.first_name AS Student_F_Name, stu.last_name AS Student_L_Name
@@ -165,7 +165,7 @@ FROM SUPERVISOR sup INNER JOIN SUPERVISED ON sup.id = SUPERVISED.supervisor_id
     INNER JOIN STUDENT stu ON stu.id = t.student_id
 
 GO
--- List nonGucians names, course code, and respective grade.
+-- 3) f) List nonGucians names, course code, and respective grade.
 CREATE PROC AdminListNonGucianCourse
     @course_id INT
 AS
@@ -176,7 +176,7 @@ FROM NON_GUCIAN n INNER JOIN TAKEN_BY t ON n.id = t.student_id
 WHERE c.id = @course_id 
 
 GO
--- Update the number of thesis extension by 1.
+-- 3) g) Update the number of thesis extension by 1.
 CREATE PROC AdminUpdateExtension
     @thesis_serial_number INT
 AS
@@ -184,7 +184,7 @@ UPDATE THESIS
 SET number_of_extensions = number_of_extensions + 1
 WHERE serial_number = @thesis_serial_number
 
--- issue a thesis payment.
+-- 3) h) issue a thesis payment.
 
 GO
 
@@ -231,7 +231,7 @@ SET @success = 0
 
 GO
 
--- view the profile of any student that contains all his/her information.
+-- 3) i) view the profile of any student that contains all his/her information.
 CREATE PROC  AdminViewStudentProfile
     @student_id INT
 AS
@@ -241,7 +241,7 @@ WHERE id = @student_id
 
 GO
 
--- issue installments as per the number of installments for a certain payment
+-- 3) j) issue installments as per the number of installments for a certain payment
 -- every six months starting from the entered date.
 
 CREATE PROC AdminIssueInstallPayment
@@ -276,7 +276,7 @@ END
 
 GO
 
--- list the title(s) of accepted publication(s) per thesis.
+-- 3) k) list the title(s) of accepted publication(s) per thesis.
 CREATE PROC AdminListAcceptPublication
 AS
 SELECT
@@ -289,7 +289,7 @@ ORDER BY T.serial_number
 
 GO
 
--- Add courses and link courses to students.
+-- 3) l) Add courses and link courses to students.
 
 CREATE PROC AddCourse
     @courseCode VARCHAR(10),
@@ -339,7 +339,7 @@ UPDATE TAKEN_BY
     SET grade = @grade
     WHERE student_id = @student_id AND course_id = @course_id
 
--- view examiners and supervisor(s) names attending a thesis defense taking
+-- 3) m) view examiners and supervisor(s) names attending a thesis defense taking
 -- place on a certain date
 
 GO
@@ -359,7 +359,7 @@ UNION
 
 GO
 
--- Evaluate a student’s progress report, and give evaluation value 0 to 3.
+-- 4) a) Evaluate a student’s progress report, and give evaluation value 0 to 3.
 CREATE PROC EvaluateProgressReport
     @supervisor_id INT,
     @thesis_serial_number INT,
@@ -372,7 +372,7 @@ UPDATE EVALUATED_BY
 
 GO
 
--- View all my students’s names and years spent in the thesis
+-- 4) b) View all my students’s names and years spent in the thesis
 CREATE PROC ViewSupStudentsYears
     @supervisor_id INT
 AS
@@ -392,7 +392,7 @@ FROM
     INNER JOIN STUDENT ST ON T.student_id = ST.id
 WHERE S.id = @supervisor_id
 
--- View my profile and update my personal information.
+-- 4) c) View my profile and update my personal information.
 GO
 
 CREATE PROC SupViewProfile
@@ -417,7 +417,7 @@ UPDATE SUPERVISOR
 
 GO
 
--- procedure to find all publication related to a student 
+-- 4) d)  procedure to find all publication related to a student 
 CREATE PROC ViewAStudentPublications
     @StudentId INT
 AS
@@ -428,7 +428,7 @@ WHERE T.student_id = @StudentId
 
 GO
 
--- procedure to add a defense for a gucian student
+-- 4) e) procedure to add a defense for a gucian student
 CREATE PROC AddDefenseGucian
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
@@ -441,7 +441,7 @@ VALUES
 
 GO
 
--- procedure to add a defense for non-gucian student
+-- 4) e) procedure to add a defense for non-gucian student
 CREATE PROC AddDefenseNonGucian
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
@@ -468,7 +468,7 @@ END
 
 GO
 
--- prodecure for adding examiner to some defense
+-- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
@@ -494,7 +494,7 @@ BEGIN
 END
 
 GO
--- prodecure for cancelling thesis if evaluation of last report is zero
+-- 4) g) prodecure for cancelling thesis if evaluation of last report is zero
 CREATE PROC CancelThesis
     @ThesisSerialNo INT
 AS
@@ -515,7 +515,7 @@ BEGIN
 END
 
 GO
--- procedure for adding grade for thesis
+-- 4) h) procedure for adding grade for thesis
 CREATE PROC AddGrade
     @ThesisSerialNo INT
 AS
@@ -529,7 +529,7 @@ WHERE serial_number = @ThesisSerialNo
 
 GO
 
--- procedure for adding a grade to defense
+-- 5) a) procedure for adding a grade to defense
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
@@ -540,7 +540,7 @@ SET grade = @grade
 WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 
 GO
--- procedure to add comments for defense
+-- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
@@ -551,7 +551,7 @@ SET comments = @comments
 WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 
 GO
--- procedure to view my profile as student
+-- 6) a) procedure to view my profile as student
 CREATE PROC viewMyProfile
     @studentId INT
 AS
@@ -572,7 +572,7 @@ id = @studentId
 End
 
 GO
--- procedure to edit profile as student
+-- 6) b) procedure to edit profile as student
 CREATE PROC editMyProfile
     @studentID INT,
     @firstName VARCHAR(10),
@@ -596,7 +596,7 @@ WHERE id = @studentID
 
 GO
 
--- As a Gucian graduate, add my undergraduate ID
+-- 6) c) As a Gucian graduate, add my undergraduate ID
 
 CREATE PROC addUndergradID
     @studentID INT,
@@ -617,7 +617,7 @@ END
 
 GO
 
--- As a nonGucian student, view my courses' grades
+-- 6) d) As a nonGucian student, view my courses' grades
 
 CREATE PROC ViewCoursesGrades
     @studentID INT
@@ -628,7 +628,7 @@ WHERE student_id = @studentID;
 
 GO
 
--- View all my payments and installments
+-- 6) e) View all my payments and installments
 
 CREATE PROC ViewCoursePaymentsInstall
     @studentID INT
@@ -674,7 +674,7 @@ WHERE P.student_id = @studentID AND I.is_paid = 0
 
 GO
 
--- Add and fill my progress report(s)
+-- 6) f) Add and fill my progress report(s)
 
 CREATE PROC AddProgressReport
     @thesisSerialNo INT,
@@ -698,7 +698,7 @@ WHERE thesis_serial_number = @thesisSerialNo AND report_number = @progressReport
 
 GO
 
--- View my progress report(s) evaluations
+-- 6) g) View my progress report(s) evaluations
 
 CREATE PROC ViewEvalProgressReport
     @thesisSerialNo INT,
@@ -710,7 +710,7 @@ WHERE thesis_serial_number = @thesisSerialNo AND report_number = @progressReport
 
 GO
 
--- Add publication
+-- 6) h) Add publication
 
 CREATE PROC addPublication
     @title VARCHAR(50),
