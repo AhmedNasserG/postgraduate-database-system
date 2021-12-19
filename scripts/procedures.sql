@@ -544,14 +544,13 @@ WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 GO
 -- procedure to add comments for defense
 CREATE PROC AddCommentsGrade
-    @ExaminerID INT ,
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
     @comments VARCHAR(300)
 AS
 UPDATE EXAMINED_BY
 SET comments = @comments
-WHERE examiner_id = @ExaminerID AND thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 
 GO
 -- procedure to view my profile as student

@@ -129,7 +129,7 @@ EXEC AddDefenseGrade 5 ,'3/4/2021' , 75
 
 GO
 
-EXEC AddCommentsGrade  14,8, '3/3/2022','great'
+EXEC AddCommentsGrade  8, '3/3/2022','great'
 
 GO
 
