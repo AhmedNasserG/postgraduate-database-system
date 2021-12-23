@@ -1,13 +1,11 @@
 const sql = require('mssql');
 
-const studentRegister = async (
+const supervisorRegister = async (
   firstName,
   lastName,
   email,
-  address,
   faculty,
-  password,
-  type
+  password
 ) => {
   // make sure that any items are correctly URL encoded in the connection string
   const request = new sql.Request();
@@ -15,13 +13,11 @@ const studentRegister = async (
   request.input('last_name', sql.VarChar, lastName);
   request.input('password', sql.VarChar, password);
   request.input('faculty', sql.VarChar, faculty);
-  request.input('Gucian', sql.Bit, type);
   request.input('email', sql.VarChar, email);
-  request.input('address', sql.VarChar, address);
-  request.execute('StudentRegister');
+  request.execute('SupervisorRegister');
   //sql.close()
 };
 
 module.exports = {
-  studentRegister
+  supervisorRegister
 };

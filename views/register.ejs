@@ -13,7 +13,6 @@
 
 <body>
     <div class="wrapper fadeInDown">
-        <h2>Register to GUC post graduate System</h2>
         <div id="formContent">
             <!-- Pills navs -->
             <ul class="nav nav-pills nav-justified mb-3 " id="ex1" role="tablist">
@@ -80,27 +79,27 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="pills-supervisor" role="tabpanel" aria-labelledby="tab-subervisor">
-                    <form>
+                    <form method="POST" action="/register/supervisor">
                         <!-- First name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="supervisor-first-name" class="form-control"
+                            <input type="text" id="supervisor-first-name" name = "firstName" class="form-control"
                                 placeholder="First name" />
                         </div>
                         <!-- Last name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="supervisor-last-name" class="form-control" placeholder="Last name" />
+                            <input type="text" id="supervisor-last-name" name = "lastName" class="form-control" placeholder="Last name" />
                         </div>
                         <!-- Email -->
                         <div class="md-form fadeIn second">
-                            <input type="email" id="supervisor-email" class="form-control" placeholder="Email" />
+                            <input type="email" id="supervisor-email" class="form-control"  name = "email" placeholder="Email" />
                         </div>
                         <!-- Faculty -->
                         <div class="md-form fadeIn second">
-                            <input type="text" id="supervisor-faculty" class="form-control" placeholder="Faculty" />
+                            <input type="text" id="supervisor-faculty" name = "faculty" class="form-control" placeholder="Faculty" />
                         </div>
                         <!-- Password -->
                         <div class="md-form fadeIn third">
-                            <input type="password" id="supervisor-password" class="form-control"
+                            <input type="password" id="supervisor-password" name = "password" class="form-control"
                                 placeholder="Password" />
                         </div>
                         <!-- Register -->
@@ -112,37 +111,37 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="pills-examiner" role="tabpanel" aria-labelledby="tab-examiner">
-                    <form>
+                    <form method="POST" action="register/examiner">
                         <!-- First name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="supervisor-first-name" class="form-control"
+                            <input type="text" id="examiner-first-name" name = 'firstName' class="form-control"
                                 placeholder="First name" />
                         </div>
                         <!-- Last name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="supervisor-last-name" class="form-control" placeholder="Last name" />
+                            <input type="text" id="examiner-last-name" name = 'lastName' class="form-control" placeholder="Last name" />
                         </div>
                         <!-- Email -->
                         <div class="md-form fadeIn second">
-                            <input type="email" id="supervisor-email" class="form-control" placeholder="Email" />
+                            <input type="email" id="examiner-email" name = 'email' class="form-control" placeholder="Email" />
                         </div>
                         <!-- Field of work -->
                         <div class="md-form fadeIn second">
-                            <input type="text" id="supervisor-faculty" class="form-control"
+                            <input type="text" id="examiner-fieldOfWork" name = 'fieldOfWork' class="form-control"
                                 placeholder="Field of work" />
                         </div>
                         <!-- Password -->
                         <div class="md-form fadeIn third">
-                            <input type="password" id="supervisor-password" class="form-control"
+                            <input type="password" id="examiner-password" name = 'password' class="form-control"
                                 placeholder="Password" />
                         </div>
                         <!-- Type -->
                         <div class="btn-group fadeIn third" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="national" autocomplete="off"
+                            <input type="radio" class="btn-check" name="type" id="national" value = "1" autocomplete="off"
                                 checked>
                             <label class="btn btn-outline-secondary" for="national">National</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="international" autocomplete="off">
+                            <input type="radio" class="btn-check" name="type" id="international" value = "0" autocomplete="off">
                             <label class="btn btn-outline-secondary" for="international">International</label>
                         </div>
                         <!-- Register -->
@@ -158,6 +157,14 @@
         <!-- Pills content -->
     </div>
 </body>
+<%if(typeof ok !=='undefined' && ok == 'no'){%>
+<script>
+         studentEmail = document.getElementById('student-email')
+         studentEmail.style.borderColor = 'red';
+         studentEmail.setCustomValidity("this email is already registered"); 
+</script>
+<%}%>
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>

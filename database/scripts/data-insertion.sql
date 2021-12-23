@@ -5,20 +5,20 @@ GO
 -- Users' Insertions
 
 INSERT INTO USERS
-VALUES('qwerty');
+VALUES('qwerty', 'ahmed@email.com');
 
 INSERT INTO STUDENT
-VALUES(1, 'Ahmed', 'Nasser', 'Engineering', 1.7, 'ahmed@email.com',
+VALUES(1, 'Ahmed', 'Nasser', 'Engineering', 1.7,
                 'Masters', 'Nasr city');
 
 INSERT INTO NON_GUCIAN
 VALUES(1);
 
 INSERT INTO USERS
-VALUES('asdfg');
+VALUES('asdfg', 'abdulaziz@email.com');
 
 INSERT INTO STUDENT
-VALUES(2, 'Abdulaziz', 'Alamri', 'BI', 1.0, 'abdulaziz@email.com', 'Masters',
+VALUES(2, 'Abdulaziz', 'Alamri', 'BI', 1.0, 'Masters',
                 'Al mokattam');
 
 INSERT INTO GUCIAN
@@ -26,30 +26,30 @@ INSERT INTO GUCIAN
 VALUES(2);
 
 INSERT INTO USERS
-VALUES('zxcv');
+VALUES('zxcv', 'omar@email.com');
 
 INSERT INTO STUDENT
-VALUES(3, 'Omar', 'Galal', 'Pharmacy', 2.3, 'omar@email.com', 'Phd',
+VALUES(3, 'Omar', 'Galal', 'Pharmacy', 2.3, 'Phd',
                 'Madinty');
 
 INSERT INTO NON_GUCIAN
 VALUES(3);
 
 INSERT INTO USERS
-VALUES('as1234');
+VALUES('as1234', 'mohamed@email.com');
 
 INSERT INTO STUDENT
-VALUES(4, 'Mohamed', 'Hassan', 'MGT', 3.0, 'mohamed@email.com', 'Phd',
+VALUES(4, 'Mohamed', 'Hassan', 'MGT', 3.0, 'Phd',
                 'Al tagamoaa');
 
 INSERT INTO NON_GUCIAN
 VALUES(4);
 
 INSERT INTO USERS
-VALUES('ag2345');
+VALUES('ag2345', 'michael@email.com');
 
 INSERT INTO STUDENT
-VALUES(5, 'Michael', 'Zakhary', 'EMS', 3.2, 'michael@email.com', 'Masters',
+VALUES(5, 'Michael', 'Zakhary', 'EMS', 3.2, 'Masters',
                 'Nasr City');
 
 INSERT INTO GUCIAN
@@ -57,10 +57,10 @@ INSERT INTO GUCIAN
 VALUES(5);
 
 INSERT INTO USERS
-VALUES('alalsdhf');
+VALUES('alalsdhf', 'jasmine@email.com');
 
 INSERT INTO STUDENT
-VALUES(6, 'Jasmine', 'Yasser', 'BI', 2.7, 'jasmine@email.com', 'Phd',
+VALUES(6, 'Jasmine', 'Yasser', 'BI', 2.7, 'Phd',
                 'Al tagamoaa');
 
 INSERT INTO GUCIAN
@@ -68,20 +68,20 @@ INSERT INTO GUCIAN
 VALUES(6);
 
 INSERT INTO USERS
-VALUES('asdfg');
+VALUES('asdfg', 'philo@email.com');
 
 INSERT INTO STUDENT
-VALUES(7, 'Philo', 'Hany', 'Civil', 0.9, 'philo@email.com', 'Phd',
+VALUES(7, 'Philo', 'Hany', 'Civil', 0.9, 'Phd',
                 'New Cairo');
 
 INSERT INTO NON_GUCIAN
 VALUES(7);
 
 INSERT INTO USERS
-VALUES('sdlfhjashdfohdsa');
+VALUES('sdlfhjashdfohdsa', 'youssef@gmail.com');
 
 INSERT INTO STUDENT
-VALUES(8, 'Youssef', 'Marwan', 'Arch', 1.8, 'youssef@gmail.com', 'Masters',
+VALUES(8, 'Youssef', 'Marwan', 'Arch', 1.8, 'Masters',
                 'El Sahel');
 
 INSERT INTO GUCIAN
@@ -89,47 +89,47 @@ INSERT INTO GUCIAN
 VALUES(8);
 
 INSERT INTO USERS
-VALUES('asdfghj');
+VALUES('asdfghj', 'prof.Mervat@email.com');
 
 INSERT INTO SUPERVISOR
-VALUES(9, 'Mervat', 'Abouelkhair', 'MET', 'prof.Mervat@email.com',
+VALUES(9, 'Mervat', 'Abouelkhair', 'MET',
                 'Alexandria');
 
 INSERT INTO USERS
-VALUES('sadascca');
+VALUES('sadascca', 'milad@email.com');
 
 INSERT INTO SUPERVISOR
-VALUES(10, 'Milad', 'Ghantous', 'EMS', 'milad@email.com',
+VALUES(10, 'Milad', 'Ghantous', 'EMS',
                 'Al Mansoura');
 
 INSERT INTO USERS
-VALUES('51sa12asdsa');
+VALUES('51sa12asdsa', 'shimaa@email.com');
 
 INSERT INTO SUPERVISOR
-VALUES(11, 'Shimmaa', 'Ahmed', 'BI', 'shimaa@email.com', 'Cairo');
+VALUES(11, 'Shimmaa', 'Ahmed', 'BI', 'Cairo');
 
 INSERT INTO USERS
-VALUES('55adssadasac221');
+VALUES('55adssadasac221', 'haytham-automata@email.com');
 
 INSERT INTO SUPERVISOR
-VALUES(12, 'Haytham', 'turing', 'MET', 'haytham-automata@email.com',
+VALUES(12, 'Haytham', 'turing', 'MET',
                 'Saudi Arabia');
 
 INSERT INTO USERS
-VALUES('6656asds25466as@dsad');
+VALUES('6656asds25466as@dsad', 'slim-constraint@email.com');
 
 INSERT INTO SUPERVISOR
-VALUES(13, 'Slim', 'Abdennadher', 'MET', 'slim-constraint@email.com',
+VALUES(13, 'Slim', 'Abdennadher', 'MET',
                 'Sfax');
 
 INSERT INTO USERS
-VALUES('jadhfgjhasdfh');
+VALUES('jadhfgjhasdfh', 'ibrahim@gmail');
 
 INSERT INTO EXAMINER
 VALUES(14, 'Ibrahim Abou Elenein', 0, 'String theory');
 
 INSERT INTO USERS
-VALUES('asdhfawhrfihraw');
+VALUES('asdhfawhrfihraw', 'omneya.Rabie@guc');
 
 INSERT INTO EXAMINER
 VALUES(15, 'Omneya Rabie', 1, 'Database Design');

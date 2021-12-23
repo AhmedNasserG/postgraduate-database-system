@@ -7,7 +7,6 @@ EXEC StudentRegister 'mazen', 'Nasr', 'student123', 'MET', 0, 'ahmed@student.guc
 GO
 
 EXEC SupervisorRegister 'Rami', 'Younes', 'supervisor123', 'MET', 'rami@guc.edu.eg'
-
 GO
 
 DECLARE @success INT

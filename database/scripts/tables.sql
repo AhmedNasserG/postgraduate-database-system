@@ -1,14 +1,15 @@
+--drop dataBase pg_database
 CREATE DATABASE pg_database;
 
 GO
 
 USE pg_database;
-
 -- Create Users Table
 CREATE TABLE USERS
 (
     id INT IDENTITY PRIMARY KEY,
     password VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- Create Admin Table
@@ -29,7 +30,6 @@ CREATE TABLE STUDENT
         gpa >= 0.7
             AND gpa <= 5
     ),
-    email VARCHAR(50) NOT NULL,
     type VARCHAR(10),
     address VARCHAR(50) NOT NULL,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -67,7 +67,6 @@ CREATE TABLE SUPERVISOR
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20),
     faculty VARCHAR(20) NOT NULL,
-    email VARCHAR(50) NOT NULL,
     address VARCHAR(50),
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
@@ -199,7 +198,7 @@ CREATE TABLE DEFENSE
 CREATE TABLE EXAMINER
 (
     id INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     is_national BIT NOT NULL,
     field_of_work VARCHAR(20) NOT NULL,
     FOREIGN KEY (id) REFERENCES USERS(id) ON DELETE CASCADE ON UPDATE CASCADE

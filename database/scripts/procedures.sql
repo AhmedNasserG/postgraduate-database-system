@@ -17,7 +17,7 @@ AS
 INSERT INTO
     USERS
 values
-    (@password)
+    (@password, @email)
 
 DECLARE @id INT = SCOPE_IDENTITY()
 
@@ -28,7 +28,6 @@ INSERT INTO
     first_name,
     last_name,
     faculty,
-    email,
     address
     )
 VALUES
@@ -37,7 +36,6 @@ VALUES
         @first_name,
         @last_name,
         @faculty,
-        @email,
         @address
     )
 
@@ -71,18 +69,42 @@ AS
 INSERT INTO
     USERS
 VALUES
-    (@password)
+    (@password, @email)
 
 INSERT INTO
     SUPERVISOR
-    (id, first_name, last_name, faculty, email)
+    (id, first_name, last_name, faculty)
 VALUES
     (
         SCOPE_IDENTITY(),
         @first_name,
         @last_name,
-        @faculty,
-        @email
+        @faculty
+    )
+GO
+
+CREATE PROC ExaminerRegister
+    @name VARCHAR(20),
+    @fieldOfWork VARCHAR(20),
+    @National BIT,
+    @email VARCHAR(50),
+    @password VARCHAR(50)
+
+AS
+INSERT INTO
+    USERS
+VALUES
+    (@password, @email)
+
+INSERT INTO
+    EXAMiNER
+    (id, name, is_national,field_of_work)
+VALUES
+    (
+        SCOPE_IDENTITY(),
+        @name,
+        @National,
+        @fieldOFWork
     )
 
 -- Registered user
@@ -586,12 +608,12 @@ UPDATE STUDENT
 SET first_name = @firstName,
 LAST_NAME = @lastName,
 ADDRESS = @address,
-EMAIL = @email,
 TYPE = @type
 WHERE id = @studentID
 
 UPDATE USERS 
-SET PASSWORD = @password
+SET PASSWORD = @password,
+email = @email
 WHERE id = @studentID
 
 GO
