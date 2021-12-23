@@ -7,7 +7,7 @@ const session = require('express-session');
 const sql = require('mssql');
 const sqlConfig = {
   user: 'sa',
-  password: 'Password123',
+  password: '',
   database: 'pg_database',
   server: 'localhost',
   pool: {
@@ -24,7 +24,6 @@ const connect = async () => {
   try {
     // make sure that any items are correctly URL encoded in the connection string
     await sql.connect(sqlConfig);
-    const request = new sql.Request();
   } catch (err) {
     console.log(err.message);
   }
@@ -33,6 +32,8 @@ const connect = async () => {
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
 const studentRoute = require('./routes/student');
+const supervisorRoute = require('./routes/supervisor');
+const examinerRoute = require('./routes/examiner');
 const app = express();
 
 // view engine setup
@@ -53,6 +54,9 @@ app.use(express.static('public'));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
+app.use('/student',studentRoute)
+app.use('/supervisor',supervisorRoute)
+app.use('/examiner',examinerRoute)
 
 app.listen(
   4000,

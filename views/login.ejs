@@ -21,9 +21,14 @@
             </div>
 
             <!-- Login Form -->
-            <form>
-                <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-                <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+            <form method="POST" action="/">
+                <input type="email" id="email" class="fadeIn second" name="email" placeholder="email">
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                <%if (typeof verify !== 'undefined' && verify === 'no'){%>
+                <div class="alert alert-danger" role="alert">
+                    Wrong email or password 
+                  </div>
+                  <%}%>
                 <input type="submit" class="fadeIn fourth btn btn-primary" value="Log In">
             </form>
 

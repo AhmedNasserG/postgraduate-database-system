@@ -1,6 +1,5 @@
 --drop dataBase pg_database
 CREATE DATABASE pg_database;
-
 GO
 
 USE pg_database;

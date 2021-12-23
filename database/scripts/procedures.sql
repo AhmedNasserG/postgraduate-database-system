@@ -112,20 +112,50 @@ VALUES
 GO
 -- 2) a) Login
 CREATE PROC userLogin
-    @id INT,
+    @email VARCHAR(50),
     @password VARCHAR(20),
-    @success BIT OUTPUT
+    @success BIT OUTPUT,
+    @id INT OUTPUT
 As
 IF EXISTS (SELECT *
 FROM USERS
-WHERE id = @id AND password = @password)
+WHERE email = @email AND password = @password)
 BEGIN
+    SELECT @id = id
+    FROM USERS
+    where  email = @email
+
     SET @success = 1
 END
 ELSE 
 BEGIN
     SET @success = 0
 END
+GO
+-- get type of the user 
+CREATE PROCEDURE TypeOFUser
+    @id INT,
+    @type INT OUTPUT
+AS
+IF EXISTS (select *
+FROM STUDENT
+where id=@id)
+BEGIN
+    set @type = 0
+END
+ELSE IF EXISTS (SELECT *
+FROM SUPERVISOR
+where id =@id)
+BEGIN
+    SET @type = 1
+END
+ELSE IF EXISTS (SELECT *
+FROM EXAMINER
+where id = @id)
+BEGIN
+    SET @type = 2
+END 
+
 
 GO
 -- 2) b) Adding mobile numbers
