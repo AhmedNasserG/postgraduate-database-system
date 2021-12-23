@@ -13,11 +13,12 @@
 
 <body>
     <div class="wrapper fadeInDown">
+        <h2>Register to GUC post graduate System</h2>
         <div id="formContent">
             <!-- Pills navs -->
-            <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+            <ul class="nav nav-pills nav-justified mb-3 " id="ex1" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active " id="tab-student" data-mdb-toggle="pill" data-toggle="tab"
+                    <a class="nav-link active" id="tab-student" data-mdb-toggle="pill" data-toggle="tab"
                         href="#pills-student" role="tab" aria-controls="pills-student" aria-selected="true">Student</a>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -36,39 +37,39 @@
             <!-- Student -->
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="pills-student" role="tabpanel" aria-labelledby="tab-student">
-                    <form>
+                    <form method="POST" action="/register/student">
                         <!-- First name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="student-first-name" class="form-control" placeholder="First name" />
+                            <input type="text" id="student-first-name" name="firstName" class="form-control" placeholder="First name" />
                         </div>
                         <!-- Last name -->
                         <div class="md-form fadeIn first">
-                            <input type="text" id="student-last-name" class="form-control" placeholder="Last name" />
+                            <input type="text" id="student-last-name" name="lastName" class="form-control" placeholder="Last name" />
                         </div>
                         <!-- Email -->
                         <div class="md-form fadeIn second">
-                            <input type="email" id="student-email" class="form-control" placeholder="Email" />
+                            <input type="email" id="student-email" name="email" class="form-control" placeholder="Email" />
                         </div>
                         <!-- Faculty -->
                         <div class="md-form fadeIn second">
-                            <input type="text" id="student-faculty" class="form-control" placeholder="Faculty" />
+                            <input type="text" id="student-faculty" name="faculty" class="form-control" placeholder="Faculty" />
                         </div>
                         <!-- Address -->
                         <div class="md-form fadeIn third">
-                            <input type="text" id="student-address" class="form-control" placeholder="Address" />
+                            <input type="text" id="student-address" name="address" class="form-control" placeholder="Address" />
                         </div>
                         <!-- Password -->
                         <div class="md-form fadeIn third">
-                            <input type="password" id="student-password" class="form-control" placeholder="Password" />
+                            <input type="password" id="student-password" name="password" class="form-control" placeholder="Password" />
                         </div>
                         <!-- Type -->
                         <div class="btn-group fadeIn fourth" role="group" aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" name="btnradio" id="gucian" autocomplete="off"
+                            <input type="radio" class="btn-check" name="type" id="gucian" autocomplete="off" value="1"
                                 checked>
-                            <label class="btn btn-outline-primary" for="gucian">GUCian</label>
+                            <label class="btn btn-outline-secondary" for="gucian">GUCian</label>
 
-                            <input type="radio" class="btn-check" name="btnradio" id="non-gucian" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="non-gucian">Non GUCian</label>
+                            <input type="radio" class="btn-check" name="type" id="non-gucian" autocomplete="off" value = "0">
+                            <label class="btn btn-outline-secondary" for="non-gucian" >Non GUCian</label>
                         </div>
                         <!-- Register -->
                         <div class="fadeIn fourth" style="padding-top: 5px;">
@@ -139,10 +140,10 @@
                         <div class="btn-group fadeIn third" role="group" aria-label="Basic radio toggle button group">
                             <input type="radio" class="btn-check" name="btnradio" id="national" autocomplete="off"
                                 checked>
-                            <label class="btn btn-outline-primary" for="national">National</label>
+                            <label class="btn btn-outline-secondary" for="national">National</label>
 
                             <input type="radio" class="btn-check" name="btnradio" id="international" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="international">International</label>
+                            <label class="btn btn-outline-secondary" for="international">International</label>
                         </div>
                         <!-- Register -->
                         <div class="fadeIn fourth" style="padding-top: 5px;">
