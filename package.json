@@ -15,5 +15,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mssql": "^7.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.5.0"
   }
 }

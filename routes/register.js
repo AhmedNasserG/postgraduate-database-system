@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const studentProcedures = require('../procedures/studentProcedures');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
-const examinerProcedures = require('../procedures/examinerProcedures')
+const examinerProcedures = require('../procedures/examinerProcedures');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -51,9 +51,9 @@ router.post('/supervisor', function (req, res) {
       faculty,
       password
     );
-    res.redirect('/')
+    res.redirect('/');
   } catch (error) {
-    res.render('register',{ok:no})
+    res.render('register', { ok: no });
   }
 });
 
@@ -64,7 +64,7 @@ router.post('/examiner', function (req, res) {
   const email = req.body.email;
   const fieldOfWork = req.body.fieldOfWork;
   const password = req.body.password;
-  const type = req.body.type
+  const type = req.body.type;
   // console.log(req.body)
   try {
     examinerProcedures.examinerRegister(
@@ -75,9 +75,9 @@ router.post('/examiner', function (req, res) {
       type,
       fieldOfWork
     );
-    res.redirect('/')
+    res.redirect('/');
   } catch (error) {
-    res.render('register',{ok:no})
+    res.render('register', { ok: no });
   }
 });
 module.exports = router;
