@@ -28,6 +28,7 @@ h2 {
 .logo {
   width: 30% !important;
   padding: 5%;
+  margin: 10px;
 }
 
 .md-form {
@@ -284,4 +285,32 @@ input[type='text']:placeholder {
 
 #icon {
   width: 60%;
+}
+
+#email,
+#password {
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+  width: 80%;
+  font-size: 13px;
+  outline: invert;
+}
+
+#email:focus,
+#password:focus {
+  border-bottom: 2px solid #56baed;
+}
+
+#login {
+  margin: 20px 50px 50px 50px;
+  border-radius: 10px;
+}
+
+#icon-span {
+  padding: 6px 12px;
+  color: #56baed;
+}
+
+#formFooter {
+  border-radius: 10px;
 }
