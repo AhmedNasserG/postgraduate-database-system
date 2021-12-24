@@ -1,5 +1,9 @@
+:root {
+  --bg-color: #56baed;
+}
+
 html {
-  background-color: #56baed;
+  background-color: var(--bg-color);
 }
 
 body {
@@ -85,7 +89,7 @@ h2.active {
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-  background-color: #56baed;
+  background-color: var(--bg-color);
   border: none;
   color: white;
   padding: 15px 80px;
@@ -233,6 +237,11 @@ input[type='text']:placeholder {
   animation-duration: 1s;
 }
 
+.fadeIn.zero {
+  -webkit-animation-delay: 0.2s;
+  -moz-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
 .fadeIn.first {
   -webkit-animation-delay: 0.4s;
   -moz-animation-delay: 0.4s;
@@ -298,7 +307,7 @@ input[type='text']:placeholder {
 
 #email:focus,
 #password:focus {
-  border-bottom: 2px solid #56baed;
+  border-bottom: 2px solid var(--bg-color);
 }
 
 #login {
@@ -308,9 +317,23 @@ input[type='text']:placeholder {
 
 #icon-span {
   padding: 6px 12px;
-  color: #56baed;
+  color: var(--bg-color);
 }
 
 #formFooter {
   border-radius: 10px;
+}
+
+.nav-link.nav-link {
+  color: var(--bg-color);
+}
+.nav-link.nav-link.active {
+  background-color: var(--bg-color);
+  color: #fff;
+}
+
+#register-button {
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  border-color: white;
 }
