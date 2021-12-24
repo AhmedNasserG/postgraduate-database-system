@@ -54,4 +54,5 @@
 ## Design
 - [Color scheme](https://colorhunt.co/palette/f0f5f9c9d6df52616b1e2022)
 - [sidebar](https://codepen.io/jainharshit/pen/bGBRyLP)
+- [icons](https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
 
