@@ -5,9 +5,10 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const sql = require('mssql');
+require('dotenv').config();
 const sqlConfig = {
-  user: 'sa',
-  password: '',
+  user: process.env.DB_USER_ADMIN,
+  password: process.env.DB_PASS_ADMIN,
   database: 'pg_database',
   server: 'localhost',
   pool: {
@@ -54,9 +55,9 @@ app.use(express.static('public'));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
-app.use('/student',studentRoute)
-app.use('/supervisor',supervisorRoute)
-app.use('/examiner',examinerRoute)
+app.use('/student', studentRoute);
+app.use('/supervisor', supervisorRoute);
+app.use('/examiner', examinerRoute);
 
 app.listen(
   4000,
