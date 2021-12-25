@@ -1,5 +1,4 @@
 USE pg_database;
-
 GO
 drop user linearDepression1
 -- Unregisetered user
@@ -585,6 +584,7 @@ WHERE DEFENSE.thesis_serial_number = @ThesisSerialNo
 UPDATE THESIS
 SET grade = @grade
 WHERE serial_number = @ThesisSerialNo
+
 GO
 CREATE PROC ShowExaminerTheses
     @examiner_id int
@@ -658,6 +658,15 @@ UPDATE USERS
 SET PASSWORD = @password,
 email = @email
 WHERE id = @studentID
+
+GO
+
+CREATE PROC viewAllMyTheses
+    @studentID INT
+AS
+SELECT *
+FROM THESIS
+WHERE student_id = @studentID
 
 GO
 
@@ -797,3 +806,37 @@ CREATE PROC linkPubThesis
 AS
 INSERT INTO PUBLISHED_FOR
 VALUES(@pubID, @thesisSerialNo);
+
+GO
+
+CREATE PROC AddAndLinkPubThesis
+    @title VARCHAR(50),
+    @pubDate DATETIME,
+    @host VARCHAR(50),
+    @place VARCHAR(50),
+    @accepted BIT,
+    @thesisSerialNo INT
+AS
+INSERT INTO PUBLICATION
+VALUES(@title, @pubDate, @place, @host, @accepted);
+
+INSERT INTO PUBLISHED_FOR
+VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
+
+-- GO
+
+-- CREATE PROC viewMyPublications
+--     @studentId INT
+-- AS
+-- SELECT *
+-- FROM PUBLICATION P
+-- WHERE P.student_id = @studentId;
+
+GO
+
+CREATE PROC viewMyReports
+    @studentId INT
+AS
+SELECT R.*
+FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
+WHERE T.student_id = @studentId
