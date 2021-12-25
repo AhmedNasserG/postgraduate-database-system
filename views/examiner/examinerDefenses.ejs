@@ -1,4 +1,5 @@
 <%- include('examinerDashboardHeader.ejs') %>
+
 <div class="row m-2">
     <% for(var i=0;i < Defenses.length;i++){ %>
       <div class="card mb-3 col-4 m-2">
@@ -12,16 +13,41 @@
             <%=Defenses[i].defense_date%> <br>
               <strong>location </strong>
               <%=Defenses[i].location%>
+              <br>
+              <strong>Grade</strong>
+             <%=Defenses[i].grade%>
           </p>
           <form  method="POST" action ='/examiner/addGrade'>
           <div class="input-group mb-3">
             <input type="hidden" name = "Date"  value = <%=Defenses[i].defense_date .toString()%> >
-            <input type="text" class="form-control" placeholder="Add Grade" aria-label="Recipient's username" aria-describedby="button-addon2" name = "grade">
+            <input type="number" max = "100" class="form-control" placeholder="Add Grade" aria-label="Recipient's username" aria-describedby="button-addon2" name = "grade">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%>>Add </button>
+          </div>
+        </form>
+        <form  method="POST" action ='/examiner/addComment'>
+          <div class="input-group mb-3">
+            <input type="hidden" name = "Date"  value = <%=Defenses[i].defense_date .toString()%> >
+            <input type="text" maxlength= "300" class="form-control" placeholder="Add Comment" aria-label="Recipient's username" aria-describedby="button-addon2" name = "comment">
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%>>Add </button>
           </div>
         </form>
         </div>
       </div>
       <%}%>
+
+
+</div>
+<% if (toast === 'yes') {%>
+  <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
+    <div class="d-flex">
+      <div class="toast-body">
+      <%=message%>
+     </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
   </div>
+  <%}%> 
+
+ 
+  
   <%- include('../dashboardFooter.ejs') %>

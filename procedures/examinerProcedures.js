@@ -41,16 +41,32 @@ const addGrade = async (
   grade
 ) =>{
   const request = new sql.Request()
-  const r = '3/3/2021'
   request.input('ThesisSerialNo',sql.Int,thesisSerialNo)
   request.input('DefenseDate' ,defenseDate)
   request.input('grade',sql.Decimal,grade)
   return request.execute('AddDefenseGrade')
 
 }
+const addComment = async (
+  id,
+  thesisSerialNo,
+  defenseDate,
+  comment
+) =>{
+  const request = new sql.Request()
+  console.log(thesisSerialNo)
+
+  request.input('examiner_id',sql.Int,id)
+  request.input('ThesisSerialNo',sql.Int,thesisSerialNo)
+  request.input('DefenseDate' ,defenseDate)
+  request.input('comments',sql.VarChar,comment)
+  return request.execute('AddCommentsGrade')
+
+}
 module.exports = {
   examinerRegister,
   showExaminerTheses,
   showExaminerDefenses,
-  addGrade
+  addGrade,
+  addComment
 };
