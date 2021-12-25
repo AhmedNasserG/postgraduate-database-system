@@ -2,7 +2,10 @@
 
 # AUTH
 To login as supervisor use 
+
 `email` : `slim-constraint@email.com`
+
+
 `password` : `6656asds25466as@dsad`
 
 ## Project Structure 
