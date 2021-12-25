@@ -15,7 +15,8 @@ router.post('/', function (req, res) {
       if (response.output.success == false) {
         res.render('login', { verify: 'no' });
       } else {
-        req.session.id = response.output.id;
+        req.session.userId = response.output.id;
+        console.log(req.session.userId)
         userProcedures.userType(response.output.id).then(response => {
           if (response.output.type == 0) {
             req.session.type = 0;

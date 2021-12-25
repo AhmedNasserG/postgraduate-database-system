@@ -22,11 +22,21 @@ body {
   background-color: var(--side-bar);
   transition: 0.5s;
 }
-
+.nav-link {
+  color: var(--body);
+}
+.anchor-nav{
+  text-decoration: none;
+  color: var(--body);
+}
+.anchor-nav:hover{
+  color: var(--body);
+}
 .nav-link:active,
 .nav-link:focus,
 .nav-link:hover {
   background-color: #ffffff26;
+  color : var(--body)
 }
 
 .my-container {

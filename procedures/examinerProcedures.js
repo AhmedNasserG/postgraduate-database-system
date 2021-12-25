@@ -19,6 +19,15 @@ const examinerRegister = async (
   //sql.close()
 };
 
+const showExaminerTheses = async (
+  examinerId
+) =>{
+  const request = new sql.Request();
+  request.input('examiner_id',sql.Int,examinerId)
+  return request.execute('ShowExaminerTheses')
+}
+
 module.exports = {
-  examinerRegister
+  examinerRegister,
+  showExaminerTheses
 };

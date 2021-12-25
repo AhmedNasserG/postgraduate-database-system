@@ -63,8 +63,22 @@
       <nav class="navbar op-navbar navbar-light bg-light px-5">
         <a class="btn border-0" id="menu-btn"><i class="bx bx-menu"></i></a>
       </nav>
-      <!--End Top Nav -->
       
+      <!--End Top Nav -->
+      <div class = "row m-2" >
+        <% for(var i = 0;i < Theses.length;i++){ %>
+            <div class="card mb-3 col-4 m-2">
+                <div class="card-body">
+                   <span><h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+                    <%=Theses[i].title%></h5> </span>
+                  <p class="card-text"><br><strong>Supervisor Name </strong> <%=Theses[i].supervisor_name%> <br> 
+                  <strong>Student Name </strong> <%=Theses[i].student_name%>
+                </p>
+            
+                </div>
+              </div>       
+        <%}%>   
+    </div>
     </div>
 
     <!-- bootstrap js -->
