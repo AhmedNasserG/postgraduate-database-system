@@ -1,0 +1,81 @@
+<%- include('adminDashboardHeader.ejs') %>
+<br>
+<button type="button" class="btn btn-primary" style="margin-left: 15px;">
+  ON GOING THESES <span class="badge bg-secondary"><%= numOfOnGoing %> </span>
+</button>
+
+<div class="row m-2">
+  <% theses.forEach(thesis=> { %>
+
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+          <%=thesis.title%>
+          </h5>
+      </span>
+      <p class="card-text">
+        <br>
+        <strong>Field: </strong>
+        <%=thesis.field%>
+        <br>
+        <strong>Type: </strong>
+        <% if (thesis.type) { %>
+        PHD
+        <% } else { %>
+        MASTER
+        <% } %>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          more info
+        </button>
+
+
+        <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                <%=thesis.title%>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <strong>Field: </strong>
+              <%=thesis.field%>
+              <br>
+              <strong>Type: </strong>
+              <% if (thesis.type) { %>
+              PHD
+              <% } else { %>
+              MASTER
+              <% } %>
+              <br>
+              <strong>Start Date: </strong>
+              <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
+              <br>
+              <strong>End Date: </strong>
+              <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+              <br>
+              <strong>Duration: </strong>
+              <%= thesis.duration %> days
+              <br>
+              <strong>Seminar Date: </strong>
+              <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+              <br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <% }); %>
+</div>
+<%- include('../dashboardFooter.ejs') %>

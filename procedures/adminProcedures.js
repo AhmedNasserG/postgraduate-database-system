@@ -1,11 +1,23 @@
 const sql = require('mssql');
 
 const listSupervisors = async () => {
-  // make sure that any items are correctly URL encoded in the connection string
   const request = new sql.Request();
   return request.execute('AdminListSup');
-  //sql.close()
 };
+
+const listTheses = async () => {
+  const request = new sql.Request();
+  return request.execute('AdminViewAllTheses');
+};
+
+const numOfOnGoingTheses = async () => {
+  const request = new sql.Request();
+  request.output('count', sql.int);
+  return request.execute('AdminViewOnGoingTheses');
+};
+
 module.exports = {
-  listSupervisors
+  listSupervisors,
+  listTheses,
+  numOfOnGoingTheses
 };
