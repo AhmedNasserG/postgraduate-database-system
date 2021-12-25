@@ -50,6 +50,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/examiner',express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/student',express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/supervisor',express.static(path.join(__dirname, 'public/stylesheets')));
 
 app.use(express.static('public'));
 
