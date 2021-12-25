@@ -1,7 +1,7 @@
 USE pg_database;
 
 GO
-
+drop user linearDepression1
 -- Unregisetered user
 
 -- 1) a) Student 
