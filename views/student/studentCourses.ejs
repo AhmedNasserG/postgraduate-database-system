@@ -1,0 +1,52 @@
+<%- include('studentDashboardHeader.ejs', {isGucian : isGucian}) %> 
+
+<div class="row m-2">
+  <% courses.forEach(course=> { %>
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+          <%= course.code%>
+          </h5>
+      </span>
+      <p class="card-text">
+        <br>
+        <strong>Credit Hours : </strong>
+        <%=course.credit_hours %>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%= course.id %>">
+          more info
+        </button>
+        <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop<%= course.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+             <h5 class="modal-title" id="staticBackdropLabel">
+                <%= course.code %>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <strong>Credit Hours : </strong>
+              <%=course.credit_hours %>
+              <br>
+              <strong>Course Fees : </strong>
+              <%= course.fees %>
+              <br>
+              <strong>Grade: </strong>
+              <%= course.grade %> / 100
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }); %>
+</div>
+
+<%- include('../dashboardFooter.ejs') %>
