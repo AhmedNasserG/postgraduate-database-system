@@ -132,6 +132,7 @@ BEGIN
     SET @success = 0
 END
 GO
+
 -- get type of the user 
 CREATE PROCEDURE TypeOFUser
     @id INT,
@@ -155,7 +156,12 @@ where id = @id)
 BEGIN
     SET @type = 2
 END 
-
+ELSE IF EXISTS (SELECT *
+FROM ADMIN
+where id = @id)
+BEGIN
+    SET @type = 3
+END 
 
 GO
 -- 2) b) Adding mobile numbers

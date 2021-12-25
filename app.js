@@ -32,6 +32,7 @@ const connect = async () => {
 // routes
 const loginRoute = require('./routes/login');
 const registerRoute = require('./routes/register');
+const adminRoute = require('./routes/admin');
 const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
@@ -50,14 +51,21 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/examiner',express.static(path.join(__dirname, 'public/stylesheets')));
-app.use('/student',express.static(path.join(__dirname, 'public/stylesheets')));
-app.use('/supervisor',express.static(path.join(__dirname, 'public/stylesheets')));
+app.use(
+  '/examiner',
+  express.static(path.join(__dirname, 'public/stylesheets'))
+);
+app.use('/student', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use(
+  '/supervisor',
+  express.static(path.join(__dirname, 'public/stylesheets'))
+);
 
 app.use(express.static('public'));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
+app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);

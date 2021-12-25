@@ -16,8 +16,9 @@ router.post('/', function (req, res) {
         res.render('login', { verify: 'no' });
       } else {
         req.session.userId = response.output.id;
-        console.log(req.session.userId)
+        console.log(req.session.userId);
         userProcedures.userType(response.output.id).then(response => {
+          console.log(response.output.type);
           if (response.output.type == 0) {
             req.session.type = 0;
             res.redirect('/student');
@@ -27,6 +28,9 @@ router.post('/', function (req, res) {
           } else if (response.output.type == 2) {
             req.session.type = 2;
             res.redirect('/examiner');
+          } else if (response.output.type == 3) {
+            req.session.type = 3;
+            res.redirect('/admin');
           }
         });
       }
