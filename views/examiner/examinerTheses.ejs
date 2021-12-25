@@ -1,0 +1,23 @@
+<%- include('examinerDashboardHeader.ejs') %>
+
+  <div class="row m-2">
+    <% for(var i=0;i < Theses.length;i++){ %>
+      <div class="card mb-3 col-4 m-2">
+        <div class="card-body">
+          <span>
+            <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+              <%=Theses[i].title%>
+                </h5>
+          </span>
+          <p class="card-text"><br><strong>Supervisor Name </strong>
+            <%=Theses[i].supervisor_name%> <br>
+              <strong>Student Name </strong>
+              <%=Theses[i].student_name%>
+          </p>
+
+        </div>
+      </div>
+      <%}%>
+  </div>
+
+  <%- include('../dashboardFooter.ejs') %>
