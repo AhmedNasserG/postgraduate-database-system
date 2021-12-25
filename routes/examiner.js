@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
  /* if(req.session.type !==2){
     res.redirect('/')
   }*/
-  res.render('examinerDashboard');
+  res.render('examiner/examinerDashboard');
 });
 
 router.get('/theses', function (req,res){
@@ -18,7 +18,7 @@ router.get('/theses', function (req,res){
   console.log(id)
   examinerProcedures.showExaminerTheses(id).then(response =>{
     console.log(response.recordset)
-    res.render('examinerTheses' , {Theses : response.recordset})
+    res.render('examiner/examinerTheses' , {Theses : response.recordset})
   })
 })
 module.exports = router;
