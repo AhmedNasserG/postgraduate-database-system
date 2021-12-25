@@ -27,7 +27,30 @@ const showExaminerTheses = async (
   return request.execute('ShowExaminerTheses')
 }
 
+const showExaminerDefenses = async (
+  examinerId
+)=>{
+  const request = new sql.Request();
+  request.input('examiner_id',sql.Int, examinerId)
+  return request.execute('ShowExaminerDefense')
+}
+
+const addGrade = async (
+  thesisSerialNo,
+  defenseDate,
+  grade
+) =>{
+  const request = new sql.Request()
+  const r = '3/3/2021'
+  request.input('ThesisSerialNo',sql.Int,thesisSerialNo)
+  request.input('DefenseDate' ,defenseDate)
+  request.input('grade',sql.Decimal,grade)
+  return request.execute('AddDefenseGrade')
+
+}
 module.exports = {
   examinerRegister,
-  showExaminerTheses
+  showExaminerTheses,
+  showExaminerDefenses,
+  addGrade
 };
