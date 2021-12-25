@@ -620,7 +620,8 @@ SET grade = @grade
 WHERE thesis_serial_number = @ThesisSerialNo  and defense_date = @date
 
 GO
-
+exec AddCommentsGrade 14 , 2,'3/3/2021','ghghg'
+drop proc AddCommentsGrade
 -- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
     @examiner_id int,
