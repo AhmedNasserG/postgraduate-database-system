@@ -1,6 +1,6 @@
 USE pg_database;
 GO
-drop user linearDepression1
+-- drop user linearDepression1
 -- Unregisetered user
 
 -- 1) a) Student 
@@ -794,7 +794,12 @@ CREATE PROC addPublication
     @accepted BIT
 AS
 INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
 VALUES(@title, @pubDate, @place, @host, @accepted);
+
+INSERT INTO STUDENT_ADD_PUBLICATION
+    (publication_id)
+VALUES(SCOPE_IDENTITY());
 
 GO
 
@@ -818,25 +823,26 @@ CREATE PROC AddAndLinkPubThesis
     @thesisSerialNo INT
 AS
 INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
 VALUES(@title, @pubDate, @place, @host, @accepted);
 
 INSERT INTO PUBLISHED_FOR
 VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
 
--- GO
+GO
 
--- CREATE PROC viewMyPublications
---     @studentId INT
--- AS
--- SELECT *
--- FROM PUBLICATION P
--- WHERE P.student_id = @studentId;
+CREATE PROC viewMyPublications
+    @studentId INT
+AS
+SELECT *
+FROM PUBLICATION P INNER JOIN STUDENT_ADD_PUBLICATION SP ON P.id = SP.publication_id
+WHERE SP.student_id = @studentId;
 
 GO
 
 CREATE PROC viewMyReports
     @studentId INT
 AS
-SELECT R.*
+SELECT *
 FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
 WHERE T.student_id = @studentId
