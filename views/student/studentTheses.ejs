@@ -1,4 +1,4 @@
-<%- include('studentDashboardHeader.ejs', {isGucian : isGucian}) %> 
+<%- include('studentDashboardHeader.ejs', {isGucian : isGucian}) %>
 
 <div class="row m-2">
   <% theses.forEach(thesis=> { %>
@@ -22,52 +22,69 @@
         <% } %>
         <br>
         <br>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%= thesis.serial_number %>">
-          more info
+        <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%=thesis.serial_number%>">
+          <i class="fas fa-info"></i> More Info
         </button>
-        <button type="button" class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#exampleModalReport<%= thesis.serial_number %>">
+        <button type="button" class='btn btn-primary view-btn' data-bs-toggle="modal" data-bs-target="#exampleModalReport<%= thesis.serial_number %>">
             <i class="far fa-plus-square"></i>
             <span class="mx-2">Add Progress Report</span>
         </button>
-
-        <!-- Thesis Modal -->
-      <div class="modal fade" id="staticBackdrop<%= thesis.serial_number %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop<%=thesis.serial_number%>" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">
+              <h5 class="modal-title" id="">
                 <%=thesis.title%>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <strong>Field: </strong>
-              <%=thesis.field%>
-              <br>
-              <strong>Type: </strong>
-              <% if (thesis.type) { %>
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td>Field </td>
+            <td><%=thesis.field%></td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>    <% if (thesis.type) { %>
               PHD
               <% } else { %>
               MASTER
-              <% } %>
-              <br>
-              <strong>Start Date: </strong>
-              <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>End Date: </strong>
+              <% } %></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-calendar-day"></i> Start Date</td>
+              <td><%= moment(thesis.start_date).format('Do MMMM, YYYY') %></td>
+          </tr>
+          <tr>
+          <td><i class="fas fa-calendar-day"></i> End Date</td>
+          <td>
               <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>Duration: </strong>
+          </td></tr>
+          <tr>
+            <td> <i class="far fa-clock"></i> Duration</td>
+            <td>
               <%= thesis.duration %> days
-              <br>
-              <strong>Seminar Date: </strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <i class="fas fa-calendar-day"></i> Seminar Date
+            </td>
+            <td>
               <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>Number Of Extensions: </strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Number of Extensions
+            </td>
+            <td>
               <%= thesis.number_of_extensions %>
-              <br>
-              <strong>Grade: </strong>
-              <%= thesis.grade %> / 100
+            </td>
+          </tr>
+        </table>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -75,29 +92,30 @@
           </div>
         </div>
       </div>
-      <!-- Reprt Modal -->
-<div class="modal fade" id="exampleModalReport<%= thesis.serial_number %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Progress Report</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="/student/<%= thesis.serial_number %>/report">
-          <div class="mb-3">
-            <label for="report-date" class="col-form-label">Report Date :</label>
-            <input type="date" class="form-control" id="report-date" name="date">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+                            <!-- Reprt Modal -->
+                            <div class="modal fade" id="exampleModalReport<%= thesis.serial_number %>" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add Progress Report</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="/student/<%= thesis.serial_number %>/report">
+                                                <div class="mb-3">
+                                                    <label for="report-date" class="col-form-label">Report Date :</label>
+                                                    <input type="date" class="form-control" id="report-date" name="date">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     </div>
   </div>
   <% }); %>

@@ -3,40 +3,47 @@
 <div class="row m-2">
   <% courses.forEach(course=> { %>
   <div class="card mb-3 col-4 m-2">
-    <div class="card-body">
+    
+  <div class="card-body">
       <span>
-        <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
-          <%= course.code%>
+        <h4 class="card-title "><i class="fas fa-book-open"></i>
+          <%=course.code%>
           </h5>
       </span>
       <p class="card-text">
         <br>
-        <strong>Credit Hours : </strong>
-        <%=course.credit_hours %>
+        <strong>Credit Hours: </strong>
+        <%=course.credit_hours%>
         <br>
         <br>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%= course.id %>">
-          more info
+        <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%=course.id%>">
+          <i class="fas fa-info"></i> More Info
         </button>
         <!-- Modal -->
-      <div class="modal fade" id="staticBackdrop<%= course.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+      <div class="modal fade" id="staticBackdrop<%=course.id%>" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
-             <h5 class="modal-title" id="staticBackdropLabel">
-                <%= course.code %>
+              <h5 class="modal-title" id="">
+                <%=course.code%>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <strong>Credit Hours : </strong>
-              <%=course.credit_hours %>
-              <br>
-              <strong>Course Fees : </strong>
-              <%= course.fees %>
-              <br>
-              <strong>Grade: </strong>
-              <%= course.grade %> / 100
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td>Credit Hours: </td>
+            <td><%=course.credit_hours%></td>
+          </tr>
+          <tr>
+            <td>Course Fees: </td>
+            <td><%= course.fees %></td>
+          </tr>
+          <tr>
+            <td>Grade: </td>
+              <td><%= course.grade %></td>
+          </tr>
+        </table>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
