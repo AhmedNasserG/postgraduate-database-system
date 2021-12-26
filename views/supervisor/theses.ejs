@@ -1,0 +1,131 @@
+<%- include('supervisorDashboardHeader.ejs') %>
+
+
+
+<div class="row m-2">
+  <% theses.forEach(thesis=> { %>
+
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+          <%=thesis.title%>
+          </h5>
+      </span>
+      <p class="card-text">
+        <br>
+        <strong>Field: </strong>
+        <%=thesis.field%>
+        <br>
+        <strong>Type: </strong>
+        <% if (thesis.type) { %>
+        PHD
+        <% } else { %>
+        MASTER
+        <% } %>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%=thesis.serial_number%>">
+          <i class="fas fa-info"></i> More Info
+        </button>
+        <button type="button" class="btn btn-primary view-btn" >
+          <i class="fas fa-user-shield"></i> Add Defence
+        </button>
+
+
+        <!-- Modal -->
+      <div class="modal fade" id="staticBackdrop<%=thesis.serial_number%>" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">
+                <%=thesis.title%>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td>Felid </td>
+            <td><%=thesis.field%></td>
+          </tr>
+          <tr>
+            <td>Type</td>
+            <td>    <% if (thesis.type) { %>
+              PHD
+              <% } else { %>
+              MASTER
+              <% } %></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-calendar-day"></i> Start Date</td>
+              <td><%= moment(thesis.start_date).format('Do MMMM, YYYY') %></td>
+          </tr>
+          <tr>
+          <td><i class="fas fa-calendar-day"></i> End Date</td>
+          <td>
+              <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+          </td></tr>
+          <tr>
+            <td> <i class="far fa-clock"></i> Duration</td>
+            <td>
+              <%= thesis.duration %> days
+            </td>
+          </tr>
+          <tr>
+            <td>
+            <i class="fas fa-calendar-day"></i> Seminar Date
+            </td>
+            <td>
+              <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Number of Extensions
+            </td>
+            <td>
+              <%= thesis.number_of_extensions %>
+            </td>
+          </tr>
+        </table>
+              <!-- <strong>Field: </strong>
+              <%=thesis.field%>
+              <br>
+              <strong>Type: </strong>
+              <% if (thesis.type) { %>
+              PHD
+              <% } else { %>
+              MASTER
+              <% } %>
+              <br>
+              <strong>Start Date: </strong>
+              <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
+              <br>
+              <strong>End Date: </strong>
+              <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+              <br>
+              <strong>Duration: </strong>
+              <%= thesis.duration %> days
+              <br>
+              <strong>Seminar Date: </strong>
+              <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+              <br>
+              <strong>Number Of Extensions: </strong>
+              <%= thesis.number_of_extensions %> -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <% }); %>
+</div>
+
+<%- include('../dashboardFooter.ejs') %>

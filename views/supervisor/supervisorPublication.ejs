@@ -1,0 +1,47 @@
+<%- include('supervisorDashboardHeader.ejs') %>
+
+<div class="row m-2">
+  <% publications.forEach(publication => { %>
+
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <p class="card-title text-name" style="text-align: center">
+          <i class="fas fa-user colored-icon"></i>
+
+          <%=studentName%>
+        </p>
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td><i class="fas fa-list-ol"></i> ID</td>
+            <td><%=publication.id%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-heading"></i> Title</td>
+            <td><%=publication.title%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-university"></i> Place</td>
+            <td><%= publication.place%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-location-arrow"></i> Host</td>
+            <td><%= publication.host%></td>
+          </tr>
+          <tr>
+            <td><i class="far fa-clock"></i> Date</td>
+            <td><%= publication.publication_date.toLocaleDateString()%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-check-square"></i> Accepted</td>
+            <td><%= publication.is_accepted%></td>
+          </tr>
+        </table>
+      </span>
+    </div>
+  </div>
+
+  <% }); %>
+</div>
+
+<%- include('../dashboardFooter.ejs') %>

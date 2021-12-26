@@ -4,7 +4,7 @@ GO
 drop user linearDepression1
 -- Unregisetered user
 
--- 1) a) Student 
+-- 1) a) Student
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
     @last_name VARCHAR(20),
@@ -127,13 +127,13 @@ BEGIN
 
     SET @success = 1
 END
-ELSE 
+ELSE
 BEGIN
     SET @success = 0
 END
 GO
 
--- get type of the user 
+-- get type of the user
 CREATE PROCEDURE TypeOFUser
     @id INT,
     @type INT OUTPUT
@@ -155,13 +155,13 @@ FROM EXAMINER
 where id = @id)
 BEGIN
     SET @type = 2
-END 
+END
 ELSE IF EXISTS (SELECT *
 FROM ADMIN
 where id = @id)
 BEGIN
     SET @type = 3
-END 
+END
 
 GO
 -- 2) b) Adding mobile numbers
@@ -231,7 +231,7 @@ SELECT stu.first_name, stu.last_name, c.code, t.grade
 FROM NON_GUCIAN n INNER JOIN TAKEN_BY t ON n.id = t.student_id
     INNER JOIN STUDENT stu ON stu.id = t.student_id
     INNER JOIN COURSE c ON c.id = t.course_id
-WHERE c.id = @course_id 
+WHERE c.id = @course_id
 
 GO
 -- 3) g) Update the number of thesis extension by 1.
@@ -438,11 +438,12 @@ AS
 DECLARE @current_date DATE
 SET @current_date = GETDATE()
 SELECT
-    ST.first_name + ST.last_name AS name,
+    ST.first_name + ' ' +  ST.last_name AS name,
     DATEDIFF(year, T.start_date, (SELECT MIN(X)
     FROM (VALUES
             (@current_date),
             (T.end_date)) AS VALUE(X))) AS years
+    , ST.id AS student_id
 FROM
     SUPERVISOR S INNER JOIN SUPERVISED SD ON
     S.id = SD.supervisor_id
@@ -475,7 +476,7 @@ UPDATE SUPERVISOR
 
 GO
 
--- 4) d)  procedure to find all publication related to a student 
+-- 4) d)  procedure to find all publication related to a student
 CREATE PROC ViewAStudentPublications
     @StudentId INT
 AS
@@ -522,7 +523,7 @@ END
 ELSE
 BEGIN
     PRINT('Student must pass all courses ')
-END    
+END
 
 GO
 
@@ -539,7 +540,7 @@ SELECT @examiner_id = id
 FROM EXAMINER
 WHERE name = @ExaminerName AND field_of_work = @fieldOfWork AND is_national = @National
 
-IF (@examiner_id IS NOT NULL ) 
+IF (@examiner_id IS NOT NULL )
 BEGIN
     INSERT INTO EXAMINED_BY
         (examiner_id, thesis_serial_number, defense_date)
@@ -568,7 +569,7 @@ IF EXISTS (SELECT E.report_number
 FROM EVALUATED_BY E
 WHERE E.report_number = @latest_report_number AND E.evaluation = 0)
 BEGIN
-    DELETE FROM THESIS 
+    DELETE FROM THESIS
     WHERE THESIS.serial_number = @ThesisSerialNo
 END
 select *
@@ -601,7 +602,7 @@ CREATE PROC AddDefenseGrade
     @grade DECIMAL(5, 2)
 AS
 UPDATE DEFENSE
-SET grade = @grade 
+SET grade = @grade
 WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
 
 GO
@@ -647,14 +648,14 @@ CREATE PROC editMyProfile
     @address VARCHAR(10),
     @type VARCHAR(10)
 AS
-UPDATE STUDENT 
+UPDATE STUDENT
 SET first_name = @firstName,
 LAST_NAME = @lastName,
 ADDRESS = @address,
 TYPE = @type
 WHERE id = @studentID
 
-UPDATE USERS 
+UPDATE USERS
 SET PASSWORD = @password,
 email = @email
 WHERE id = @studentID
@@ -789,7 +790,7 @@ VALUES(@title, @pubDate, @place, @host, @accepted);
 
 GO
 
--- 6) i) Link publication to my thesis 
+-- 6) i) Link publication to my thesis
 
 CREATE PROC linkPubThesis
     @pubID INT,
@@ -797,3 +798,15 @@ CREATE PROC linkPubThesis
 AS
 INSERT INTO PUBLISHED_FOR
 VALUES(@pubID, @thesisSerialNo);
+
+
+-- get all thesis a supervisor supervise
+CREATE PROC viewSupThesis
+    @supervisor_id INT
+AS
+SELECT T.*
+FROM
+    SUPERVISOR S INNER JOIN SUPERVISED S1 ON S.id = S1.supervisor_id
+    INNER JOIN THESIS T ON S1.thesis_serial_number = T.serial_number
+WHERE S.id = @supervisor_id;
+

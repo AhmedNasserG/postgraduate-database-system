@@ -468,7 +468,7 @@ INSERT INTO EXAMINED_BY
 VALUES
         (14, 3, '2/2/2021', 'amazing work')
 
--- publication Insertion 
+-- publication Insertion
 INSERT INTO PUBLICATION
 VALUES
         ('Further Research for Computer Architecture', '2/2/2021', 'Cairo', 'IEEE Conference', 1)
@@ -513,3 +513,15 @@ VALUES
 INSERT INTO ADMIN
 VALUES
         (SCOPE_IDENTITY());
+
+exec addPublication 'String Theroy 7th Diminstion',
+'2/2/2021',
+'Cairo',
+'IEEE Conference',
+1;
+
+SELECT *
+FROM PUBLICATION;
+INSERT INTO PUBLISHED_FOR VALUES(1002, 9);
+
+EXEC ViewAStudentPublications @studentId = 8;

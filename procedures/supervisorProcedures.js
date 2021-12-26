@@ -18,6 +18,25 @@ const supervisorRegister = async (
   //sql.close()
 };
 
+const supervisorViewStudents = async supervisorId => {
+  const request = new sql.Request();
+  request.input('supervisor_id', sql.Int, supervisorId);
+  return request.execute('ViewSupStudentsYears');
+};
+
+const supervisorViewStudentPublications = async studentId => {
+  const request = new sql.Request();
+  request.input('studentId', sql.Int, studentId);
+  return request.execute('ViewAStudentPublications');
+};
+const supervisorViewThesis = async supervisorId => {
+  const request = new sql.Request();
+  request.input('supervisor_id', sql.Int, supervisorId);
+  return request.execute('viewSupThesis');
+};
 module.exports = {
-  supervisorRegister
+  supervisorRegister,
+  supervisorViewStudents,
+  supervisorViewStudentPublications,
+  supervisorViewThesis
 };
