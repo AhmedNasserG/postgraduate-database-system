@@ -43,11 +43,15 @@ router.get('/courses', (req, res) => {
 });
 
 router.get('/progressReports', (req, res) => {
-  const userId = req.session.userId;
+  const id = req.session.userId;
   const isGucian = req.session.isGucian;
-  studentProcedures.viewMyReports(userId).then((response) => {
+  studentProcedures.viewMyReports(id).then((response) => {
     const reports = response.recordset;
-    res.render('student/studentReports', { reports: reports, isGucian: isGucian })
+    res.render('student/studentReports', {
+      reports: reports,
+      isGucian: isGucian,
+      moment: moment
+    })
   })
 })
 
@@ -86,5 +90,24 @@ router.post('/:thesisSerialNumber/report', (req, res) => {
     res.redirect('/student/theses');
   }
 });
+
+/* Fill Progress Report */
+router.post('/:thesisSerialNumber/:reportNumber/report', (req, res) => {
+  const state = req.body.state;
+  const description = req.body.description;
+  const thesisSerialNumber = req.params.thesisSerialNumber;
+  const reportNumber = req.params.reportNumber;
+  try {
+    studentProcedures.fillProgressReport(
+      thesisSerialNumber,
+      reportNumber,
+      state,
+      description
+    )
+    res.redirect('/student/progressReports');
+  } catch (err) {
+    res.redirect('/student/progressReports');
+  }
+})
 
 module.exports = router;
