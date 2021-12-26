@@ -2,7 +2,6 @@ const express = require('express');
 const moment = require('moment');
 const router = express.Router();
 const adminProcedures = require('../procedures/adminProcedures');
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('admin/adminDashboard');
@@ -21,13 +20,30 @@ router.get('/theses', function (req, res) {
   });
 
   adminProcedures.listTheses().then(response => {
-    console.log(response.recordset);
     res.render('admin/theses', {
       theses: response.recordset,
       numOfOnGoing: numOfOnGoing,
       moment: moment
     });
   });
+});
+
+router.post('/:thesis_serial_number/issue-payment', function (req, res) {
+  adminProcedures
+    .issueThesisPayment(
+      req.params.thesis_serial_number,
+      req.body.amount,
+      req.body.numOfInstallments,
+      req.body.fundPercentage
+    )
+    .then(response => {
+      if (response.output.success) {
+        console.log('payment issued successfully');
+      } else {
+        console.log('payment failed');
+      }
+      res.redirect('/admin/theses');
+    });
 });
 
 module.exports = router;
