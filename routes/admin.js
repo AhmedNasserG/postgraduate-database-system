@@ -46,6 +46,25 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
     });
 });
 
+router.post(
+  '/:thesis_serial_number/issue-payment-installment',
+  function (req, res) {
+    adminProcedures
+      .getThesisPaymentId(req.params.thesis_serial_number)
+      .then(response => {
+        adminProcedures
+          .issueThesisPaymentInstallment(
+            response.output.payment_id,
+            req.body.installmentDate
+          )
+          .then(response => {
+            console.log('payment installment issued successfully');
+            res.redirect('/admin/theses');
+          });
+      });
+  }
+);
+
 router.post('/:thesis_serial_number/update-extension', function (req, res) {
   adminProcedures
     .updateExtension(req.params.thesis_serial_number)

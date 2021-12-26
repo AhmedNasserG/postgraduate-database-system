@@ -289,6 +289,18 @@ SET @success = 0
 
 GO
 
+CREATE PROC GetThesisPaymentId
+    @thesis_serial_number INT,
+    @payment_id INT OUTPUT
+AS
+SET @payment_id = (
+SELECT payment_id
+FROM THESIS
+WHERE serial_number = @thesis_serial_number
+)
+
+GO
+
 -- 3) i) view the profile of any student that contains all his/her information.
 CREATE PROC  AdminViewStudentProfile
     @student_id INT

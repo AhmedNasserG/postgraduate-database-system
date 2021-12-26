@@ -89,6 +89,7 @@
             </div>
             <div class="modal-body">
               <button class="btn btn-primary" data-bs-target="#issuePaymentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
+              <button class="btn btn-primary" data-bs-target="#issuePaymentInstallmentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
               <button class="btn btn-primary" data-bs-target="#updateExtension" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
             </div>
             <div class="modal-footer">
@@ -140,6 +141,32 @@
         </div>
       </div>
 
+      <!-- issue payment Installment modal -->
+      <div class="modal fade" id="issuePaymentInstallmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Issue Payment Installment
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/<%=thesis.serial_number%>/issue-payment-installment" method="post">
+                <!-- Installment date -->
+                <div class="form-group">
+                  <label for="installmentDate">Installment Date</label>
+                  <input type="date" class="form-control" id="installmentDate" name="installmentDate" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- update extension modal -->
       <div class="modal fade" id="updateExtension" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

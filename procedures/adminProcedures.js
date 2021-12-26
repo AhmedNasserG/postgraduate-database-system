@@ -31,6 +31,13 @@ const issueThesisPayment = async (
   return request.execute('AdminIssueThesisPayment');
 };
 
+const getThesisPaymentId = async thesis_serial_number => {
+  const request = new sql.Request();
+  request.input('thesis_serial_number', sql.Int, thesis_serial_number);
+  request.output('payment_id', sql.Int);
+  return request.execute('GetThesisPaymentId');
+};
+
 const issueThesisPaymentInstallment = async (payment_id, installment_date) => {
   const request = new sql.Request();
   request.input('payment_id', sql.Int, payment_id);
@@ -49,6 +56,7 @@ module.exports = {
   listTheses,
   numOfOnGoingTheses,
   issueThesisPayment,
+  getThesisPaymentId,
   issueThesisPaymentInstallment,
   updateExtension
 };
