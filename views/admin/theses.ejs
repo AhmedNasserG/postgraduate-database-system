@@ -27,12 +27,15 @@
         <% } %>
         <br>
         <br>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          more info
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moreInfo">
+          More Info
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateThesis">
+          Update
         </button>
 
         <!-- info Modal -->
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="moreInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -68,12 +71,33 @@
               <%= thesis.number_of_extensions %>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-primary" data-bs-target="#issuePaymentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- update Modal -->
+      <div class="modal fade" id="updateThesis" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                <%=thesis.title%>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary" data-bs-target="#issuePaymentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
+              <button class="btn btn-primary" data-bs-target="#updateExtension" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <!-- issue payment modal -->
       <div class="modal fade" id="issuePaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -110,6 +134,30 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- update extension modal -->
+      <div class="modal fade" id="updateExtension" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Update Extension
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/<%=thesis.serial_number%>/update-extension" method="post">
+                Are you sure you want to update the extension?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-primary">Yes</button>
               </form>
             </div>
           </div>

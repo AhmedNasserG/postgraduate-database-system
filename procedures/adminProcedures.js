@@ -49,5 +49,6 @@ module.exports = {
   listTheses,
   numOfOnGoingTheses,
   issueThesisPayment,
-  issueThesisPaymentInstallment
+  issueThesisPaymentInstallment,
+  updateExtension
 };

@@ -46,4 +46,13 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
     });
 });
 
+router.post('/:thesis_serial_number/update-extension', function (req, res) {
+  adminProcedures
+    .updateExtension(req.params.thesis_serial_number)
+    .then(response => {
+      console.log('extension updated successfully');
+      res.redirect('/admin/theses');
+    });
+});
+
 module.exports = router;
