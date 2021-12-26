@@ -59,7 +59,6 @@ app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
-app.use('/supervisor/students', express.static('public'));
 
 const port = process.env.PORT || 4000;
 app.listen(

@@ -1,9 +1,6 @@
 USE pg_database;
 
 GO
-drop user linearDepression1
--- Unregisetered user
-
 -- 1) a) Student
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
@@ -800,6 +797,7 @@ INSERT INTO PUBLISHED_FOR
 VALUES(@pubID, @thesisSerialNo);
 
 
+go
 -- get all thesis a supervisor supervise
 CREATE PROC viewSupThesis
     @supervisor_id INT
@@ -809,4 +807,22 @@ FROM
     SUPERVISOR S INNER JOIN SUPERVISED S1 ON S.id = S1.supervisor_id
     INNER JOIN THESIS T ON S1.thesis_serial_number = T.serial_number
 WHERE S.id = @supervisor_id;
+
+
+go
+
+CREATE PROC is_GUCian
+    @thesisSerialNo INT,
+    @output INT OUTPUT
+AS
+IF EXISTS (SELECT id
+from THESIS T inner join GUCIAN G on T.student_id = G.id
+where T.serial_number = @thesisSerialNo)
+BEGIN
+    SET @output = 1
+END
+ELSE
+BEGIN
+    SET @output = 0
+END
 

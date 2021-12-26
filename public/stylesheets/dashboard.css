@@ -60,7 +60,7 @@ body {
   margin-left: -62px;
 }
 
-.my-container input {
+.my-container {
   border-radius: 2rem;
   padding: 2px 20px;
 }
@@ -91,15 +91,13 @@ body {
 
 .view-btn {
   background-color: var(--side-bar);
-  color: #fff;
-  border-radius: 10px;
-  border-color: var(--body);
+  border-radius: 8px;
+  border-color: var(--side-bar);
 }
 
 .view-btn:hover {
   background-color: var(--body);
   color: var(--side-bar);
-  border-color: var(--black);
 }
 .view-btn:active {
   background-color: var(--white);
@@ -122,3 +120,10 @@ body {
   margin: 10px;
 } */
 
+.form-control {
+  border-radius: 10px;
+}
+
+.form-control:active {
+  border-color: var(--side-bar);
+}

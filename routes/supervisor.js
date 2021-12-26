@@ -18,10 +18,32 @@ router.get('/students', function (req, res) {
   });
 });
 
+router.post('/theses/:serial_number', function (req, res) {
+  const serialNumber = req.params.serial_number;
+  const location = req.body.location;
+  const date = moment(req.body.date).format('YYYY-MM-DD');
+  console.log(date);
+  console.log(serialNumber);
+  console.log(location);
+  supervisorProcedures.isGucian(serialNumber).then(response => {
+    response.output.toString() === '1'
+      ? supervisorProcedures.supervisorAddDefenseGUCian(
+          serialNumber,
+          location,
+          date
+        )
+      : supervisorProcedures.supervisorAddDefenseNonGUCian(
+          serialNumber,
+          location,
+          date
+        );
+  });
+
+  res.redirect('/supervisor/theses');
+});
 router.get('/theses', function (req, res) {
   const supervisorId = req.session.userId;
   supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
-    console.log(response.recordset);
     res.render('supervisor/theses', {
       theses: response.recordset,
       moment: moment
