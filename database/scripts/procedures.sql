@@ -138,12 +138,21 @@ CREATE PROCEDURE TypeOFUser
     @type INT OUTPUT
 AS
 IF EXISTS (select *
-FROM STUDENT
+FROM GUCIAN
 where id=@id)
 BEGIN
     set @type = 0
 END
-ELSE IF EXISTS (SELECT *
+    ELSE IF EXISTS(
+        SELECT *
+FROM NON_GUCIAN
+WHERE id = @id
+    )
+    BEGIN
+    SET @type = 4
+END
+ELSE
+IF EXISTS (SELECT *
 FROM SUPERVISOR
 where id =@id)
 BEGIN
@@ -754,9 +763,20 @@ CREATE PROC AddProgressReport
     @thesisSerialNo INT,
     @progressReportDate DATE
 AS
-INSERT INTO REPORT
-    (thesis_serial_number, report_date)
-VALUES(@thesisSerialNo, @progressReportDate);
+IF EXISTS(
+    SELECT *
+FROM REPORT R
+WHERE R.thesis_serial_number = R.report_date
+)
+BEGIN
+    RAISERROR('A Progress report already belongs to this thesis', 0, 1)
+END
+ELSE
+BEGIN
+    INSERT INTO REPORT
+        (thesis_serial_number, report_date)
+    VALUES(@thesisSerialNo, @progressReportDate);
+END
 
 GO
 
@@ -831,6 +851,11 @@ VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
 
 GO
 
+
+-- <a href
+-- ="" class="" style="color: #52616b"
+--               ><i class="fas fa-link"></i
+--             ></a>
 CREATE PROC viewMyPublications
     @studentId INT
 AS
@@ -846,3 +871,15 @@ AS
 SELECT *
 FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
 WHERE T.student_id = @studentId
+
+USE pg_database;
+SELECT *
+FROM PUBLICATION;
+SELECT *
+FROM PUBLISHED_FOR;
+SELECT *
+FROM STUDENT_ADD_PUBLICATION;
+SELECT *
+FROM USERS;
+SELECT *
+FROM THESIS;
