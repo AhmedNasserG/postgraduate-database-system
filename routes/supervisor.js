@@ -58,7 +58,6 @@ router.post('/students', function (req, res) {
   const studentId = req.body.view.split('(')[0].toString();
   const studentName = req.body.view.split('(')[1].toString();
 
-  // get name form db
   supervisorProcedures
     .supervisorViewStudentPublications(studentId)
     .then(response => {
@@ -68,6 +67,10 @@ router.post('/students', function (req, res) {
         studentName: studentName
       });
     });
+});
+
+router.get('/reports', function (req, res) {
+  res.render('supervisor/reports');
 });
 
 router.post('/cancel/:thesisSerial', (req, res) => {

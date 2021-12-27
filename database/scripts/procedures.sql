@@ -421,6 +421,7 @@ CREATE PROC EvaluateProgressReport
     @progress_report_no INT,
     @evaluation_value INT
 AS
+-- TODO ADD NOT UPDATE
 UPDATE EVALUATED_BY
     SET evaluation = @evaluation_value
     WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no
@@ -484,6 +485,15 @@ WHERE T.student_id = @StudentId
 
 GO
 
+-- get all reports of a all students I supervise
+CREATE PROC ViewAllStudentsReports
+    @supervisor_id INT
+AS
+SELECT R.*
+FROM THESIS T INNER JOIN SUPERVISED SD ON T.serial_number = SD.thesis_serial_number
+    INNER JOIN REPORT R ON T.serial_number = R.thesis_serial_number
+WHERE SD.supervisor_id = @supervisor_id
+Go
 -- 4) e) procedure to add a defense for a gucian student
 CREATE PROC AddDefenseGucian
     @ThesisSerialNo INT ,

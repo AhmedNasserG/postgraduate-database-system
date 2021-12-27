@@ -1,3 +1,6 @@
 <%- include('supervisorDashboardHeader.ejs') %>
+    <% reports.forEach(report=>{ %>
+        <%=report.report_date%>
 
-<%- include('../dashboardFooter.ejs') %>
+            <% });%>
+                <%- include('../dashboardFooter.ejs') %>
