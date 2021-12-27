@@ -15,7 +15,7 @@ const studentRegister = async (
   request.input('last_name', sql.VarChar, lastName);
   request.input('password', sql.VarChar, password);
   request.input('faculty', sql.VarChar, faculty);
-  request.input('Gucian', sql.Bit, type);
+  request.input('Gucian', type);
   request.input('email', sql.VarChar, email);
   request.input('address', sql.VarChar, address);
   request.execute('StudentRegister');
