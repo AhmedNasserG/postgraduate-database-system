@@ -1,10 +1,7 @@
 USE pg_database;
-exec ShowExaminerDefense 14
+
 GO
-drop user linearDepression1
 -- Unregisetered user
-select *
-from USERS
 -- 1) a) Student 
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
@@ -608,18 +605,18 @@ From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_n
     INNER JOIN SUPERVISOR Sup on (Su.supervisor_id = Sup.id) INNER JOIN STUDENT St on (T.student_id = St.id)
 WHERE Ex.examiner_id = @examiner_id
 GO
+
 CREATE Proc ShowExaminerDefense
     @examiner_id int
 AS
-SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade,T.title
+SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade, T.title
 FROM
-    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.thesis_serial_number)
+    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.serial_number)
 where Ex.examiner_id = @examiner_id
 
 GO
-exec AddDefenseGrade 2 , '3/3/2021' , 5
 -- 5) a) procedure for adding a grade to defense
-drop PROCEDURE AddDefenseGrade
+
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
     @DefenseDate varchar(20),

@@ -507,4 +507,10 @@ VALUES
 
 
 
+INSERT INTO USERS
+Values('admin', 'admin@admin.com')
+INSERT INTO ADMIN
+VALUES(SCOPE_IDENTITY());
 
+SELECT *
+FROM USERS;
