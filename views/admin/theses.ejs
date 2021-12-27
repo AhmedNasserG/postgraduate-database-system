@@ -27,48 +27,77 @@
         <% } %>
         <br>
         <br>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moreInfo">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moreInfo<%=thesis.serial_number%>">
           More Info
         </button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateThesis">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateThesis<%=thesis.serial_number%>">
           Update
         </button>
 
-        <!-- info Modal -->
-      <div class="modal fade" id="moreInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+
+        <!-- Info Modal -->
+      <div class="modal fade" id="moreInfo<%=thesis.serial_number%>" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">
+              <h5 class="modal-title" id="">
                 <%=thesis.title%>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <strong>Field: </strong>
-              <%=thesis.field%>
-              <br>
-              <strong>Type: </strong>
-              <% if (thesis.type) { %>
-              PHD
-              <% } else { %>
-              MASTER
-              <% } %>
-              <br>
-              <strong>Start Date: </strong>
-              <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>End Date: </strong>
-              <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>Duration: </strong>
-              <%= thesis.duration %> days
-              <br>
-              <strong>Seminar Date: </strong>
-              <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
-              <br>
-              <strong>Number Of Extensions: </strong>
-              <%= thesis.number_of_extensions %>
+              <table class="table table-striped table-bordered">
+                <tr>
+                  <td><i class="far fa-lightbulb"></i> Field </td>
+                  <td>
+                    <%=thesis.field%>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <i class="fas fa-university"></i> Type</td>
+                  <td>
+                    <% if (thesis.type) { %>
+                    Phd
+                    <% } else { %>
+                    Master
+                    <% } %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-calendar-day"></i> Start Date</td>
+                  <td>
+                    <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-calendar-day"></i> End Date</td>
+                  <td>
+                    <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <i class="far fa-clock"></i> Duration</td>
+                  <td>
+                    <%= thesis.duration %> days
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fas fa-calendar-day"></i> Seminar Date
+                  </td>
+                  <td>
+                    <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fas fa-list"></i> Number of Extensions
+                  </td>
+                  <td>
+                    <%= thesis.number_of_extensions %>
+                  </td>
+                </tr>
+              </table>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -78,7 +107,7 @@
       </div>
 
       <!-- update Modal -->
-      <div class="modal fade" id="updateThesis" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="updateThesis<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -88,9 +117,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <button class="btn btn-primary" data-bs-target="#issuePaymentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
-              <button class="btn btn-primary" data-bs-target="#issuePaymentInstallmentModal" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
-              <button class="btn btn-primary" data-bs-target="#updateExtension" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
+              <button class="btn btn-primary" data-bs-target="#issuePaymentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
+              <button class="btn btn-primary" data-bs-target="#issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
+              <button class="btn btn-primary" data-bs-target="#updateExtension<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -101,7 +130,7 @@
 
 
       <!-- issue payment modal -->
-      <div class="modal fade" id="issuePaymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="issuePaymentModal<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -142,7 +171,7 @@
       </div>
 
       <!-- issue payment Installment modal -->
-      <div class="modal fade" id="issuePaymentInstallmentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -169,7 +198,7 @@
       </div>
 
       <!-- update extension modal -->
-      <div class="modal fade" id="updateExtension" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="updateExtension<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
