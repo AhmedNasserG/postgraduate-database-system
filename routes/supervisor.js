@@ -71,4 +71,12 @@ router.post('/students', function (req, res) {
     });
 });
 
+router.post('/cancel/:thesisSerial', (req, res) => {
+  const thesisSerial = req.params.thesisSerial;
+  supervisorProcedures.supervisorCancelThesis(thesisSerial).then(response => {
+    console.log(response);
+    res.redirect('/supervisor/theses');
+  });
+});
+
 module.exports = router;
