@@ -5,53 +5,62 @@ const studentProcedures = require('../procedures/studentProcedures');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  const isGucian = req.session.isGucian;
-  res.render('student/studentDashboard', { isGucian: isGucian });
+  const type = req.session.type;
+  res.render('student/studentDashboard', { type: type });
 });
 
 router.get('/profile', (req, res) => {
   const id = req.session.userId;
-  const isGucian = req.session.isGucian;
+  const type = req.session.type;
   studentProcedures.viewMyProfile(id).then((response) => {
     const profile = response.recordset[0];
     res.render('student/studentProfile', {
       profile: profile,
-      isGucian: isGucian
+      type: type
     });
   })
 });
 
 router.get('/theses', (req, res) => {
   const id = req.session.userId;
-  const isGucian = req.session.isGucian;
+  const type = req.session.type;
   studentProcedures.viewAllMyTheses(id).then((response) => {
     const theses = response.recordset;
     res.render('student/studentTheses', {
       theses: theses, moment: moment,
-      isGucian: isGucian
+      type: type, today: new Date()
     });
   })
 });
 
 router.get('/courses', (req, res) => {
   const id = req.session.userId;
-  const isGucian = req.session.isGucian;
+  const type = req.session.type;
   studentProcedures.viewCoursesGrades(id).then((response) => {
     const courses = response.recordset;
-    res.render('student/studentCourses', { courses: courses, isGucian: isGucian });
+    res.render('student/studentCourses', { courses: courses, type: type });
   })
 });
 
 router.get('/progressReports', (req, res) => {
   const id = req.session.userId;
-  const isGucian = req.session.isGucian;
+  const type = req.session.type;
   studentProcedures.viewMyReports(id).then((response) => {
     const reports = response.recordset;
     res.render('student/studentReports', {
       reports: reports,
-      isGucian: isGucian,
+      type: type,
       moment: moment
     })
+  })
+});
+
+router.get('/publications', (req, res) => {
+  const id = req.session.userId;
+  const type = req.session.type;
+  studentProcedures.viewMyPublications(id).then((response) => {
+    const publications = response.recordset;
+    res.render('student/studentPublications', { publications: publications, type: type });
   })
 })
 
@@ -80,15 +89,14 @@ router.post('/theses', (req, res) => {
 router.post('/:thesisSerialNumber/report', (req, res) => {
   const date = req.body.date;
   const thesisSerialNumber = req.params.thesisSerialNumber;
-  try {
-    studentProcedures.addProgressReport(
-      thesisSerialNumber,
-      date
-    )
+  studentProcedures.addProgressReport(
+    thesisSerialNumber,
+    date
+  ).then(response => {
     res.redirect('/student/theses');
-  } catch (err) {
-    res.redirect('/student/theses');
-  }
+  }).catch(err => {
+
+  })
 });
 
 /* Fill Progress Report */
@@ -108,6 +116,6 @@ router.post('/:thesisSerialNumber/:reportNumber/report', (req, res) => {
   } catch (err) {
     res.redirect('/student/progressReports');
   }
-})
+});
 
 module.exports = router;

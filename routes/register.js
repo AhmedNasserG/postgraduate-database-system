@@ -30,7 +30,7 @@ router.post('/student', function (req, res) {
       type
     );
     console.log(type);
-    req.session.isGucian = type;
+    req.session.type = type;
     res.redirect('/');
   } catch (err) {
     res.render('register', { ok: 'no' });
