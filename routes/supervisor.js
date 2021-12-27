@@ -63,7 +63,6 @@ router.post('/students', function (req, res) {
     .supervisorViewStudentPublications(studentId)
     .then(response => {
       console.log(response.recordset);
-      // convert date to readable format
       res.render('supervisor/supervisorPublication', {
         publications: response.recordset,
         studentName: studentName
@@ -72,6 +71,8 @@ router.post('/students', function (req, res) {
 });
 
 router.post('/cancel/:thesisSerial', (req, res) => {
+  // TODO: TO BE TESTED
+  // DISABLE THE BUTTON if the last report is not zero
   const thesisSerial = req.params.thesisSerial;
   supervisorProcedures.supervisorCancelThesis(thesisSerial).then(response => {
     console.log(response);
