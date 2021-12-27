@@ -14,16 +14,13 @@ router.get('/supervisors', function (req, res) {
 });
 
 router.get('/theses', function (req, res) {
-  numOfOnGoing = 0;
-  adminProcedures.numOfOnGoingTheses().then(response => {
-    numOfOnGoing = response.output.count;
-  });
-
-  adminProcedures.listTheses().then(response => {
-    res.render('admin/theses', {
-      theses: response.recordset,
-      numOfOnGoing: numOfOnGoing,
-      moment: moment
+  adminProcedures.listTheses().then(thesesResponse => {
+    adminProcedures.numOfOnGoingTheses().then(response => {
+      res.render('admin/theses', {
+        theses: thesesResponse.recordset,
+        numOfOnGoing: response.output.count,
+        moment: moment
+      });
     });
   });
 });
