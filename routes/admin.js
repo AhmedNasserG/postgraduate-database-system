@@ -49,15 +49,21 @@ router.post(
     adminProcedures
       .getThesisPaymentId(req.params.thesis_serial_number)
       .then(response => {
-        adminProcedures
-          .issueThesisPaymentInstallment(
-            response.output.payment_id,
-            req.body.installmentDate
-          )
-          .then(response => {
-            console.log('payment installment issued successfully');
-            res.redirect('/admin/theses');
-          });
+        if (!response.output.payment_id) {
+          console.log(
+            'issue an installment failed because there is not a payment related to the thesis'
+          );
+        } else {
+          adminProcedures
+            .issueThesisPaymentInstallment(
+              response.output.payment_id,
+              req.body.installmentDate
+            )
+            .then(response => {
+              console.log('payment installment issued successfully');
+            });
+        }
+        res.redirect('/admin/theses');
       });
   }
 );
