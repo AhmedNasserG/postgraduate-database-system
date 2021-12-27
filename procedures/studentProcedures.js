@@ -1,5 +1,6 @@
 const req = require('express/lib/request');
 const sql = require('mssql');
+const { RequestError } = require('mssql/lib/base');
 
 const studentRegister = async (
   firstName,
@@ -16,7 +17,7 @@ const studentRegister = async (
   request.input('last_name', sql.VarChar, lastName);
   request.input('password', sql.VarChar, password);
   request.input('faculty', sql.VarChar, faculty);
-  request.input('Gucian', sql.Bit, type);
+  request.input('Gucian', type);
   request.input('email', sql.VarChar, email);
   request.input('address', sql.VarChar, address);
   request.execute('StudentRegister');
@@ -103,6 +104,14 @@ const viewMyReports = async (
   const request = new sql.Request();
   request.input('studentId', sql.Int, studentId);
   return request.execute('viewMyReports');
+};
+
+const viewMyPublications = async (
+  studentId
+) => {
+  const request = new sql.Request();
+  request.input('studentId', sql.Int, studentId);
+  return request.execute('viewMyPublications');
 }
 
 module.exports = {
@@ -114,5 +123,6 @@ module.exports = {
   fillProgressReport,
   addPublication,
   linkPubThesis,
-  viewMyReports
+  viewMyReports,
+  viewMyPublications
 };
