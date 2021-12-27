@@ -8,21 +8,33 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/supervisors', function (req, res) {
-  adminProcedures.listSupervisors().then(response => {
-    res.render('admin/supervisors', { supervisors: response.recordset });
-  });
+  adminProcedures
+    .listSupervisors()
+    .then(response => {
+      res.render('admin/supervisors', { supervisors: response.recordset });
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/');
+    });
 });
 
 router.get('/theses', function (req, res) {
-  adminProcedures.listTheses().then(thesesResponse => {
-    adminProcedures.numOfOnGoingTheses().then(response => {
-      res.render('admin/theses', {
-        theses: thesesResponse.recordset,
-        numOfOnGoing: response.output.count,
-        moment: moment
+  adminProcedures
+    .listTheses()
+    .then(thesesResponse => {
+      adminProcedures.numOfOnGoingTheses().then(response => {
+        res.render('admin/theses', {
+          theses: thesesResponse.recordset,
+          numOfOnGoing: response.output.count,
+          moment: moment
+        });
       });
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect('/');
     });
-  });
 });
 
 router.post('/:thesis_serial_number/issue-payment', function (req, res) {
@@ -39,6 +51,10 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
       } else {
         console.log('payment failed');
       }
+      res.redirect('/admin/theses');
+    })
+    .catch(err => {
+      console.log(err);
       res.redirect('/admin/theses');
     });
 });
@@ -64,6 +80,10 @@ router.post(
             });
         }
         res.redirect('/admin/theses');
+      })
+      .catch(err => {
+        console.log(err);
+        res.redirect('/admin/theses');
       });
   }
 );
@@ -73,6 +93,10 @@ router.post('/:thesis_serial_number/update-extension', function (req, res) {
     .updateExtension(req.params.thesis_serial_number)
     .then(response => {
       console.log('extension updated successfully');
+      res.redirect('/admin/theses');
+    })
+    .catch(err => {
+      console.log(err);
       res.redirect('/admin/theses');
     });
 });
