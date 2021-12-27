@@ -1,4 +1,4 @@
-<%- include('studentDashboardHeader.ejs', {isGucian : isGucian}) %>
+<%- include('studentDashboardHeader.ejs', {type : type}) %>
 
 <div class="row m-2">
   <% theses.forEach(thesis=> { %>
@@ -25,10 +25,17 @@
         <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%=thesis.serial_number%>">
           <i class="fas fa-info"></i> More Info
         </button>
+              <% if (thesis.end_date >= today) { %>
         <button type="button" class='btn btn-primary view-btn' data-bs-toggle="modal" data-bs-target="#exampleModalReport<%= thesis.serial_number %>">
             <i class="far fa-plus-square"></i>
             <span class="mx-2">Add Progress Report</span>
         </button>
+        <% } else { %> 
+        <button type="button" class='btn btn-primary view-btn disabled' disabled>
+            <i class="far fa-plus-square"></i>
+            <span class="mx-2 disabled">Add Progress Report</span>
+        </button>
+<% } %>
         <!-- Modal -->
       <div class="modal fade" id="staticBackdrop<%=thesis.serial_number%>" data-bs-backdrop="static"  tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
