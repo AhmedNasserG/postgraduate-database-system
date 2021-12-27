@@ -1,0 +1,143 @@
+<%- include('studentDashboardHeader.ejs', {type : type}) %>
+<button
+  type="button"
+  class="btn btn-primary view-btn"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  <i class="far fa-plus-square"></i>
+  <span class="mx-2">Add Publication</span>
+</button>
+<div class="row m-2">
+  <% publications.forEach(publication => { %>
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td><i class="fas fa-heading"></i> Title</td>
+            <td><%=publication.title%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-university"></i> Place</td>
+            <td><%= publication.place%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-location-arrow"></i> Host</td>
+            <td><%= publication.host%></td>
+          </tr>
+          <tr>
+            <td><i class="far fa-clock"></i> Date</td>
+            <td><%= publication.publication_date.toLocaleDateString()%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-check-square"></i> Accepted</td>
+            <td><%= publication.is_accepted%></td>
+            <a
+              href=""
+              class=""
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title=" Link Publication"
+              style="color: #52616b; text-decoration: none"
+              ><i class="fas fa-link fa-2x"></i
+            ></a>
+          </tr>
+        </table>
+      </span>
+    </div>
+  </div>
+
+  <% }); %>
+</div>
+<!-- Publication Modal -->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Publication</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/student/theses">
+          <div class="mb-3">
+            <label for="publication-title" class="col-form-label"
+              >Title :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-title"
+              name="title"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-date" class="col-form-label"
+              >Publication Date :</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="publication-date"
+              name="date"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-host" class="col-form-label">Host :</label>
+            <input
+              type="text"
+              class="form-control"
+              id="publication-host"
+              name="host"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-place" class="col-form-label"
+              >Place :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-place"
+              name="place"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-status" class="col-form-label"
+              >Status :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-status"
+              name="status"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../dashboardFooter.ejs') %>
