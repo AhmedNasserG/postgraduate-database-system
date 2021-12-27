@@ -132,3 +132,20 @@ body {
   caption-side: top;
   color: var(--black);
 }
+
+.progress-bar {
+  background-color: darkcyan;
+  border-radius: 20px;
+  font-size: smaller;
+}
+
+.progress {
+  border-radius: 20px;
+  background-color: #f0f5f9;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+#first-progress {
+  margin-bottom: 5px;
+}

@@ -1,6 +1,78 @@
 <%- include('supervisorDashboardHeader.ejs') %>
-    <% reports.forEach(report=>{ %>
-        <%=report.report_date%>
 
-            <% });%>
-                <%- include('../dashboardFooter.ejs') %>
+
+    <div class="row m-2">
+        <% reports.forEach(report=>{ %>
+
+            <div class="card mb-3 col-4 m-2">
+                <div class="card-body">
+                    <span>
+                        <table class="table table-striped table-bordered">
+                            <!-- Table Heading -->
+                            <thead>
+                                <p class="card-title text-name" style="text-align: center;">
+                                    <i class="fas fa-graduation-cap colored-icon"></i>
+                                    Report for <%=report.title%>
+                                </p>
+                            </thead>
+                            <tr>
+                                <td>
+
+                                    <i class="fas fa-user colored-icon"></i> Student Name
+                                </td>
+                                <td>
+                                    <%=report.student_name%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-calendar-day colored-icon"></i> Date
+                                </td>
+                                <td>
+                                    <%= moment(report.report_date).format('Do MMMM, YYYY') %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-file-signature colored-icon"></i> Description
+                                </td>
+                                <td>
+                                    <%= report.description %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <i class="fas fa-list colored-icon"></i> Number
+                                </td>
+                                <td>
+                                    <%= report.report_number %>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="progress" style="height: 1px;" id='#first-progress'>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= report.state %>"
+                                aria-valuemin="0" aria-valuemax="100"
+                                style="width: <%=report.stare > 10 ? report.state: report.state * 2.5 %>% ;">
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                aria-valuenow="<%= report.state %>" aria-valuemin="0" aria-valuemax="100"
+                                style="width: <%=report.stare > 10 ? report.state: report.state * 2.5 %>% ;">
+                                <%=report.state%>%
+                            </div>
+                        </div>
+                        <form method="post" action="#">
+                            <button class="btn btn-primary view-btn btn-sm" type="submit" name="evaluate">
+                                <i class="fas fa-pen"></i>
+                                Evaluate
+                            </button>
+                        </form>
+                    </span>
+                </div>
+            </div>
+
+            <% }); %>
+    </div>
+
+    <%- include('../dashboardFooter.ejs') %>

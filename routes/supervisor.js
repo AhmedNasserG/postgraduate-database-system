@@ -70,7 +70,16 @@ router.post('/students', function (req, res) {
 });
 
 router.get('/reports', function (req, res) {
-  res.render('supervisor/reports');
+  const supervisorId = req.session.userId;
+  supervisorProcedures
+    .supervisorViewAllStudentsReports(supervisorId)
+    .then(response => {
+      console.log(response.recordset);
+      res.render('supervisor/reports', {
+        reports: response.recordset,
+        moment: moment
+      });
+    });
 });
 
 router.post('/cancel/:thesisSerial', (req, res) => {

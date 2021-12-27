@@ -489,9 +489,9 @@ GO
 CREATE PROC ViewAllStudentsReports
     @supervisor_id INT
 AS
-SELECT R.*
+SELECT R.*, T.title, S.first_name + ' ' + S.last_name AS student_name
 FROM THESIS T INNER JOIN SUPERVISED SD ON T.serial_number = SD.thesis_serial_number
-    INNER JOIN REPORT R ON T.serial_number = R.thesis_serial_number
+    INNER JOIN REPORT R ON T.serial_number = R.thesis_serial_number INNER JOIN STUDENT S ON T.student_id = S.id
 WHERE SD.supervisor_id = @supervisor_id
 Go
 -- 4) e) procedure to add a defense for a gucian student

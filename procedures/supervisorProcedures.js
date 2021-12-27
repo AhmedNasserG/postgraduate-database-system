@@ -83,6 +83,12 @@ const supervisorAddExaminer = async (
   return request.execute('AddExaminer');
 };
 
+const supervisorViewAllStudentsReports = async supervisorId => {
+  const request = new sql.Request();
+  request.input('supervisor_id', sql.Int, supervisorId);
+  return request.execute('ViewAllStudentsReports');
+};
+
 module.exports = {
   supervisorRegister,
   supervisorViewStudents,
@@ -93,5 +99,6 @@ module.exports = {
   supervisorAddDefenseNonGUCian,
   viewExaminer,
   supervisorCancelThesis,
-  supervisorAddExaminer
+  supervisorAddExaminer,
+  supervisorViewAllStudentsReports
 };
