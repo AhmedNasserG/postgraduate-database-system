@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const sql = require('mssql');
 const moment = require('moment');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
 
@@ -44,9 +43,12 @@ router.post('/theses/:serial_number', function (req, res) {
 router.get('/theses', function (req, res) {
   const supervisorId = req.session.userId;
   supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
-    res.render('supervisor/theses', {
-      theses: response.recordset,
-      moment: moment
+    supervisorProcedures.viewExaminer().then(response2 => {
+      res.render('supervisor/theses', {
+        theses: response.recordset,
+        moment: moment,
+        examiner: response2.recordset
+      });
     });
   });
 });

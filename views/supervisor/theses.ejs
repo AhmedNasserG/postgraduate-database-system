@@ -1,7 +1,6 @@
 <%- include('supervisorDashboardHeader.ejs') %>
 
 
-
   <div class="row m-2">
     <% theses.forEach(thesis=> { %>
 
@@ -37,7 +36,7 @@
                     <!-- Modal -->
                     <div class="modal fade" id="add<%=thesis.serial_number%>" data-bs-backdrop="static" tabindex="-1"
                       aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-scrollable">
+                      <div class="modal-dialog modal-dialog-scrollable modal-lg">
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="">
@@ -56,6 +55,44 @@
                                 <label for="location" class="col-form-label">Location</label>
                                 <input type="text" class="form-control" id="location" name="location"
                                   placeholder="GUC campus" required>
+                              </div>
+                              <!-- TODO at Least one checkbox is required -->
+                              <!-- TODO remove the first checklist or make it at checks all checkboxes  -->
+                              <div class="container mt-5 px-2">
+                                <div class="table-responsive">
+                                  <table class="table table-responsive table-borderless ">
+                                    <caption id="examiner-caption">Add Examiner</caption>
+                                    <thead>
+                                      <tr class="bg-light">
+                                        <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+                                        <th scope="col" width="5%">#</th>
+                                        <th scope="col" width="20%"> Name</th>
+                                        <th scope="col" width="20%">Field of Work</th>
+                                        <th scope="col" width="5%">National</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <% examiner.forEach(examiner=> { %>
+
+                                          <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                                          <td>
+                                            <%=examiner.id %>
+                                          </td>
+                                          <td><img src="https://i.imgur.com/VKOeFyS.png" width="25">
+                                            <%= examiner.name%>
+                                          </td>
+                                          <td>
+                                            <%= examiner.field_of_work %>
+                                          </td>
+                                          <td><span class="fw-bolder">
+                                              <%= examiner.is_national %>
+                                            </span> </td>
+                                      </tr>
+                                      <% }) %>
+                                    </tbody>
+                                  </table>
+                                </div>
                               </div>
                               <button type="submit" class="btn btn-primary view-btn">Add</button>
                             </form>
@@ -126,13 +163,17 @@
                               </tr>
                               <tr>
                                 <td>
-                                  <i class="fad fa-list"></i> Number of Extensions
+                                  <i class="fas fa-list"></i> Number of Extensions
                                 </td>
                                 <td>
                                   <%= thesis.number_of_extensions %>
                                 </td>
                               </tr>
                             </table>
+                            <form method="POST" class="needs-validation" action="">
+                              <button type="submit" class="btn btn-primary view-btn">Cancel Thesis</button>
+                            </form>
+
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -519,14 +519,12 @@ WHERE T.grade <= 50 AND T.student_id = @student_id )
 END
 ELSE
 BEGIN
-    PRINT('Student must pass all courses ')
+    RAISERROR('Student should pass all course', 16, 1)
 END
-
 GO
-
 -- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
-    @ThesisSerialNo INT ,
+
     @DefenseDate DATETIME ,
     @ExaminerName VARCHAR(20),
     @National BIT,
@@ -826,3 +824,11 @@ BEGIN
     SET @output = 0
 END
 
+
+go
+
+CREATE PROC viewExaminer
+AS
+
+SELECT *
+FROM EXAMINER

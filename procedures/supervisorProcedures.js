@@ -50,6 +50,11 @@ const supervisorAddDefenseGUCian = async (thesisId, location, date) => {
   return request.execute('AddDefenseGucian');
 };
 
+const viewExaminer = async () => {
+  const request = new sql.Request();
+  return request.execute('ViewExaminer');
+};
+
 const supervisorAddDefenseNonGUCian = async (thesisId, location, date) => {
   const request = new sql.Request();
   request.input('ThesisSerialNo', sql.Int, thesisId);
@@ -57,6 +62,27 @@ const supervisorAddDefenseNonGUCian = async (thesisId, location, date) => {
   request.input('DefenseDate', sql.DateTime, date);
   return request.execute('AddDefenseNonGucian');
 };
+
+const supervisorCancelThesis = async thesisId => {
+  const request = new sql.Request();
+  request.input('ThesisSerialNo', sql.Int, thesisId);
+  return request.execute('CancelThesis');
+};
+
+const supervisorAddExaminer = async (
+  defenseDate,
+  examinerName,
+  isNational,
+  fieldOfWork
+) => {
+  const request = new sql.Request();
+  request.input('DefenseDate', sql.DateTime, defenseDate);
+  request.input('ExaminerName', sql.VarChar, examinerName);
+  request.input('IsNational', sql.Bit, isNational);
+  request.input('fieldOfWork', sql.VarChar, fieldOfWork);
+  return request.execute('AddExaminer');
+};
+
 module.exports = {
   supervisorRegister,
   supervisorViewStudents,
@@ -64,5 +90,8 @@ module.exports = {
   supervisorViewThesis,
   isGucian,
   supervisorAddDefenseGUCian,
-  supervisorAddDefenseNonGUCian
+  supervisorAddDefenseNonGUCian,
+  viewExaminer,
+  supervisorCancelThesis,
+  supervisorAddExaminer
 };

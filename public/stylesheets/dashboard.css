@@ -127,3 +127,8 @@ body {
 .form-control:active {
   border-color: var(--side-bar);
 }
+
+#examiner-caption {
+  caption-side: top;
+  color: var(--black);
+}
