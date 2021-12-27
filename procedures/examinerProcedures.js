@@ -13,7 +13,7 @@ const examinerRegister = async (
   request.input('name', sql.VarChar, firstName+" "+lastName);
   request.input('password', sql.VarChar, password);
   request.input('fieldOfWork', sql.VarChar, fieldOfWork);
-  request.input('National', sql.Bit, type);
+  request.input('National', type);
   request.input('email', sql.VarChar, email);
   request.execute('ExaminerRegister');
   //sql.close()
@@ -47,6 +47,7 @@ const addGrade = async (
   return request.execute('AddDefenseGrade')
 
 }
+
 const addComment = async (
   id,
   thesisSerialNo,
@@ -55,7 +56,6 @@ const addComment = async (
 ) =>{
   const request = new sql.Request()
   console.log(thesisSerialNo)
-
   request.input('examiner_id',sql.Int,id)
   request.input('ThesisSerialNo',sql.Int,thesisSerialNo)
   request.input('DefenseDate' ,defenseDate)
@@ -63,10 +63,20 @@ const addComment = async (
   return request.execute('AddCommentsGrade')
 
 }
+
+const searchForThesis = async (
+  searchTerm
+)=> {
+  const request = new sql.Request()
+  request.input('keyword',sql.VarChar,searchTerm)
+  return request.execute('SearchForThesis')
+}
+
 module.exports = {
   examinerRegister,
   showExaminerTheses,
   showExaminerDefenses,
   addGrade,
-  addComment
+  addComment,
+  searchForThesis
 };

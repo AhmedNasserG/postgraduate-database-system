@@ -1,3 +1,14 @@
+<% if (typeof toast !=='undefined' && toast === 'yes') {%>
+    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
+      <div class="d-flex">
+        <div class="toast-body">
+        <%=message%>
+       </div>
+        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+    <%}%> 
+  
 </div>
 
 <!-- bootstrap js -->
@@ -22,9 +33,7 @@ var toastList = toastElList.map(function (toastEl) {
 toastList.forEach(toast => toast.show());
 console.log(toastList)
 </script>
-<script>
 
-</script>
 </body>
 
 </html>

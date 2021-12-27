@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const examinerProcedures = require('../procedures/examinerProcedures');
-
+const moment = require('moment');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   /* if(req.session.type !==2){
@@ -26,18 +26,9 @@ router.get('/theses', function (req, res) {
 //get defenses
 router.get('/defenses', function (req, res) {
   const id = req.session.userId;
-  const toast = req.query.toast;
-  console.log(toast);
   examinerProcedures.showExaminerDefenses(id).then(response => {
-    console.log(response.recordset);
-    console.log(res.app.get('toast'));
-    const toast = res.app.get('toast');
-    const message = res.app.get('message');
-    res.app.set('toast', undefined);
     res.render('examiner/examinerDefenses', {
-      Defenses: response.recordset,
-      toast: toast,
-      message: message
+      Defenses: response.recordset
     });
   });
 });
@@ -52,10 +43,15 @@ router.post('/addGrade', function (req, res) {
   examinerProcedures
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {
-      res.app.set('toast', 'yes');
-      res.app.set('message', 'Grade added successfully');
-      //console.log(router.get('message'))
-      res.redirect('/examiner/defenses');
+      const id = req.session.userId;
+      examinerProcedures.showExaminerDefenses(id).then(response1 => {
+        console.log(response1.recordset);
+        res.render('examiner/examinerDefenses', {
+          Defenses: response1.recordset,
+          toast: 'yes',
+          message: 'grade added succesfully'
+        });
+      });
     })
     .catch(err => {
       res.app.set('toast', 'yes');
@@ -73,11 +69,15 @@ router.post('/addComment', function (req, res) {
   examinerProcedures
     .addComment(id, thesisSerialNumber, defenseDate, comment)
     .then(response => {
-      console.log(response);
-      res.app.set('toast', 'yes');
-      res.app.set('message', 'Comment added successfully');
-      //console.log(router.get('message'))
-      res.redirect('/examiner/defenses');
+      const id = req.session.userId;
+      examinerProcedures.showExaminerDefenses(id).then(response1 => {
+        console.log(response1.recordset);
+        res.render('examiner/examinerDefenses', {
+          Defenses: response1.recordset,
+          toast: 'yes',
+          message: 'comment added succesfully'
+        });
+      });
     })
     .catch(err => {
       res.app.set('toast', 'yes');
@@ -85,6 +85,29 @@ router.post('/addComment', function (req, res) {
       //console.log(router.get('message'))
       res.redirect('/examiner/defenses');
     });
+});
+
+router.get('/search', function (req, res) {
+  res.render('examiner/examinerSearch');
+});
+
+router.post('/search', function (req, res) {
+  const searchTerm = req.body.searchTerm.trim();
+  if (searchTerm === '') {
+    res.render("examiner/examinerSearch", {
+      toast: 'yes',
+      message: 'please enter a value to search for'
+    });
+  } else {
+    console.log(searchTerm);
+    examinerProcedures.searchForThesis(searchTerm).then(response => {
+      console.log(response.recordset);
+      res.render('examiner/examinerSearch', {
+        theses: response.recordset,
+        moment: moment
+      });
+    });
+  }
 });
 
 module.exports = router;

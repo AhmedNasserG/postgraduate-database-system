@@ -1,6 +1,8 @@
 :root {
   --side-bar: #52616b;
   --body: #f0f5f9;
+  --black: #1e2022;
+  --white: #f0f5f9;
 }
 
 * {
@@ -25,18 +27,18 @@ body {
 .nav-link {
   color: var(--body);
 }
-.anchor-nav{
+.anchor-nav {
   text-decoration: none;
   color: var(--body);
 }
-.anchor-nav:hover{
+.anchor-nav:hover {
   color: var(--body);
 }
 .nav-link:active,
 .nav-link:focus,
 .nav-link:hover {
   background-color: #ffffff26;
-  color : var(--body)
+  color: var(--body);
 }
 
 .my-container {
@@ -58,7 +60,7 @@ body {
   margin-left: -62px;
 }
 
-.my-container input {
+.my-container {
   border-radius: 2rem;
   padding: 2px 20px;
 }
@@ -68,13 +70,60 @@ body {
 }
 
 .social {
-    margin-left: 10px;
-    margin-right: 12px;
-    padding: 5px;
+  margin-left: 10px;
+  margin-right: 12px;
+  padding: 5px;
 }
 
-#sidebar-btn{
-    color: var(--side-bar);
-    padding: 10px;
-    margin: 10px;
+#sidebar-btn {
+  color: var(--side-bar);
+  padding: 10px;
+  margin: 10px;
+}
+
+.text-name {
+  color: var(--side-bar);
+}
+
+.colored-icon {
+  color: var(--side-bar);
+}
+
+.view-btn {
+  background-color: var(--side-bar);
+  border-radius: 8px;
+  border-color: var(--side-bar);
+}
+
+.view-btn:hover {
+  background-color: var(--body);
+  color: var(--side-bar);
+}
+.view-btn:active {
+  background-color: var(--white);
+  color: var(--side-bar);
+  border-color: var(--black);
+}
+
+.view-btn:focus {
+  background-color: var(--white);
+  color: var(--side-bar);
+  border-color: var(--black);
+}
+
+/* .hilight {
+  background-color: var(--side-bar);
+  color: #fff;
+  border-radius: 10px;
+  border-color: var(--body);
+  padding: auto;
+  margin: 10px;
+} */
+
+.form-control {
+  border-radius: 10px;
+}
+
+.form-control:active {
+  border-color: var(--side-bar);
 }

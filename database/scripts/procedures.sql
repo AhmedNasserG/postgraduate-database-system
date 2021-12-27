@@ -3,7 +3,8 @@ exec ShowExaminerDefense 14
 GO
 drop user linearDepression1
 -- Unregisetered user
-select * from USERS
+select *
+from USERS
 -- 1) a) Student 
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
@@ -598,9 +599,9 @@ GO
 CREATE Proc ShowExaminerDefense
     @examiner_id int
 AS
-SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date ,D.thesis_serial_number,D.location, D.grade
+SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade,T.title
 FROM
-    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date)
+    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.thesis_serial_number)
 where Ex.examiner_id = @examiner_id
 
 GO
@@ -617,11 +618,9 @@ declare @date DATETIME
 set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE DEFENSE
 SET grade = @grade 
-WHERE thesis_serial_number = @ThesisSerialNo  and defense_date = @date
+WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @date
 
 GO
-exec AddCommentsGrade 14 , 2,'3/3/2021','ghghg'
-drop proc AddCommentsGrade
 -- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
     @examiner_id int,
@@ -634,6 +633,17 @@ set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE EXAMINED_BY
 SET comments = @comments
 WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @date and examiner_id=@examiner_id
+
+GO
+CREATE PROC SearchForThesis
+    @keyword varchar(50)
+
+AS
+declare @query VARCHAR(52)
+set @query = '%'+@keyword+'%'
+SELECT T.*
+From THESIS T
+where T.title like @query
 
 GO
 -- 6) a) procedure to view my profile as student
