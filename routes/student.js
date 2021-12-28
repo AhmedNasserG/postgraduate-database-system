@@ -60,17 +60,21 @@ router.get('/publications', (req, res) => {
   const type = req.session.type;
   studentProcedures.viewMyPublications(id).then((response) => {
     const publications = response.recordset;
-    res.render('student/studentPublications', { publications: publications, type: type });
+    studentProcedures.viewAllMyTheses(id).then((response) => {
+      const theses = response.recordset
+      res.render('student/studentPublications', { publications: publications, type: type, theses: theses, today: new Date() })
+    })
   })
-})
+});
 
 /* Add Publication to a certain thesis */
-router.post('/theses', (req, res) => {
+router.post('/publications', (req, res) => {
   const title = req.body.title;
   const date = req.body.date;
   const host = req.body.host;
   const place = req.body.place;
   const status = req.body.status;
+  const id = req.session.userId;
   try {
     studentProcedures.addPublication(
       title,
@@ -78,10 +82,11 @@ router.post('/theses', (req, res) => {
       host,
       place,
       status,
+      id
     );
-    res.redirect('/student/theses');
+    res.redirect('/student/publications');
   } catch (err) {
-    res.redirect('/student/theses');
+    res.redirect('/student/publications');
   }
 });
 
@@ -117,5 +122,20 @@ router.post('/:thesisSerialNumber/:reportNumber/report', (req, res) => {
     res.redirect('/student/progressReports');
   }
 });
+
+/* Link Publication to a specific thesis */
+router.post('/linkPublication', (req, res) => {
+  const publicationId = req.body.publication_id;
+  const thesisSerialNumber = req.body.thesis_serial_number;
+  studentProcedures.linkPubThesis(
+    publicationId,
+    thesisSerialNumber
+  ).then((response) => {
+    res.redirect('/student/publications')
+  }).catch(err => {
+    console.log(err);
+    res.redirect('/student/publications')
+  })
+})
 
 module.exports = router;
