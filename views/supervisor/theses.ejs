@@ -56,16 +56,14 @@
                                 <input type="text" class="form-control" name="location" placeholder="GUC campus"
                                   required>
                               </div>
-                              <!-- TODO at Least one checkbox is required -->
-                              <!-- TODO remove the first checklist or make it at checks all checkboxes  -->
                               <div class="container mt-5 px-2">
                                 <div class="table-responsive" id="examiner-table">
                                   <table class="table table-responsive table-borderless ">
                                     <caption id="examiner-caption">Add Examiner</caption>
                                     <thead>
                                       <tr class="bg-light">
-                                        <!-- <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th> -->
-                                        <th scope="col" width="5%">.</th>
+                                        <th scope="col" width="5%"><input class="form-check-input" type="checkbox"
+                                            onclick="toggle(this, <%= thesis.serial_number %> )" id="check-all"></th>
                                         <th scope="col" width="5%">#</th>
                                         <th scope="col" width="20%"> Name</th>
                                         <th scope="col" width="20%">Field of Work</th>
@@ -76,7 +74,7 @@
                                       <tr>
                                         <% examiner.forEach(examiner=> { %>
 
-                                          <th scope="row"><input id="chk" class="form-check-input" type="checkbox"></th>
+                                          <th scope="row"><input class="form-check-input" type="checkbox" required></th>
                                           <td>
                                             <%=examiner.id %>
                                           </td>
@@ -94,7 +92,24 @@
                                     </tbody>
                                   </table>
                                   <script type="text/javascript">
+                                    function toggle(source, thesis_id) {
+                                      checkboxes = document.forms["form" + thesis_id].querySelectorAll('input[type="checkbox"]');
+                                      for (var i = 0, n = checkboxes.length; i < n; i++) {
+                                        checkboxes[i].checked = source.checked;
+                                      }
+                                    }
                                     async function getSelectedCheckboxes(thesisNo) {
+                                      var selectedCheckboxes = document.forms['form' + thesisNo].querySelectorAll(
+                                        'input[type=checkbox]:checked');
+                                      var examinerAlert = document.getElementById('examiner-alert');
+                                      if (selectedCheckboxes.length === 0) {
+                                        examinerAlert.setAttribute('style', 'display:block');
+                                        return;
+                                      }
+                                      else {
+                                        examinerAlert.setAttribute('style', 'display:none');
+                                      }
+
                                       var form = document.forms["form" + thesisNo];
                                       var selectedCheckboxes = [];
                                       var checkboxes = form.querySelectorAll('input[type="checkbox"]');
@@ -123,6 +138,9 @@
                                     }
                                   </script>
                                 </div>
+                              </div>
+                              <div class="alert alert-danger" role="alert" style="display: none;" id="examiner-alert">
+                                <i class="fas fa-exclamation-triangle"></i> Choose at least one examiner!
                               </div>
                               <input type="hidden" name="examiner" value="">
                               <button type="button" class="btn btn-primary view-btn"
