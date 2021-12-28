@@ -633,8 +633,8 @@ IF (EXISTS (SELECT id
 FROM GUCIAN
 WHERE id = @studentId ) )
 BEGIN
-    SELECT S.* , G.guc_id
-    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id)
+    SELECT S.* , G.guc_id, U.email
+    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id) INNER JOIN USERS U ON U.id = S.id
     WHERE S.id = @studentId
 END
 ELSE
@@ -763,20 +763,9 @@ CREATE PROC AddProgressReport
     @thesisSerialNo INT,
     @progressReportDate DATE
 AS
-IF EXISTS(
-    SELECT *
-FROM REPORT R
-WHERE R.thesis_serial_number = R.report_date
-)
-BEGIN
-    RAISERROR('A Progress report already belongs to this thesis', 0, 1)
-END
-ELSE
-BEGIN
-    INSERT INTO REPORT
-        (thesis_serial_number, report_date)
-    VALUES(@thesisSerialNo, @progressReportDate);
-END
+INSERT INTO REPORT
+    (thesis_serial_number, report_date)
+VALUES(@thesisSerialNo, @progressReportDate);
 
 GO
 
@@ -811,15 +800,15 @@ CREATE PROC addPublication
     @pubDate DATETIME,
     @host VARCHAR(50),
     @place VARCHAR(50),
-    @accepted BIT
+    @accepted BIT,
+    @studentId INT
 AS
 INSERT INTO PUBLICATION
     (title, publication_date, place, host, is_accepted)
 VALUES(@title, @pubDate, @place, @host, @accepted);
 
 INSERT INTO STUDENT_ADD_PUBLICATION
-    (publication_id)
-VALUES(SCOPE_IDENTITY());
+VALUES(SCOPE_IDENTITY(), @studentId);
 
 GO
 

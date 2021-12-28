@@ -158,6 +158,7 @@ CREATE TABLE REPORT
     description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
 );
+SELECT * FROM REPORT;
 
 -- create table evaluted by
 CREATE TABLE EVALUATED_BY
@@ -236,10 +237,12 @@ CREATE TABLE PUBLISHED_FOR
     FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
+use pg_database;
 CREATE TABLE STUDENT_ADD_PUBLICATION
 (
-    publication_id INT PRIMARY KEY,
+    publication_id INT,
     student_id INT,
+    PRIMARY KEY (publication_id, student_id),
     FOREIGN KEY(student_id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY(publication_id) REFERENCES PUBLICATION(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
