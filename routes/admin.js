@@ -1,10 +1,15 @@
 const express = require('express');
 const moment = require('moment');
+const notifier = require('node-notifier');
+
 const router = express.Router();
+
 const adminProcedures = require('../procedures/adminProcedures');
-/* GET home page. */
+const toast = require('../utilities/toast');
+
 router.get('/', function (req, res, next) {
   res.render('admin/adminDashboard');
+  resetToast(req);
 });
 
 router.get('/supervisors', function (req, res) {
@@ -17,9 +22,12 @@ router.get('/supervisors', function (req, res) {
       console.log(err);
       res.redirect('/');
     });
+
+  toast.resetToast(req);
 });
 
 router.get('/theses', function (req, res) {
+  const toastStatus = req.session.toastState;
   adminProcedures
     .listTheses()
     .then(thesesResponse => {
@@ -27,7 +35,9 @@ router.get('/theses', function (req, res) {
         res.render('admin/theses', {
           theses: thesesResponse.recordset,
           numOfOnGoing: response.output.count,
-          moment: moment
+          moment: moment,
+          toastState: toastStatus,
+          toastMessage: req.session.toastMessage
         });
       });
     })
@@ -35,6 +45,7 @@ router.get('/theses', function (req, res) {
       console.log(err);
       res.redirect('/');
     });
+  toast.resetToast(req);
 });
 
 router.post('/:thesis_serial_number/issue-payment', function (req, res) {
@@ -51,18 +62,27 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
           )
           .then(response => {
             if (response.output.success) {
-              console.log('payment issued successfully');
+              toast.showToast(req, 'success', 'Payment issued successfully');
             } else {
-              console.log('payment failed');
+              toast.showToast(
+                req,
+                'error',
+                'Issue Payment failed, Please try again'
+              );
             }
             res.redirect('/admin/theses');
           })
           .catch(err => {
             console.log(err);
+            toast.showToast(
+              req,
+              'error',
+              'Issue Payment failed, Please try again'
+            );
             res.redirect('/admin/theses');
           });
       } else {
-        console.log('payment already issued');
+        toast.showToast(req, 'error', 'Payment already issued');
         res.redirect('/admin/theses');
       }
     });
@@ -75,23 +95,35 @@ router.post(
       .getThesisPaymentId(req.params.thesis_serial_number)
       .then(response => {
         if (!response.output.payment_id) {
-          console.log(
-            'issue an installment failed because there is not a payment related to the thesis'
+          toast.showToast(
+            req,
+            'error',
+            'Issue an installment failed because there is not a payment related to the thesis'
           );
+          res.redirect('/admin/theses');
         } else {
           adminProcedures
             .issueThesisPaymentInstallment(
               response.output.payment_id,
               req.body.installmentDate
             )
-            .then(response => {
-              console.log('payment installment issued successfully');
+            .then(response2 => {
+              toast.showToast(
+                req,
+                'success',
+                'Payment installment issued successfully'
+              );
+              res.redirect('/admin/theses');
+            })
+            .catch(err => {
+              toast.showToast(req, 'error', 'Issue an installment failed');
+              res.redirect('/admin/theses');
             });
         }
-        res.redirect('/admin/theses');
       })
       .catch(err => {
         console.log(err);
+        toast.showToast(req, 'error');
         res.redirect('/admin/theses');
       });
   }
@@ -101,11 +133,12 @@ router.post('/:thesis_serial_number/update-extension', function (req, res) {
   adminProcedures
     .updateExtension(req.params.thesis_serial_number)
     .then(response => {
-      console.log('extension updated successfully');
+      toast.showToast(req, 'success', 'Extension updated successfully');
       res.redirect('/admin/theses');
     })
     .catch(err => {
       console.log(err);
+      toast.showToast(req, 'error', 'Update extension failed');
       res.redirect('/admin/theses');
     });
 });
