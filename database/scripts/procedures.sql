@@ -1,5 +1,4 @@
 USE pg_database;
-
 GO
 -- Unregisetered user
 -- 1) a) Student 
@@ -137,12 +136,21 @@ CREATE PROCEDURE TypeOFUser
     @type INT OUTPUT
 AS
 IF EXISTS (select *
-FROM STUDENT
+FROM GUCIAN
 where id=@id)
 BEGIN
     set @type = 0
 END
-ELSE IF EXISTS (SELECT *
+    ELSE IF EXISTS(
+        SELECT *
+FROM NON_GUCIAN
+WHERE id = @id
+    )
+    BEGIN
+    SET @type = 4
+END
+ELSE
+IF EXISTS (SELECT *
 FROM SUPERVISOR
 where id =@id)
 BEGIN
@@ -595,6 +603,7 @@ WHERE DEFENSE.thesis_serial_number = @ThesisSerialNo
 UPDATE THESIS
 SET grade = @grade
 WHERE serial_number = @ThesisSerialNo
+
 GO
 
 CREATE PROC ShowExaminerTheses
@@ -663,8 +672,8 @@ IF (EXISTS (SELECT id
 FROM GUCIAN
 WHERE id = @studentId ) )
 BEGIN
-    SELECT S.* , G.guc_id
-    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id)
+    SELECT S.* , G.guc_id, U.email
+    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id) INNER JOIN USERS U ON U.id = S.id
     WHERE S.id = @studentId
 END
 ELSE
@@ -697,6 +706,15 @@ UPDATE USERS
 SET PASSWORD = @password,
 email = @email
 WHERE id = @studentID
+
+GO
+
+CREATE PROC viewAllMyTheses
+    @studentID INT
+AS
+SELECT *
+FROM THESIS
+WHERE student_id = @studentID
 
 GO
 
@@ -821,10 +839,15 @@ CREATE PROC addPublication
     @pubDate DATETIME,
     @host VARCHAR(50),
     @place VARCHAR(50),
-    @accepted BIT
+    @accepted BIT,
+    @studentId INT
 AS
 INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
 VALUES(@title, @pubDate, @place, @host, @accepted);
+
+INSERT INTO STUDENT_ADD_PUBLICATION
+VALUES(SCOPE_IDENTITY(), @studentId);
 
 GO
 
@@ -836,3 +859,43 @@ CREATE PROC linkPubThesis
 AS
 INSERT INTO PUBLISHED_FOR
 VALUES(@pubID, @thesisSerialNo);
+
+GO
+
+CREATE PROC AddAndLinkPubThesis
+    @title VARCHAR(50),
+    @pubDate DATETIME,
+    @host VARCHAR(50),
+    @place VARCHAR(50),
+    @accepted BIT,
+    @thesisSerialNo INT
+AS
+INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
+VALUES(@title, @pubDate, @place, @host, @accepted);
+
+INSERT INTO PUBLISHED_FOR
+VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
+
+GO
+
+
+-- <a href
+-- ="" class="" style="color: #52616b"
+--               ><i class="fas fa-link"></i
+--             ></a>
+CREATE PROC viewMyPublications
+    @studentId INT
+AS
+SELECT *
+FROM PUBLICATION P INNER JOIN STUDENT_ADD_PUBLICATION SP ON P.id = SP.publication_id
+WHERE SP.student_id = @studentId;
+
+GO
+
+CREATE PROC viewMyReports
+    @studentId INT
+AS
+SELECT *
+FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
+WHERE T.student_id = @studentId

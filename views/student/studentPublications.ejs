@@ -1,0 +1,228 @@
+<%- include('studentDashboardHeader.ejs', {type : type}) %>
+<button
+  type="button"
+  class="btn btn-primary view-btn"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  <i class="far fa-plus-square"></i>
+  <span class="mx-2">Add Publication</span>
+</button>
+<div class="row m-2">
+  <% publications.forEach(publication => { %>
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td><i class="fas fa-heading"></i> Title</td>
+            <td><%=publication.title%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-university"></i> Place</td>
+            <td><%= publication.place%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-location-arrow"></i> Host</td>
+            <td><%= publication.host%></td>
+          </tr>
+          <tr>
+            <td><i class="far fa-clock"></i> Date</td>
+            <td><%= publication.publication_date.toLocaleDateString()%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-check-square"></i> Accepted</td>
+            <td><%= publication.is_accepted%></td>
+            <a
+              href=""
+              class=""
+              data-bs-toggle="modal"
+              data-bs-target="#link<%=publication.id%>"
+              style="color: #52616b; text-decoration: none"
+            >
+              <i class="fas fa-link fa-2x"></i>
+            </a>
+          </tr>
+        </table>
+      </span>
+    </div>
+  </div>
+
+  <!-- Link Publication modal -->
+  <div
+    class="modal fade"
+    id="link<%=publication.id%>"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Link Publication for ongoing theses</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form
+            method="POST"
+            class="needs-validation"
+            action="/student/linkPublication"
+          >
+            <input
+              type="hidden"
+              name="publication_id"
+              value="<%= publication.id %>"
+            />
+            <div class="container mt-5 px-2">
+              <div class="table-responsive">
+                <table class="table table-responsive table-borderless">
+                  <thead>
+                    <tr class="bg-light">
+                      <th scope="col" width="5%">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          hidden
+                        />
+                      </th>
+                      <th scope="col" width="5%">#</th>
+                      <th scope="col" width="20%">Title</th>
+                      <th scope="col" width="20%">Field</th>
+                      <th scope="col" width="5%">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <% theses.forEach(thesis=> { %> <% if (thesis.end_date >=
+                      today) { %>
+                      <th scope="row">
+                        <input
+                          class=""
+                          type="radio"
+                          name="thesis_serial_number"
+                          value="<%= thesis.serial_number%>"
+                        />
+                      </th>
+                      <td><%=thesis.serial_number %></td>
+                      <td>
+                        <i class="fas fa-graduation-cap"></i>
+                        <%= thesis.title%>
+                      </td>
+                      <td><%= thesis.field %></td>
+                      <td>
+                        <span class="fw-bolder">
+                          <%= thesis.duration %> days</span
+                        >
+                      </td>
+                    </tr>
+                    <% } %> <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary view-btn">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% }); %>
+</div>
+<!-- Publication Modal -->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Publication</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/student/publications">
+          <div class="mb-3">
+            <label for="publication-title" class="col-form-label"
+              >Title :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-title"
+              name="title"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-date" class="col-form-label"
+              >Publication Date :</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              id="publication-date"
+              name="date"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-host" class="col-form-label">Host :</label>
+            <input
+              type="text"
+              class="form-control"
+              id="publication-host"
+              name="host"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-place" class="col-form-label"
+              >Place :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-place"
+              name="place"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="publication-status" class="col-form-label"
+              >Status :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="publication-status"
+              name="status"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../dashboardFooter.ejs') %>
