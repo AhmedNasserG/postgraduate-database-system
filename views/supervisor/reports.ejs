@@ -62,17 +62,63 @@
                                 <%=report.state%>%
                             </div>
                         </div>
-                        <form method="post" action="#">
-                            <button class="btn btn-primary view-btn btn-sm" type="submit" name="evaluate">
-                                <i class="fas fa-pen"></i>
-                                Evaluate
-                            </button>
-                        </form>
+                        <button class="btn btn-primary view-btn" data-bs-toggle="modal"
+                            data-bs-target="#k<%=report.report_id%>">
+                            <i class="fas fa-pen"></i>
+                            Evaluate
+                        </button>
                     </span>
-                </div>
-            </div>
+                    <div class="modal fade" id="k<%report.report_id%>" data-bs-backdrop="static" tabindex="-1"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="">
+                                        Add Defense for
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" class="needs-validation" action="#">
+                                        <!-- <div class="mb-3">
+                                            <label for="customRange3" class="form-label">Add Grade</label>
+                                            <input type="range" class="form-range" min="0" max="3" step="0.01"
+                                                id="customRange3" oninput="this.nextElementSibling.value = this.value">
+                                            <output for="customRange3" class="form-output">1.5</output>
+                                        </div> -->
+                                        <label for="customRange3" class="form-label">Add Grade</label>
+                                        <input type="number" class="form-control" style="margin-bottom:20px"
+                                            pattern="[0-3]">
+                                        <!-- make sure its a number between 0,3 -->
+                                        <script>
+                                            var input = document.querySelector('input[type="number"]');
+                                            if (input) {
+                                                input.addEventListener('input', function (event) {
+                                                    if (event.target.value < 0 || event.target.value > 3) {
+                                                        // event.target.value = '';
+                                                        // custom validation message
+                                                        event.target.setCustomValidity('Please enter a number between 0 and 3');
+                                                    } else {
+                                                        event.target.setCustomValidity('');
 
-            <% }); %>
-    </div>
+                                                    }
+                                                });
+                                            }
+                                        </script>
+                                        <button class="btn btn-primary view-btn">
+                                            Add
+                                        </button>
+                                </div>
+                                </form>
+                                <div class=" modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
-    <%- include('../dashboardFooter.ejs') %>
+                        <% }); %>
+                    </div>
+
+                    <%- include('../dashboardFooter.ejs') %>
