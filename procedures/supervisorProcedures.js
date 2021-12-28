@@ -44,6 +44,7 @@ const isGucian = async thesisId => {
 
 const supervisorAddDefenseGUCian = async (thesisId, location, date) => {
   const request = new sql.Request();
+  console.log('GUCIAN');
   request.input('ThesisSerialNo', sql.Int, thesisId);
   request.input('DefenseLocation', sql.VarChar, location);
   request.input('DefenseDate', sql.DateTime, date);
@@ -56,6 +57,7 @@ const viewExaminer = async () => {
 };
 
 const supervisorAddDefenseNonGUCian = async (thesisId, location, date) => {
+  console.log('NoN GUCIAN');
   const request = new sql.Request();
   request.input('ThesisSerialNo', sql.Int, thesisId);
   request.input('DefenseLocation', sql.VarChar, location);
@@ -73,13 +75,22 @@ const supervisorAddExaminer = async (
   defenseDate,
   examinerName,
   isNational,
-  fieldOfWork
+  fieldOfWork,
+  thesisSerialNo
 ) => {
   const request = new sql.Request();
+  console.log(defenseDate);
+  console.log('ENTERD WALHY');
+  console.log(examinerName);
+  console.log(isNational);
+  console.log(fieldOfWork);
+  console.log(thesisSerialNo);
+
   request.input('DefenseDate', sql.DateTime, defenseDate);
   request.input('ExaminerName', sql.VarChar, examinerName);
-  request.input('IsNational', sql.Bit, isNational);
+  request.input('National', isNational);
   request.input('fieldOfWork', sql.VarChar, fieldOfWork);
+  request.input('ThesisSerialNo', sql.Int, thesisSerialNo);
   return request.execute('AddExaminer');
 };
 

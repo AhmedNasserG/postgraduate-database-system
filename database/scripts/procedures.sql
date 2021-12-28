@@ -535,12 +535,17 @@ GO
 -- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
 
-    @DefenseDate DATETIME ,
-    @ExaminerName VARCHAR(20),
+    @DefenseDate DATETIME,
+    @ExaminerName VARCHAR
+(20),
     @National BIT,
-    @fieldOfWork VARCHAR(20)
+    @ThesisSerialNo INT,
+    @fieldOfWork VARCHAR
+(20)
 AS
+-- Declare @date DATETIME
 Declare @examiner_id INT
+-- set @date =  CONVERT(datetime,@DefenseDate,101)
 SELECT @examiner_id = id
 FROM EXAMINER
 WHERE name = @ExaminerName AND field_of_work = @fieldOfWork AND is_national = @National
@@ -841,4 +846,11 @@ CREATE PROC viewExaminer
 AS
 
 SELECT *
-FROM EXAMINER
+FROM DEFENSE
+
+
+SELECT *
+FROM EXAMINED_BY
+
+DELETE FROM EXAMINED_BY
+DELETE FROM DEFENSE

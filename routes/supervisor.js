@@ -20,10 +20,16 @@ router.get('/students', function (req, res) {
 router.post('/theses/:serial_number', function (req, res) {
   const serialNumber = req.params.serial_number;
   const location = req.body.location;
-  const date = moment(req.body.date).format('YYYY-MM-DD');
+  console.log(req.body);
+  console.log(req.body.date);
+  const date = moment(req.body.date).format('MM/DD/YYYY');
   console.log(date);
   console.log(serialNumber);
   console.log(location);
+  console.log(date);
+  const examiners = eval(req.body.examiner);
+  examiners['is_national'] = req.body.is_national ? 1 : 0;
+  console.log(examiners['is_national']);
   supervisorProcedures.isGucian(serialNumber).then(response => {
     response.output.toString() === '1'
       ? supervisorProcedures.supervisorAddDefenseGUCian(
@@ -31,13 +37,30 @@ router.post('/theses/:serial_number', function (req, res) {
           location,
           date
         )
-      : supervisorProcedures.supervisorAddDefenseNonGUCian(
-          serialNumber,
-          location,
-          date
-        );
+      : supervisorProcedures
+          .supervisorAddDefenseNonGUCian(serialNumber, location, date)
+          .then(response => {
+            console.log(response);
+            console.log(examiners);
+            examiners.forEach(examiner => {
+              supervisorProcedures
+                .supervisorAddExaminer(
+                  date,
+                  examiner.name,
+                  examiner.is_national,
+                  examiner.field,
+                  serialNumber
+                )
+                .then(response => {
+                  console.log(response);
+                });
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
   });
-
+  console.log(examiners);
   res.redirect('/supervisor/theses');
 });
 router.get('/theses', function (req, res) {

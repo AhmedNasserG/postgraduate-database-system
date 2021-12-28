@@ -45,26 +45,27 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <form method="POST" class="needs-validation"
+                            <form name="form<%=thesis.serial_number %>" method="POST" class="needs-validation"
                               action="/supervisor/theses/<%=thesis.serial_number%>">
                               <div class="mb-3">
                                 <label for="defence-date" class="col-form-label">Defence Date</label>
-                                <input type="date" class="form-control" id="defence-date" name="date" required>
+                                <input type="date" class="form-control" name="date" required>
                               </div>
                               <div class="mb-3">
                                 <label for="location" class="col-form-label">Location</label>
-                                <input type="text" class="form-control" id="location" name="location"
-                                  placeholder="GUC campus" required>
+                                <input type="text" class="form-control" name="location" placeholder="GUC campus"
+                                  required>
                               </div>
                               <!-- TODO at Least one checkbox is required -->
                               <!-- TODO remove the first checklist or make it at checks all checkboxes  -->
                               <div class="container mt-5 px-2">
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="examiner-table">
                                   <table class="table table-responsive table-borderless ">
                                     <caption id="examiner-caption">Add Examiner</caption>
                                     <thead>
                                       <tr class="bg-light">
-                                        <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+                                        <!-- <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th> -->
+                                        <th scope="col" width="5%">.</th>
                                         <th scope="col" width="5%">#</th>
                                         <th scope="col" width="20%"> Name</th>
                                         <th scope="col" width="20%">Field of Work</th>
@@ -75,7 +76,7 @@
                                       <tr>
                                         <% examiner.forEach(examiner=> { %>
 
-                                          <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                                          <th scope="row"><input id="chk" class="form-check-input" type="checkbox"></th>
                                           <td>
                                             <%=examiner.id %>
                                           </td>
@@ -92,9 +93,41 @@
                                       <% }) %>
                                     </tbody>
                                   </table>
+                                  <script type="text/javascript">
+                                    async function getSelectedCheckboxes(thesisNo) {
+                                      var form = document.forms["form" + thesisNo];
+                                      var selectedCheckboxes = [];
+                                      var checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+                                      checkboxes.forEach(function (checkbox) {
+                                        if (checkbox.checked) {
+                                          var row = checkbox.parentNode.parentNode;
+                                          var id = row.cells[1].innerHTML.trim();
+                                          var name = row.cells[2].textContent.trim();
+                                          var field = row.cells[3].innerHTML.trim();
+                                          var is_national = row.cells[4].textContent.trim();
+                                          selectedCheckboxes.push({
+                                            id: id,
+                                            name: name,
+                                            field: field,
+                                            is_national: is_national
+                                          });
+                                        }
+                                      });
+
+                                      var examinerField = form.elements['examiner'];
+                                      data = JSON.stringify(selectedCheckboxes);
+                                      examinerField.value = data;
+                                      console.log(Object.fromEntries(new FormData(examinerField.form).entries()));
+                                      examinerField.form.submit();
+                                    }
+                                  </script>
                                 </div>
                               </div>
-                              <button type="submit" class="btn btn-primary view-btn">Add</button>
+                              <input type="hidden" name="examiner" value="">
+                              <button type="button" class="btn btn-primary view-btn"
+                                onclick="getSelectedCheckboxes(<%= thesis.serial_number %> )"
+                                id="examiner-btn">Add</button>
                             </form>
                           </div>
                           <div class="modal-footer">
