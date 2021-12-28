@@ -39,23 +39,32 @@ router.get('/theses', function (req, res) {
 
 router.post('/:thesis_serial_number/issue-payment', function (req, res) {
   adminProcedures
-    .issueThesisPayment(
-      req.params.thesis_serial_number,
-      req.body.amount,
-      req.body.numOfInstallments,
-      req.body.fundPercentage
-    )
+    .getThesisPaymentId(req.params.thesis_serial_number)
     .then(response => {
-      if (response.output.success) {
-        console.log('payment issued successfully');
+      if (!response.output.payment_id) {
+        adminProcedures
+          .issueThesisPayment(
+            req.params.thesis_serial_number,
+            req.body.amount,
+            req.body.numOfInstallments,
+            req.body.fundPercentage
+          )
+          .then(response => {
+            if (response.output.success) {
+              console.log('payment issued successfully');
+            } else {
+              console.log('payment failed');
+            }
+            res.redirect('/admin/theses');
+          })
+          .catch(err => {
+            console.log(err);
+            res.redirect('/admin/theses');
+          });
       } else {
-        console.log('payment failed');
+        console.log('payment already issued');
+        res.redirect('/admin/theses');
       }
-      res.redirect('/admin/theses');
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect('/admin/theses');
     });
 });
 
