@@ -6,7 +6,7 @@
             <span class="mx-2">Theses</span>
         </a>
     </li>
-    <% if (type === '4') {%>
+<% if (type === 4) {%>
     <li class="nav-link">
         <a href='/student/courses' class='anchor-nav'>
             <i class="fas fa-book sidebar-icon"></i>
@@ -51,7 +51,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/student/theses">
+        <form method="POST" action="/student/publications">
           <div class="mb-3">
             <label for="publication-title" class="col-form-label">Title :</label>
             <input type="text" class="form-control" id="publication-title" name="title">

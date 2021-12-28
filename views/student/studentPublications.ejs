@@ -36,15 +36,99 @@
             <a
               href=""
               class=""
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=" Link Publication"
+              data-bs-toggle="modal"
+              data-bs-target="#link<%=publication.id%>"
               style="color: #52616b; text-decoration: none"
-              ><i class="fas fa-link fa-2x"></i
-            ></a>
+            >
+              <i class="fas fa-link fa-2x"></i>
+            </a>
           </tr>
         </table>
       </span>
+    </div>
+  </div>
+
+  <!-- Link Publication modal -->
+  <div
+    class="modal fade"
+    id="link<%=publication.id%>"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Link Publication for ongoing theses</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form
+            method="POST"
+            class="needs-validation"
+            action="/student/linkPublication"
+          >
+            <input
+              type="hidden"
+              name="publication_id"
+              value="<%= publication.id %>"
+            />
+            <div class="container mt-5 px-2">
+              <div class="table-responsive">
+                <table class="table table-responsive table-borderless">
+                  <thead>
+                    <tr class="bg-light">
+                      <th scope="col" width="5%">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          hidden
+                        />
+                      </th>
+                      <th scope="col" width="5%">#</th>
+                      <th scope="col" width="20%">Title</th>
+                      <th scope="col" width="20%">Field</th>
+                      <th scope="col" width="5%">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <% theses.forEach(thesis=> { %> <% if (thesis.end_date >=
+                      today) { %>
+                      <th scope="row">
+                        <input
+                          class=""
+                          type="radio"
+                          name="thesis_serial_number"
+                          value="<%= thesis.serial_number%>"
+                        />
+                      </th>
+                      <td><%=thesis.serial_number %></td>
+                      <td>
+                        <i class="fas fa-graduation-cap"></i>
+                        <%= thesis.title%>
+                      </td>
+                      <td><%= thesis.field %></td>
+                      <td>
+                        <span class="fw-bolder">
+                          <%= thesis.duration %> days</span
+                        >
+                      </td>
+                    </tr>
+                    <% } %> <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary view-btn">Add</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -71,7 +155,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/student/theses">
+        <form method="POST" action="/student/publications">
           <div class="mb-3">
             <label for="publication-title" class="col-form-label"
               >Title :</label
@@ -140,4 +224,5 @@
     </div>
   </div>
 </div>
+
 <%- include('../dashboardFooter.ejs') %>

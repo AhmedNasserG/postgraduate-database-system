@@ -68,8 +68,8 @@
           <div class="mb-3">
             <label for="report-state" class="col-form-label">State :</label>
             <br>
-            <input type="range" class="form-control-range" id="report-state" name="state" onInput="$('#rangeval').html($(this).val())">
-             <span id="rangeval">50<!-- Default value --></span>
+            <input type="range" class="form-control-range" id="report-state" name="state" onInput="$('#rangeval<%= report.report_number%><%=report.thesis_serial_number%>').html($(this).val())">
+             <span id="rangeval<%=report.report_number%><%=report.thesis_serial_number%>">50<!-- Default value --></span>
           </div>
           <div class="mb-3">
             <label for="report-description" class="col-form-label">Description :</label>
