@@ -1,6 +1,6 @@
 <%- include('adminDashboardHeader.ejs') %>
 <br>
-<button type="button" class="btn btn-primary" style="margin-left: 15px;" disabled>
+<button type="button" class="btn btn-primary view-btn" style="margin-left: 15px;" disabled>
   ON GOING THESES <span class="badge bg-secondary"><%= numOfOnGoing %> </span>
 </button>
 
@@ -27,10 +27,12 @@
         <% } %>
         <br>
         <br>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moreInfo<%=thesis.serial_number%>">
+        <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#moreInfo<%=thesis.serial_number%>">
+          <i class="fas fa-info"></i>
           More Info
         </button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateThesis<%=thesis.serial_number%>">
+        <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#updateThesis<%=thesis.serial_number%>">
+          <i class="fas fa-pen"></i>
           Update
         </button>
 
@@ -100,7 +102,7 @@
               </table>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary view-btn" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -114,15 +116,15 @@
               <h5 class="modal-title" id="staticBackdropLabel">
                 <%=thesis.title%>
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close view-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <button class="btn btn-primary" data-bs-target="#issuePaymentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
-              <button class="btn btn-primary" data-bs-target="#issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
-              <button class="btn btn-primary" data-bs-target="#updateExtension<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
+              <button class="btn btn-primary view-btn" data-bs-target="#issuePaymentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
+              <button class="btn btn-primary view-btn" data-bs-target="#issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
+              <button class="btn btn-primary view-btn" data-bs-target="#updateExtension<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-secondary view-btn" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -162,8 +164,8 @@
                 <!-- submit -->
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-secondary view-btn" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary view-btn">Submit</button>
               </form>
             </div>
           </div>
@@ -178,7 +180,7 @@
               <h5 class="modal-title" id="staticBackdropLabel">
                 Issue Payment Installment
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close view-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form action="/admin/<%=thesis.serial_number%>/issue-payment-installment" method="post">
@@ -189,8 +191,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-secondary view-btn" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary view-btn">Submit</button>
               </form>
             </div>
           </div>
@@ -205,15 +207,15 @@
               <h5 class="modal-title" id="staticBackdropLabel">
                 Update Extension
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close view-btn" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form action="/admin/<%=thesis.serial_number%>/update-extension" method="post">
                 Are you sure you want to update the extension?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-              <button type="submit" class="btn btn-primary">Yes</button>
+              <button type="button" class="btn btn-secondary view-btn" data-bs-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-primary view-btn">Yes</button>
               </form>
             </div>
           </div>
