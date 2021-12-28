@@ -7,7 +7,7 @@
   <div class="card-body">
       <span>
         <h4 class="card-title "><i class="fas fa-book-open"></i>
-          <%=report.title%> <%= moment(report.report_date).format('Do MMMM, YYYY')%>
+          <%=report.title%> <%= locals.moment(report.report_date).format('Do MMMM, YYYY')%>
           </h5>
       </span>
       <p class="card-text">
@@ -28,7 +28,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="">
-                <%=report.title%> <%= moment(report.report_date).format('Do MMMM, YYYY')%>
+                <%=report.title%> <%= locals.moment(report.report_date).format('Do MMMM, YYYY')%>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
