@@ -38,6 +38,8 @@ const adminRoute = require('./routes/admin');
 const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
+const logoutRoute = require('./routes/logout');
+
 const app = express();
 
 // view engine setup
@@ -57,6 +59,7 @@ app.use(express.static('public'));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
+app.use('/logout', logoutRoute);
 app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
