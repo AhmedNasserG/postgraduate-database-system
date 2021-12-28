@@ -1,6 +1,5 @@
 const express = require('express');
 const moment = require('moment');
-const notifier = require('node-notifier');
 
 const router = express.Router();
 
@@ -9,7 +8,6 @@ const toast = require('../utilities/toast');
 
 router.get('/', function (req, res, next) {
   res.render('admin/adminDashboard');
-  resetToast(req);
 });
 
 router.get('/supervisors', function (req, res) {
@@ -22,12 +20,9 @@ router.get('/supervisors', function (req, res) {
       console.log(err);
       res.redirect('/');
     });
-
-  toast.resetToast(req);
 });
 
 router.get('/theses', function (req, res) {
-  const toastStatus = req.session.toastState;
   adminProcedures
     .listTheses()
     .then(thesesResponse => {
@@ -35,9 +30,7 @@ router.get('/theses', function (req, res) {
         res.render('admin/theses', {
           theses: thesesResponse.recordset,
           numOfOnGoing: response.output.count,
-          moment: moment,
-          toastState: toastStatus,
-          toastMessage: req.session.toastMessage
+          moment: moment
         });
       });
     })
@@ -45,7 +38,6 @@ router.get('/theses', function (req, res) {
       console.log(err);
       res.redirect('/');
     });
-  toast.resetToast(req);
 });
 
 router.post('/:thesis_serial_number/issue-payment', function (req, res) {
@@ -60,8 +52,8 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
             req.body.numOfInstallments,
             req.body.fundPercentage
           )
-          .then(response => {
-            if (response.output.success) {
+          .then(response2 => {
+            if (response2.output.success) {
               toast.showToast(req, 'success', 'Payment issued successfully');
             } else {
               toast.showToast(
