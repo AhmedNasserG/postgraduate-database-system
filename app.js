@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const sql = require('mssql');
+const moment = require('moment');
+
 require('dotenv').config();
 const sqlConfig = {
   user: process.env.DB_USER_ADMIN,
@@ -61,9 +63,10 @@ app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
 
 app.locals = {
+  app: app,
   toastState: '',
   toastMessage: '',
-  app: app
+  moment: moment
 };
 
 const port = process.env.PORT || 4000;

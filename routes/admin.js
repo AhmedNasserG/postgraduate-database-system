@@ -1,5 +1,4 @@
 const express = require('express');
-const moment = require('moment');
 
 const router = express.Router();
 
@@ -29,8 +28,7 @@ router.get('/theses', function (req, res) {
       adminProcedures.numOfOnGoingTheses().then(response => {
         res.render('admin/theses', {
           theses: thesesResponse.recordset,
-          numOfOnGoing: response.output.count,
-          moment: moment
+          numOfOnGoing: response.output.count
         });
       });
     })
