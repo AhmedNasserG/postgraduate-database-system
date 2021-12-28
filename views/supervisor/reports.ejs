@@ -48,20 +48,13 @@
                                     <%= report.report_number %>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>State</td>
+                                <td>
+                                    <%= report.state %>
+                                </td>
+                            </tr>
                         </table>
-                        <div class="progress" style="height: 1px;" id='#first-progress'>
-                            <div class="progress-bar" role="progressbar" aria-valuenow="<%= report.state %>"
-                                aria-valuemin="0" aria-valuemax="100"
-                                style="width: <%=report.stare > 10 ? report.state: report.state * 2.5 %>% ;">
-                            </div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                aria-valuenow="<%= report.state %>" aria-valuemin="0" aria-valuemax="100"
-                                style="width: <%=report.stare > 10 ? report.state: report.state * 2.5 %>% ;">
-                                <%=report.state%>%
-                            </div>
-                        </div>
                         <button class="btn btn-primary view-btn" data-bs-toggle="modal"
                             data-bs-target="#k<%=report.report_id%>">
                             <i class="fas fa-pen"></i>
