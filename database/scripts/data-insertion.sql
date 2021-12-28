@@ -1,6 +1,9 @@
 USE pg_database;
+select *
+from users
 GO
-
+select *
+from Users
 -- Users' Insertions
 
 INSERT INTO USERS
@@ -504,12 +507,10 @@ VALUES
 
 
 
-
--- Insert Admin
 INSERT INTO USERS
-        (password, email)
-VALUES
-        ('admin', 'admin@admin.com');
+Values('admin', 'admin@admin.com')
 INSERT INTO ADMIN
-VALUES
-        (SCOPE_IDENTITY());
+VALUES(SCOPE_IDENTITY());
+
+SELECT *
+FROM USERS;

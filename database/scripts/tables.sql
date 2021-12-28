@@ -237,7 +237,6 @@ CREATE TABLE PUBLISHED_FOR
     FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE CASCADE,
 );
 
-use pg_database;
 CREATE TABLE STUDENT_ADD_PUBLICATION
 (
     publication_id INT,

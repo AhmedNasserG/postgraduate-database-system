@@ -1,8 +1,6 @@
 USE pg_database;
 GO
--- drop user linearDepression1
 -- Unregisetered user
-
 -- 1) a) Student 
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
@@ -294,6 +292,18 @@ BEGIN
 END
 ELSE
 SET @success = 0
+
+GO
+
+CREATE PROC GetThesisPaymentId
+    @thesis_serial_number INT,
+    @payment_id INT OUTPUT
+AS
+SET @payment_id = (
+SELECT payment_id
+FROM THESIS
+WHERE serial_number = @thesis_serial_number
+)
 
 GO
 
@@ -595,6 +605,7 @@ SET grade = @grade
 WHERE serial_number = @ThesisSerialNo
 
 GO
+
 CREATE PROC ShowExaminerTheses
     @examiner_id int
 AS
@@ -603,26 +614,54 @@ From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_n
     INNER JOIN SUPERVISOR Sup on (Su.supervisor_id = Sup.id) INNER JOIN STUDENT St on (T.student_id = St.id)
 WHERE Ex.examiner_id = @examiner_id
 GO
+
+CREATE Proc ShowExaminerDefense
+    @examiner_id int
+AS
+SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade, T.title
+FROM
+    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.serial_number)
+where Ex.examiner_id = @examiner_id
+
+GO
 -- 5) a) procedure for adding a grade to defense
+
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
-    @DefenseDate DATETIME ,
+    @DefenseDate varchar(20),
     @grade DECIMAL(5, 2)
 AS
+
+declare @date DATETIME
+set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE DEFENSE
 SET grade = @grade 
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
+WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @date
 
 GO
 -- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
+    @examiner_id int,
     @ThesisSerialNo INT ,
-    @DefenseDate DATETIME ,
+    @DefenseDate VARCHAR(20) ,
     @comments VARCHAR(300)
 AS
+declare @date DATETIME
+set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE EXAMINED_BY
 SET comments = @comments
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @date and examiner_id=@examiner_id
+
+GO
+CREATE PROC SearchForThesis
+    @keyword varchar(50)
+
+AS
+declare @query VARCHAR(52)
+set @query = '%'+@keyword+'%'
+SELECT T.*
+From THESIS T
+where T.title like @query
 
 GO
 -- 6) a) procedure to view my profile as student
@@ -860,15 +899,3 @@ AS
 SELECT *
 FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
 WHERE T.student_id = @studentId
-
-USE pg_database;
-SELECT *
-FROM PUBLICATION;
-SELECT *
-FROM PUBLISHED_FOR;
-SELECT *
-FROM STUDENT_ADD_PUBLICATION;
-SELECT *
-FROM USERS;
-SELECT *
-FROM THESIS;

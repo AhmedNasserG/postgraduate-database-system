@@ -1,0 +1,228 @@
+<%- include('adminDashboardHeader.ejs') %>
+<br>
+<button type="button" class="btn btn-primary" style="margin-left: 15px;" disabled>
+  ON GOING THESES <span class="badge bg-secondary"><%= numOfOnGoing %> </span>
+</button>
+
+<div class="row m-2">
+  <% theses.forEach(thesis=> { %>
+
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+          <%=thesis.title%>
+          </h5>
+      </span>
+      <p class="card-text">
+        <br>
+        <strong>Field: </strong>
+        <%=thesis.field%>
+        <br>
+        <strong>Type: </strong>
+        <% if (thesis.type) { %>
+        PHD
+        <% } else { %>
+        MASTER
+        <% } %>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#moreInfo<%=thesis.serial_number%>">
+          More Info
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateThesis<%=thesis.serial_number%>">
+          Update
+        </button>
+
+
+        <!-- Info Modal -->
+      <div class="modal fade" id="moreInfo<%=thesis.serial_number%>" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">
+                <%=thesis.title%>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-striped table-bordered">
+                <tr>
+                  <td><i class="far fa-lightbulb"></i> Field </td>
+                  <td>
+                    <%=thesis.field%>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <i class="fas fa-university"></i> Type</td>
+                  <td>
+                    <% if (thesis.type) { %>
+                    Phd
+                    <% } else { %>
+                    Master
+                    <% } %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-calendar-day"></i> Start Date</td>
+                  <td>
+                    <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><i class="fas fa-calendar-day"></i> End Date</td>
+                  <td>
+                    <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td> <i class="far fa-clock"></i> Duration</td>
+                  <td>
+                    <%= thesis.duration %> days
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fas fa-calendar-day"></i> Seminar Date
+                  </td>
+                  <td>
+                    <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <i class="fas fa-list"></i> Number of Extensions
+                  </td>
+                  <td>
+                    <%= thesis.number_of_extensions %>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- update Modal -->
+      <div class="modal fade" id="updateThesis<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                <%=thesis.title%>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <button class="btn btn-primary" data-bs-target="#issuePaymentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Payment</button>
+              <button class="btn btn-primary" data-bs-target="#issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Issue Installment</button>
+              <button class="btn btn-primary" data-bs-target="#updateExtension<%=thesis.serial_number%>" data-bs-toggle="modal" data-bs-dismiss="modal">Update Extension</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- issue payment modal -->
+      <div class="modal fade" id="issuePaymentModal<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Issue Payment
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/<%=thesis.serial_number%>/issue-payment" method="post">
+                <!-- amount -->
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <input type="number" class="form-control" id="amount" name="amount" placeholder="0" required min="0">
+                </div>
+                <br>
+                <!-- num of installments -->
+                <div class="form-group">
+                  <label for="numOfInstallments">Number Of Installments</label>
+                  <input type="number" class="form-control" id="numOfInstallments" name="numOfInstallments" placeholder="0" required min="1">
+                </div>
+                <br>
+                <!-- fund percentage -->
+                <div class="form-group">
+                  <label for="fundPercentage">Fund Percentage</label>
+                  <input type="number" step="any" class="form-control" id="fundPercentage" name="fundPercentage" placeholder="0.0" required min="0.0" max="1.0">
+                </div>
+                <br>
+                <!-- submit -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- issue payment Installment modal -->
+      <div class="modal fade" id="issuePaymentInstallmentModal<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Issue Payment Installment
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/<%=thesis.serial_number%>/issue-payment-installment" method="post">
+                <!-- Installment date -->
+                <div class="form-group">
+                  <label for="installmentDate">Installment Date</label>
+                  <input type="date" class="form-control" id="installmentDate" name="installmentDate" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- update extension modal -->
+      <div class="modal fade" id="updateExtension<%=thesis.serial_number%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">
+                Update Extension
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/<%=thesis.serial_number%>/update-extension" method="post">
+                Are you sure you want to update the extension?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              <button type="submit" class="btn btn-primary">Yes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <% }); %>
+</div>
+<%- include('../dashboardFooter.ejs') %>
