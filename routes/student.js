@@ -1,6 +1,6 @@
 const express = require('express');
-const moment = require('moment');
 const router = express.Router();
+const toast = require('../utilities/toast');
 const studentProcedures = require('../procedures/studentProcedures');
 
 /* GET home page. */
@@ -27,7 +27,7 @@ router.get('/theses', (req, res) => {
   studentProcedures.viewAllMyTheses(id).then((response) => {
     const theses = response.recordset;
     res.render('student/studentTheses', {
-      theses: theses, moment: moment,
+      theses: theses,
       type: type, today: new Date()
     });
   })
@@ -50,7 +50,6 @@ router.get('/progressReports', (req, res) => {
     res.render('student/studentReports', {
       reports: reports,
       type: type,
-      moment: moment
     })
   })
 });
@@ -75,19 +74,20 @@ router.post('/publications', (req, res) => {
   const place = req.body.place;
   const status = req.body.status;
   const id = req.session.userId;
-  try {
-    studentProcedures.addPublication(
-      title,
-      date,
-      host,
-      place,
-      status,
-      id
-    );
+  studentProcedures.addPublication(
+    title,
+    date,
+    host,
+    place,
+    status,
+    id
+  ).then((response) => {
+    toast.showToast(req, 'success', 'Publication added successfully')
     res.redirect('/student/publications');
-  } catch (err) {
+  }).catch(err => {
+    toast.showToast(req, 'error', 'Cannot add publication');
     res.redirect('/student/publications');
-  }
+  });
 });
 
 /* Add Progress Report to a certain thesis */
@@ -98,9 +98,11 @@ router.post('/:thesisSerialNumber/report', (req, res) => {
     thesisSerialNumber,
     date
   ).then(response => {
+    toast.showToast(req, 'success', 'Progress Report added successfully');
     res.redirect('/student/theses');
   }).catch(err => {
-
+    toast.showToast(req, 'error', 'Cannot add Progress Report');
+    res.redirect('/student/theses');
   })
 });
 
@@ -110,17 +112,18 @@ router.post('/:thesisSerialNumber/:reportNumber/report', (req, res) => {
   const description = req.body.description;
   const thesisSerialNumber = req.params.thesisSerialNumber;
   const reportNumber = req.params.reportNumber;
-  try {
-    studentProcedures.fillProgressReport(
-      thesisSerialNumber,
-      reportNumber,
-      state,
-      description
-    )
+  studentProcedures.fillProgressReport(
+    thesisSerialNumber,
+    reportNumber,
+    state,
+    description
+  ).then((response) => {
+    toast.showToast(req, 'success', 'Progress Report filled successfully')
     res.redirect('/student/progressReports');
-  } catch (err) {
+  }).catch(err => {
+    toast.showToast(req, 'error', 'Cannot fill report');
     res.redirect('/student/progressReports');
-  }
+  });
 });
 
 /* Link Publication to a specific thesis */
@@ -131,11 +134,12 @@ router.post('/linkPublication', (req, res) => {
     publicationId,
     thesisSerialNumber
   ).then((response) => {
-    res.redirect('/student/publications')
+    toast.showToast(req, 'success', 'Publication linked successfully');
+    res.redirect('/student/publications');
   }).catch(err => {
-    console.log(err);
-    res.redirect('/student/publications')
-  })
-})
+    toast.showToast(req, 'error', 'Cannot link Publication');
+    res.redirect('/student/publications');
+  });
+});
 
 module.exports = router;
