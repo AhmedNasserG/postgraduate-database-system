@@ -422,9 +422,21 @@ CREATE PROC EvaluateProgressReport
     @evaluation_value INT
 AS
 -- TODO ADD NOT UPDATE
-UPDATE EVALUATED_BY
-    SET evaluation = @evaluation_value
-    WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no
+INSERT INTO EVALUATED_BY
+    (
+    supervisor_id,
+    thesis_serial_number,
+    report_number,
+    evaluation
+    )
+VALUES
+    (
+        @supervisor_id,
+        @thesis_serial_number,
+        @progress_report_no,
+        @evaluation_value
+        )
+
 
 GO
 

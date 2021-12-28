@@ -80,7 +80,6 @@ const supervisorAddExaminer = async (
 ) => {
   const request = new sql.Request();
   console.log(defenseDate);
-  console.log('ENTERD WALHY');
   console.log(examinerName);
   console.log(isNational);
   console.log(fieldOfWork);
