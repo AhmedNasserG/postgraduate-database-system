@@ -6,15 +6,10 @@ const showToast = (req, toastState, toastMessage) => {
       toastMessage = 'Something wrong happened, Please try again';
     }
   }
-  req.session.toastState = toastState;
-  req.session.toastMessage = toastMessage;
-};
-
-const resetToast = req => {
-  req.session.toastState = '';
+  req.app.locals.toastState = toastState;
+  req.app.locals.toastMessage = toastMessage;
 };
 
 module.exports = {
-  showToast,
-  resetToast
+  showToast
 };

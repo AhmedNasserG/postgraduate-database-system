@@ -1,46 +1,47 @@
-<% if (toastState === 'success') {%>
+<% if (locals.toastState === 'success') {%>
 <div class="toast align-items-center bg-success" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
   <div class="d-flex">
     <div class="toast-body">
-      <%=toastMessage%>
+      <%=locals.toastMessage%>
     </div>
     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
 </div>
-<%} else if (toastState === 'error') {%>
+<%} else if (locals.toastState === 'error') {%>
 <div class="toast align-items-center bg-danger" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
   <div class="d-flex">
     <div class="toast-body">
-      <%=toastMessage%>
+      <%=locals.toastMessage%>
     </div>
     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
 </div>
 <%}%> 
-  
+<% locals.app.locals.toastState = '';
+locals.app.locals.toastMessage = ''; %>
+%>
+
 </div>
 
 <!-- bootstrap js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script>
-    var menu_btn = document.querySelector('#menu-btn');
-    var sidebar = document.querySelector('#sidebar');
-    var container = document.querySelector('.my-container');
-    menu_btn.addEventListener('click', () => {
-        sidebar.classList.toggle('active-nav');
-        container.classList.toggle('active-cont');
-    });
+  var menu_btn = document.querySelector('#menu-btn');
+  var sidebar = document.querySelector('#sidebar');
+  var container = document.querySelector('.my-container');
+  menu_btn.addEventListener('click', () => {
+    sidebar.classList.toggle('active-nav');
+    container.classList.toggle('active-cont');
+  });
 </script>
 <script>
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-var toastList = toastElList.map(function (toastEl) {
-  return new bootstrap.Toast(toastEl)
-})
-toastList.forEach(toast => toast.show());
-console.log(toastList)
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+  var toastList = toastElList.map(function(toastEl) {
+    return new bootstrap.Toast(toastEl)
+  })
+  toastList.forEach(toast => toast.show());
+  console.log(toastList)
 </script>
 
 </body>

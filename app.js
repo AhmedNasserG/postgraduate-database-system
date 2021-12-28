@@ -60,6 +60,12 @@ app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
 
+app.locals = {
+  toastState: '',
+  toastMessage: '',
+  app: app
+};
+
 const port = process.env.PORT || 4000;
 app.listen(
   port,
