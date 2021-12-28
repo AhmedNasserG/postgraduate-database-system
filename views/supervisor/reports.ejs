@@ -80,10 +80,12 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" class="needs-validation" action="#">
+                                    <form method="POST" class="needs-validation"
+                                        action="/supervisor/reports/<%= report.thesis_serial_number %>">
                                         <label for="customRange3" class="form-label">Add Grade</label>
+                                        <input type="hidden" value="<%= report.report_number %> " name="report_number">
                                         <input type="number" class="form-control" style="margin-bottom:20px"
-                                            pattern="[0-3]">
+                                            pattern="[0-3]" name="grade">
                                         <!-- make sure its a number between 0,3 -->
                                         <script>
                                             var input = document.querySelector('input[type="number"]');

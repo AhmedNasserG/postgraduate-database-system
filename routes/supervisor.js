@@ -105,6 +105,22 @@ router.get('/reports', function (req, res) {
     });
 });
 
+router.post('/reports/:thesisId', function (req, res) {
+  const thesisId = req.params.thesisId;
+  const supervisorId = req.session.userId;
+  const grade = req.body.grade;
+  const reportNo = req.body.report_number;
+  supervisorProcedures
+    .supervisorEvaluateReport(supervisorId, thesisId, reportNo, grade)
+    .then(response => {
+      console.log(response);
+      res.redirect('/supervisor/reports');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.post('/cancel/:thesisSerial', (req, res) => {
   // TODO: TO BE TESTED
   // DISABLE THE BUTTON if the last report is not zero

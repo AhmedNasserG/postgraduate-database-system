@@ -99,6 +99,20 @@ const supervisorViewAllStudentsReports = async supervisorId => {
   return request.execute('ViewAllStudentsReports');
 };
 
+const supervisorEvaluateReport = async (
+  supervisorId,
+  thesisId,
+  reportNo,
+  grade
+) => {
+  const request = new sql.Request();
+  request.input('supervisor_id', sql.Int, supervisorId);
+  request.input('thesis_serial_number', sql.Int, thesisId);
+  request.input('progress_report_no', sql.Int, reportNo);
+  request.input('evaluation_value', sql.Int, grade);
+  return request.execute('EvaluateProgressReport');
+};
+
 module.exports = {
   supervisorRegister,
   supervisorViewStudents,
@@ -110,5 +124,6 @@ module.exports = {
   viewExaminer,
   supervisorCancelThesis,
   supervisorAddExaminer,
-  supervisorViewAllStudentsReports
+  supervisorViewAllStudentsReports,
+  supervisorEvaluateReport: supervisorEvaluateReport
 };
