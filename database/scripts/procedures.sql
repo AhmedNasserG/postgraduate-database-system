@@ -594,8 +594,10 @@ BEGIN
     DELETE FROM THESIS
     WHERE THESIS.serial_number = @ThesisSerialNo
 END
-select *
-from USERS
+ELSE
+BEGIN
+    RAISERROR('Last report should be zero to cancel the thesis', 16, 1)
+END
 GO
 -- 4) h) procedure for adding grade for thesis
 CREATE PROC AddGrade
