@@ -102,7 +102,7 @@
                                       var dateField = document.forms["form" + thesisNo].querySelector('input[name="date"]');
                                       var selectedCheckboxes = document.forms['form' + thesisNo].querySelectorAll(
                                         'input[type=checkbox]:checked');
-                                      var examinerAlert = document.getElementById('examiner-alert');
+                                      var examinerAlert = document.getElementById(`examiner-alert${thesisNo}`);
                                       var locationField = document.forms["form" + thesisNo].querySelector('input[name="location"]');
                                       if (dateField.value == "" || locationField.value == "" || selectedCheckboxes.length == 0) {
                                         console.log('YES');
@@ -142,7 +142,8 @@
                                   </script>
                                 </div>
                               </div>
-                              <div class="alert alert-danger" role="alert" style="display: none;" id="examiner-alert">
+                              <div class="alert alert-danger" role="alert" style="display: none;"
+                                id="examiner-alert<%= thesis.serial_number %>">
                                 <i class="fas fa-exclamation-triangle"></i> Fill all the fields
                               </div>
                               <input type="hidden" name="examiner" value="">

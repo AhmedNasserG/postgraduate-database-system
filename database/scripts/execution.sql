@@ -184,9 +184,3 @@ EXEC ViewEvalProgressReport 1, 6
 
 GO
 
-EXEC AddPublication 'Collatz Conjecture solved', '2021-8-9', 'GUC Brain',
- 'Cairo', 0
-
-GO
-
-EXEC LinkPubThesis 4, 10

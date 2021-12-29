@@ -1,7 +1,7 @@
 USE pg_database;
 GO
 -- Unregisetered user
--- 1) a) Student 
+-- 1) a) Student
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
     @last_name VARCHAR(20),
@@ -124,13 +124,13 @@ BEGIN
 
     SET @success = 1
 END
-ELSE 
+ELSE
 BEGIN
     SET @success = 0
 END
 GO
 
--- get type of the user 
+-- get type of the user
 CREATE PROCEDURE TypeOFUser
     @id INT,
     @type INT OUTPUT
@@ -161,13 +161,13 @@ FROM EXAMINER
 where id = @id)
 BEGIN
     SET @type = 2
-END 
+END
 ELSE IF EXISTS (SELECT *
 FROM ADMIN
 where id = @id)
 BEGIN
     SET @type = 3
-END 
+END
 
 GO
 -- 2) b) Adding mobile numbers
@@ -237,7 +237,7 @@ SELECT stu.first_name, stu.last_name, c.code, t.grade
 FROM NON_GUCIAN n INNER JOIN TAKEN_BY t ON n.id = t.student_id
     INNER JOIN STUDENT stu ON stu.id = t.student_id
     INNER JOIN COURSE c ON c.id = t.course_id
-WHERE c.id = @course_id 
+WHERE c.id = @course_id
 
 GO
 -- 3) g) Update the number of thesis extension by 1.
@@ -469,7 +469,6 @@ BEGIN
         )
 END
 GO
-1
 
 -- 4) b) View all my students’s names and years spent in the thesis
 CREATE PROC ViewSupStudentsYears
@@ -517,7 +516,7 @@ UPDATE SUPERVISOR
 
 GO
 
--- 4) d)  procedure to find all publication related to a student 
+-- 4) d)  procedure to find all publication related to a student
 CREATE PROC ViewAStudentPublications
     @StudentId INT
 AS
@@ -528,7 +527,6 @@ WHERE T.student_id = @StudentId
 
 GO
 
- get all reports of a all students I supervise
 CREATE PROC ViewAllStudentsReports
     @supervisor_id INT
 AS
@@ -600,7 +598,6 @@ GO
 
 GO
 
-- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
 
     @DefenseDate DATETIME,
@@ -700,7 +697,7 @@ AS
 declare @date DATETIME
 set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE DEFENSE
-SET grade = @grade 
+SET grade = @grade
 WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @date
 
 GO
@@ -760,14 +757,14 @@ CREATE PROC editMyProfile
     @address VARCHAR(10),
     @type VARCHAR(10)
 AS
-UPDATE STUDENT 
+UPDATE STUDENT
 SET first_name = @firstName,
 LAST_NAME = @lastName,
 ADDRESS = @address,
 TYPE = @type
 WHERE id = @studentID
 
-UPDATE USERS 
+UPDATE USERS
 SET PASSWORD = @password,
 email = @email
 WHERE id = @studentID
@@ -916,7 +913,7 @@ VALUES(SCOPE_IDENTITY(), @studentId);
 
 GO
 
--- 6) i) Link publication to my thesis 
+-- 6) i) Link publication to my thesis
 
 CREATE PROC linkPubThesis
     @pubID INT,

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const moment = require('moment');
+const toast = require('../utilities/toast');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
 
 /* GET home page. */
@@ -51,7 +52,7 @@ router.post('/theses/:serial_number', function (req, res) {
                   console.log(response);
                 })
                 .catch(err => {
-                  console.log(err);
+                  toast.showToast(req, 'error', err);
                 });
             });
           });
@@ -74,17 +75,17 @@ router.post('/theses/:serial_number', function (req, res) {
                   console.log(response);
                 })
                 .catch(err => {
-                  console.log(err);
+                  toast.showToast(req, 'error', err);
                 });
             });
           })
           .catch(err => {
-            console.log(err);
+            toast.showToast(req, 'error', err);
           });
       }
     })
     .catch(err => {
-      console.log(err);
+      toast.showToast(req, 'error', err);
     });
   console.log(examiners);
   res.redirect('/supervisor/theses');
@@ -111,14 +112,10 @@ router.post('/students', function (req, res) {
     .supervisorViewStudentPublications(studentId)
     .then(response => {
       console.log(response.recordset);
-      res
-        .render('supervisor/supervisorPublication', {
-          publications: response.recordset,
-          studentName: studentName
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      res.render('supervisor/supervisorPublication', {
+        publications: response.recordset,
+        studentName: studentName
+      });
     });
 });
 
@@ -147,12 +144,12 @@ router.post('/reports/:thesisId', function (req, res) {
       res.redirect('/supervisor/reports');
     })
     .catch(err => {
-      console.log(err);
+      toast.showToast(req, 'error', err);
+      res.redirect('/supervisor/reports');
     });
 });
 
 router.post('/cancel/:thesisSerial', (req, res) => {
-  // TODO: TO BE TESTED
   // DISABLE THE BUTTON if the last report is not zero
   const thesisSerial = req.params.thesisSerial;
   supervisorProcedures
@@ -162,7 +159,8 @@ router.post('/cancel/:thesisSerial', (req, res) => {
       res.redirect('/supervisor/theses');
     })
     .catch(err => {
-      console.log(err);
+      toast.showToast(req, 'error', err);
+      res.redirect('/supervisor/theses');
     });
 });
 
