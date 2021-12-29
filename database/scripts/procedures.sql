@@ -421,23 +421,32 @@ CREATE PROC EvaluateProgressReport
     @progress_report_no INT,
     @evaluation_value INT
 AS
--- TODO ADD NOT UPDATE
-INSERT INTO EVALUATED_BY
-    (
-    supervisor_id,
-    thesis_serial_number,
-    report_number,
-    evaluation
-    )
-VALUES
-    (
-        @supervisor_id,
-        @thesis_serial_number,
-        @progress_report_no,
-        @evaluation_value
+-- check if it exists
+IF EXISTS (SELECT *
+FROM EVALUATED_BY
+WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no)
+BEGIN
+    UPDATE EVALUATED_BY
+    SET evaluation = @evaluation_value
+    WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no
+END
+ELSE
+BEGIN
+    INSERT INTO EVALUATED_BY
+        (
+        supervisor_id,
+        thesis_serial_number,
+        report_number,
+        evaluation
         )
-
-
+    VALUES
+        (
+            @supervisor_id,
+            @thesis_serial_number,
+            @progress_report_no,
+            @evaluation_value
+        )
+END
 GO
 
 -- 4) b) View all my students’s names and years spent in the thesis
