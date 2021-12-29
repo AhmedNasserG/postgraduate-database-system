@@ -521,11 +521,22 @@ CREATE PROC AddDefenseGucian
     @DefenseDate DATETIME ,
     @DefenseLocation VARCHAR(15)
 AS
-INSERT INTO DEFENSE
-    (thesis_serial_number, defense_date, location)
-VALUES
-    (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+-- check if it exists
+IF EXISTS (SELECT *
+FROM DEFENSE
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+BEGIN
 
+    RAISERROR('Defense already exists', 16, 1)
+END
+ELSE
+BEGIN
+    INSERT INTO DEFENSE
+        (thesis_serial_number, defense_date, location)
+    VALUES
+        (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+
+END
 GO
 
 -- 4) e) procedure to add a defense for non-gucian student
@@ -534,23 +545,34 @@ CREATE PROC AddDefenseNonGucian
     @DefenseDate DATETIME ,
     @DefenseLocation VARCHAR(15)
 AS
-Declare @student_id INT
-SELECT @student_id = student_id
-FROM THESIS
-WHERE THESIS.serial_number = @ThesisSerialNo
-IF NOT EXISTS (SELECT T.student_id
-FROM TAKEN_BY T
-WHERE T.grade <= 50 AND T.student_id = @student_id )
-    BEGIN
-    INSERT INTO DEFENSE
-        (thesis_serial_number, defense_date, location)
-    VALUES
-        (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+-- check if it exists
+IF EXISTS (SELECT *
+FROM DEFENSE
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+BEGIN
 
+    RAISERROR('Defense already exists', 16, 1)
 END
 ELSE
 BEGIN
-    RAISERROR('Student should pass all course', 16, 1)
+    Declare @student_id INT
+    SELECT @student_id = student_id
+    FROM THESIS
+    WHERE THESIS.serial_number = @ThesisSerialNo
+    IF NOT EXISTS (SELECT T.student_id
+    FROM TAKEN_BY T
+    WHERE T.grade <= 50 AND T.student_id = @student_id )
+    BEGIN
+        INSERT INTO DEFENSE
+            (thesis_serial_number, defense_date, location)
+        VALUES
+            (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+
+    END
+ELSE
+BEGIN
+        RAISERROR('Student should pass all course', 16, 1)
+    END
 END
 GO
 -- 4) f) prodecure for adding examiner to some defense
