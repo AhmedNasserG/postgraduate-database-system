@@ -27,6 +27,14 @@ const showExaminerTheses = async (
   return request.execute('ShowExaminerTheses')
 }
 
+const showThesisSupervisors = async (
+  thesisSerialNo
+)=>{
+  const request = new sql.Request()
+  request.input('thesis_serial_number',sql.Int,thesisSerialNo)
+  return request.execute('ShowThesisSupervisors')
+}
+
 const showExaminerDefenses = async (
   examinerId
 )=>{
@@ -78,5 +86,6 @@ module.exports = {
   showExaminerDefenses,
   addGrade,
   addComment,
-  searchForThesis
+  searchForThesis,
+  showThesisSupervisors
 };

@@ -1,8 +1,8 @@
 <%- include('examinerDashboardHeader.ejs') %>
-
-<div class="row m-2">
+<div class= "container ">
+<div class="row m-2 justify-content-md-center">
     <% for(var i=0;i < Defenses.length;i++){ %>
-      <div class="card mb-3 col-4 m-2">
+      <div class="card mb-3 col-5 m-2">
         <div class="card-body">
           <span>
             <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
@@ -79,10 +79,10 @@
         </div>
       </div>
       <%}%>
-
+    
 
 </div>
-
+</div>
  
   
   <%- include('../dashboardFooter.ejs') %>

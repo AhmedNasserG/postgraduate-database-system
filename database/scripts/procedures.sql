@@ -671,9 +671,8 @@ GO
 CREATE PROC ShowExaminerTheses
     @examiner_id int
 AS
-SELECT T.serial_number , T.title, Sup.first_name+' '+Sup.last_name AS supervisor_name, St.first_name +' '+St.last_name AS student_name
-From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_number) INNER JOIN SUPERVISED Su ON( T.serial_number = Su.thesis_serial_number)
-    INNER JOIN SUPERVISOR Sup on (Su.supervisor_id = Sup.id) INNER JOIN STUDENT St on (T.student_id = St.id)
+SELECT distinct T.serial_number , T.title, St.first_name +' '+St.last_name AS student_name
+From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_number) INNER JOIN STUDENT St on (T.student_id = St.id)
 WHERE Ex.examiner_id = @examiner_id
 GO
 
@@ -992,6 +991,14 @@ CREATE PROC viewExaminer
 AS
 SELECT *
 FROM EXAMINER;
+go
+
+Create Proc ShowThesisSupervisors
+@thesis_serial_number INT
+AS 
+SELECT Sup.first_name+' '+Sup.last_name As supervisor_name
+From SUPERVISED S INNER JOIN Supervisor Sup on (S.supervisor_id = Sup.id)
+where S.thesis_serial_number = @thesis_serial_number
 
 Go
 
