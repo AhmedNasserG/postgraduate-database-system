@@ -3,21 +3,35 @@
 # AUTH
 
 Login credentials for testing purposes:
-- GUCian Student
-`email`: `GUCStudent@test.com`
-`password`: `student`
-- Non-GUCian Student
-`email`: `NONGUCStudent@test.com`
-`password`: `student`
-- Supervisor
-`email`: `supervisor@test.com`
-`password`: `supervisor`
-- Admin
-`email`: `admin@test.com`
-`password`: `admin`
-- Examiner
-`email`: `examiner@test.com`
-`password`: `examiner`
+* GUCian Student
+
+   - `email`: `GUCStudent@test.com`
+
+   - `password`: `student`
+
+* Non-GUCian Student
+
+    - `email`: `NONGUCStudent@test.com`
+
+    - `password`: `student`
+
+* Supervisor
+
+    - `email`: `supervisor@test.com`
+
+    - `password`: `supervisor`
+
+* Admin
+
+    - `email`: `admin@test.com`
+
+    - `password`: `admin`
+
+* Examiner
+
+    - `email`: `examiner@test.com`
+
+    - `password`: `examiner`
 
 
 ## Project Structure 
