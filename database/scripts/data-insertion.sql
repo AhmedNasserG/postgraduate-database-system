@@ -17,7 +17,7 @@ INSERT INTO NON_GUCIAN
 VALUES(1);
 
 INSERT INTO USERS
-VALUES('asdfg', 'abdulaziz@email.com');
+VALUES('student', 'GUCStudent@test.com');
 
 INSERT INTO STUDENT
 VALUES(2, 'Abdulaziz', 'Alamri', 'BI', 1.0, 'Masters',
@@ -70,7 +70,7 @@ INSERT INTO GUCIAN
 VALUES(6);
 
 INSERT INTO USERS
-VALUES('asdfg', 'philo@email.com');
+VALUES('student', 'NONGUCStudent@test.com');
 
 INSERT INTO STUDENT
 VALUES(7, 'Philo', 'Hany', 'Civil', 0.9, 'Phd',
@@ -118,14 +118,14 @@ VALUES(12, 'Haytham', 'turing', 'MET',
                 'Saudi Arabia');
 
 INSERT INTO USERS
-VALUES('6656asds25466as@dsad', 'slim-constraint@email.com');
+VALUES('supervisor', 'supervisor@test.com');
 
 INSERT INTO SUPERVISOR
 VALUES(13, 'Slim', 'Abdennadher', 'MET',
                 'Sfax');
 
 INSERT INTO USERS
-VALUES('jadhfgjhasdfh', 'ibrahim@gmail');
+VALUES('examiner', 'examiner@test.com');
 
 INSERT INTO EXAMINER
 VALUES(14, 'Ibrahim Abou Elenein', 0, 'String theory');
@@ -508,7 +508,7 @@ VALUES
 
 
 INSERT INTO USERS
-Values('admin', 'admin@admin.com')
+Values('admin', 'admin@test.com')
 INSERT INTO ADMIN
 
 VALUES(SCOPE_IDENTITY());
