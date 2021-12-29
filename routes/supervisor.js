@@ -30,14 +30,33 @@ router.post('/theses/:serial_number', function (req, res) {
   const examiners = eval(req.body.examiner);
   examiners['is_national'] = req.body.is_national ? 1 : 0;
   console.log(examiners['is_national']);
-  supervisorProcedures.isGucian(serialNumber).then(response => {
-    response.output.toString() === '1'
-      ? supervisorProcedures.supervisorAddDefenseGUCian(
-          serialNumber,
-          location,
-          date
-        )
-      : supervisorProcedures
+  supervisorProcedures
+    .isGucian(serialNumber)
+    .then(response => {
+      if (response.output.toString() === '1') {
+        supervisorProcedures
+          .supervisorAddDefenseGUCian(serialNumber, location, date)
+          .then(response => {
+            console.log(response);
+            examiners.forEach(examiner => {
+              supervisorProcedures
+                .supervisorAddExaminer(
+                  date,
+                  examiner.name,
+                  examiner.is_national,
+                  examiner.field,
+                  serialNumber
+                )
+                .then(response => {
+                  console.log(response);
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            });
+          });
+      } else {
+        supervisorProcedures
           .supervisorAddDefenseNonGUCian(serialNumber, location, date)
           .then(response => {
             console.log(response);
@@ -53,13 +72,20 @@ router.post('/theses/:serial_number', function (req, res) {
                 )
                 .then(response => {
                   console.log(response);
+                })
+                .catch(err => {
+                  console.log(err);
                 });
             });
           })
           .catch(err => {
             console.log(err);
           });
-  });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
   console.log(examiners);
   res.redirect('/supervisor/theses');
 });
@@ -85,10 +111,14 @@ router.post('/students', function (req, res) {
     .supervisorViewStudentPublications(studentId)
     .then(response => {
       console.log(response.recordset);
-      res.render('supervisor/supervisorPublication', {
-        publications: response.recordset,
-        studentName: studentName
-      });
+      res
+        .render('supervisor/supervisorPublication', {
+          publications: response.recordset,
+          studentName: studentName
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
 });
 
@@ -125,10 +155,15 @@ router.post('/cancel/:thesisSerial', (req, res) => {
   // TODO: TO BE TESTED
   // DISABLE THE BUTTON if the last report is not zero
   const thesisSerial = req.params.thesisSerial;
-  supervisorProcedures.supervisorCancelThesis(thesisSerial).then(response => {
-    console.log(response);
-    res.redirect('/supervisor/theses');
-  });
+  supervisorProcedures
+    .supervisorCancelThesis(thesisSerial)
+    .then(response => {
+      console.log(response);
+      res.redirect('/supervisor/theses');
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 module.exports = router;
