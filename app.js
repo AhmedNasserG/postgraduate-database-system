@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const sql = require('mssql');
+const moment = require('moment');
+
 require('dotenv').config();
 const sqlConfig = {
   user: process.env.DB_USER_ADMIN,
@@ -36,6 +38,8 @@ const adminRoute = require('./routes/admin');
 const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
+const logoutRoute = require('./routes/logout');
+
 const app = express();
 
 // view engine setup
@@ -55,10 +59,18 @@ app.use(express.static('public'));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
+app.use('/logout', logoutRoute);
 app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
+
+app.locals = {
+  app: app,
+  toastState: '',
+  toastMessage: '',
+  moment: moment
+};
 
 const port = process.env.PORT || 4000;
 app.listen(

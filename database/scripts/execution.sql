@@ -1,5 +1,5 @@
 USE pg_database;
-
+SELECT * from users
 GO
 
 EXEC StudentRegister 'mazen', 'Nasr', 'student123', 'MET', 0, 'ahmed@student.guc.edu.eg', 'New Cairo'
@@ -125,7 +125,7 @@ EXEC CancelThesis 2
 
 GO
 
-EXEC AddDefenseGrade 5 ,'3/4/2021' , 75
+EXEC AddDefenseGrade 2 ,'3/3/2021' , 75
 
 GO
 

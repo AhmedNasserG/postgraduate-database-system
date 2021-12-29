@@ -95,6 +95,13 @@ body {
   border-color: var(--side-bar);
 }
 
+
+.view-btn:disabled {
+  background-color: var(--side-bar);
+  border-radius: 8px;
+  border-color: var(--side-bar);
+}
+
 .view-btn:hover {
   background-color: var(--body);
   color: var(--side-bar);
@@ -148,4 +155,8 @@ body {
 
 #first-progress {
   margin-bottom: 5px;
+}
+
+.form-control:active {
+  border-color: var(--side-bar);
 }

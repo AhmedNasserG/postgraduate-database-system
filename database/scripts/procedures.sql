@@ -1,7 +1,7 @@
 USE pg_database;
-
 GO
--- 1) a) Student
+-- Unregisetered user
+-- 1) a) Student 
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
     @last_name VARCHAR(20),
@@ -124,24 +124,33 @@ BEGIN
 
     SET @success = 1
 END
-ELSE
+ELSE 
 BEGIN
     SET @success = 0
 END
 GO
 
--- get type of the user
+-- get type of the user 
 CREATE PROCEDURE TypeOFUser
     @id INT,
     @type INT OUTPUT
 AS
 IF EXISTS (select *
-FROM STUDENT
+FROM GUCIAN
 where id=@id)
 BEGIN
     set @type = 0
 END
-ELSE IF EXISTS (SELECT *
+    ELSE IF EXISTS(
+        SELECT *
+FROM NON_GUCIAN
+WHERE id = @id
+    )
+    BEGIN
+    SET @type = 4
+END
+ELSE
+IF EXISTS (SELECT *
 FROM SUPERVISOR
 where id =@id)
 BEGIN
@@ -152,13 +161,13 @@ FROM EXAMINER
 where id = @id)
 BEGIN
     SET @type = 2
-END
+END 
 ELSE IF EXISTS (SELECT *
 FROM ADMIN
 where id = @id)
 BEGIN
     SET @type = 3
-END
+END 
 
 GO
 -- 2) b) Adding mobile numbers
@@ -228,7 +237,7 @@ SELECT stu.first_name, stu.last_name, c.code, t.grade
 FROM NON_GUCIAN n INNER JOIN TAKEN_BY t ON n.id = t.student_id
     INNER JOIN STUDENT stu ON stu.id = t.student_id
     INNER JOIN COURSE c ON c.id = t.course_id
-WHERE c.id = @course_id
+WHERE c.id = @course_id 
 
 GO
 -- 3) g) Update the number of thesis extension by 1.
@@ -283,6 +292,18 @@ BEGIN
 END
 ELSE
 SET @success = 0
+
+GO
+
+CREATE PROC GetThesisPaymentId
+    @thesis_serial_number INT,
+    @payment_id INT OUTPUT
+AS
+SET @payment_id = (
+SELECT payment_id
+FROM THESIS
+WHERE serial_number = @thesis_serial_number
+)
 
 GO
 
@@ -448,6 +469,7 @@ BEGIN
         )
 END
 GO
+1
 
 -- 4) b) View all my students’s names and years spent in the thesis
 CREATE PROC ViewSupStudentsYears
@@ -495,7 +517,7 @@ UPDATE SUPERVISOR
 
 GO
 
--- 4) d)  procedure to find all publication related to a student
+-- 4) d)  procedure to find all publication related to a student 
 CREATE PROC ViewAStudentPublications
     @StudentId INT
 AS
@@ -506,7 +528,7 @@ WHERE T.student_id = @StudentId
 
 GO
 
--- get all reports of a all students I supervise
+ get all reports of a all students I supervise
 CREATE PROC ViewAllStudentsReports
     @supervisor_id INT
 AS
@@ -575,7 +597,10 @@ BEGIN
     END
 END
 GO
--- 4) f) prodecure for adding examiner to some defense
+
+GO
+
+- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
 
     @DefenseDate DATETIME,
@@ -605,6 +630,7 @@ BEGIN
         )
 END
 
+
 GO
 -- 4) g) prodecure for cancelling thesis if evaluation of last report is zero
 CREATE PROC CancelThesis
@@ -630,6 +656,7 @@ BEGIN
     RAISERROR('Last report should be zero to cancel the thesis', 16, 1)
 END
 GO
+
 -- 4) h) procedure for adding grade for thesis
 CREATE PROC AddGrade
     @ThesisSerialNo INT
@@ -641,7 +668,9 @@ WHERE DEFENSE.thesis_serial_number = @ThesisSerialNo
 UPDATE THESIS
 SET grade = @grade
 WHERE serial_number = @ThesisSerialNo
+
 GO
+
 CREATE PROC ShowExaminerTheses
     @examiner_id int
 AS
@@ -650,26 +679,54 @@ From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_n
     INNER JOIN SUPERVISOR Sup on (Su.supervisor_id = Sup.id) INNER JOIN STUDENT St on (T.student_id = St.id)
 WHERE Ex.examiner_id = @examiner_id
 GO
+
+CREATE Proc ShowExaminerDefense
+    @examiner_id int
+AS
+SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade, T.title
+FROM
+    EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.serial_number)
+where Ex.examiner_id = @examiner_id
+
+GO
 -- 5) a) procedure for adding a grade to defense
+
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
-    @DefenseDate DATETIME ,
+    @DefenseDate varchar(20),
     @grade DECIMAL(5, 2)
 AS
+
+declare @date DATETIME
+set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE DEFENSE
-SET grade = @grade
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
+SET grade = @grade 
+WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @date
 
 GO
 -- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
+    @examiner_id int,
     @ThesisSerialNo INT ,
-    @DefenseDate DATETIME ,
+    @DefenseDate VARCHAR(20) ,
     @comments VARCHAR(300)
 AS
+declare @date DATETIME
+set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE EXAMINED_BY
 SET comments = @comments
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @date and examiner_id=@examiner_id
+
+GO
+CREATE PROC SearchForThesis
+    @keyword varchar(50)
+
+AS
+declare @query VARCHAR(52)
+set @query = '%'+@keyword+'%'
+SELECT T.*
+From THESIS T
+where T.title like @query
 
 GO
 -- 6) a) procedure to view my profile as student
@@ -680,8 +737,8 @@ IF (EXISTS (SELECT id
 FROM GUCIAN
 WHERE id = @studentId ) )
 BEGIN
-    SELECT S.* , G.guc_id
-    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id)
+    SELECT S.* , G.guc_id, U.email
+    FROM STUDENT S INNER JOIN GUCIAN G ON (S.id = G.id) INNER JOIN USERS U ON U.id = S.id
     WHERE S.id = @studentId
 END
 ELSE
@@ -703,17 +760,26 @@ CREATE PROC editMyProfile
     @address VARCHAR(10),
     @type VARCHAR(10)
 AS
-UPDATE STUDENT
+UPDATE STUDENT 
 SET first_name = @firstName,
 LAST_NAME = @lastName,
 ADDRESS = @address,
 TYPE = @type
 WHERE id = @studentID
 
-UPDATE USERS
+UPDATE USERS 
 SET PASSWORD = @password,
 email = @email
 WHERE id = @studentID
+
+GO
+
+CREATE PROC viewAllMyTheses
+    @studentID INT
+AS
+SELECT *
+FROM THESIS
+WHERE student_id = @studentID
 
 GO
 
@@ -838,14 +904,19 @@ CREATE PROC addPublication
     @pubDate DATETIME,
     @host VARCHAR(50),
     @place VARCHAR(50),
-    @accepted BIT
+    @accepted BIT,
+    @studentId INT
 AS
 INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
 VALUES(@title, @pubDate, @place, @host, @accepted);
+
+INSERT INTO STUDENT_ADD_PUBLICATION
+VALUES(SCOPE_IDENTITY(), @studentId);
 
 GO
 
--- 6) i) Link publication to my thesis
+-- 6) i) Link publication to my thesis 
 
 CREATE PROC linkPubThesis
     @pubID INT,
@@ -854,18 +925,41 @@ AS
 INSERT INTO PUBLISHED_FOR
 VALUES(@pubID, @thesisSerialNo);
 
+GO
 
-go
--- get all thesis a supervisor supervise
-CREATE PROC viewSupThesis
-    @supervisor_id INT
+CREATE PROC AddAndLinkPubThesis
+    @title VARCHAR(50),
+    @pubDate DATETIME,
+    @host VARCHAR(50),
+    @place VARCHAR(50),
+    @accepted BIT,
+    @thesisSerialNo INT
 AS
-SELECT T.*
-FROM
-    SUPERVISOR S INNER JOIN SUPERVISED S1 ON S.id = S1.supervisor_id
-    INNER JOIN THESIS T ON S1.thesis_serial_number = T.serial_number
-WHERE S.id = @supervisor_id;
+INSERT INTO PUBLICATION
+    (title, publication_date, place, host, is_accepted)
+VALUES(@title, @pubDate, @place, @host, @accepted);
 
+INSERT INTO PUBLISHED_FOR
+VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
+
+GO
+
+
+CREATE PROC viewMyPublications
+    @studentId INT
+AS
+SELECT *
+FROM PUBLICATION P INNER JOIN STUDENT_ADD_PUBLICATION SP ON P.id = SP.publication_id
+WHERE SP.student_id = @studentId;
+
+GO
+
+CREATE PROC viewMyReports
+    @studentId INT
+AS
+SELECT *
+FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
+WHERE T.student_id = @studentId
 
 go
 
@@ -884,20 +978,23 @@ BEGIN
     SET @output = 0
 END
 
-
+go
+go
+-- get all thesis a supervisor supervise
+CREATE PROC viewSupThesis
+    @supervisor_id INT
+AS
+SELECT T.*
+FROM
+    SUPERVISOR S INNER JOIN SUPERVISED S1 ON S.id = S1.supervisor_id
+    INNER JOIN THESIS T ON S1.thesis_serial_number = T.serial_number
+WHERE S.id = @supervisor_id;
 go
 
 CREATE PROC viewExaminer
 AS
-
 SELECT *
-FROM DEFENSE
+FROM EXAMINER;
 
+Go
 
-SELECT *
-FROM EXAMINED_BY
-
-DELETE FROM EXAMINED_BY
-DELETE FROM DEFENSE
-
-DELETE FROM EVALUATED_BY

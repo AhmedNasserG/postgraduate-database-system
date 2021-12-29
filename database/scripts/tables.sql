@@ -1,7 +1,6 @@
 --drop dataBase pg_database
 CREATE DATABASE pg_database;
 GO
-
 USE pg_database;
 -- Create Users Table
 CREATE TABLE USERS
@@ -159,6 +158,7 @@ CREATE TABLE REPORT
     description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
 );
+SELECT * FROM REPORT;
 
 -- create table evaluted by
 CREATE TABLE EVALUATED_BY
@@ -226,7 +226,8 @@ CREATE TABLE PUBLICATION
     is_accepted BIT NOT NULL,
 );
 
--- create table published_for
+
+-- CREATE TABLE PUBLISHED_FOR
 CREATE TABLE PUBLISHED_FOR
 (
     publication_id INT NOT NULL,
@@ -234,4 +235,13 @@ CREATE TABLE PUBLISHED_FOR
     PRIMARY KEY (publication_id, thesis_serial_number),
     FOREIGN KEY (publication_id) REFERENCES PUBLICATION(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE CASCADE,
+);
+
+CREATE TABLE STUDENT_ADD_PUBLICATION
+(
+    publication_id INT,
+    student_id INT,
+    PRIMARY KEY (publication_id, student_id),
+    FOREIGN KEY(student_id) REFERENCES STUDENT(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(publication_id) REFERENCES PUBLICATION(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

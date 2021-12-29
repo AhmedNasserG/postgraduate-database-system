@@ -1,0 +1,88 @@
+<%- include('examinerDashboardHeader.ejs') %>
+
+<div class="row m-2">
+    <% for(var i=0;i < Defenses.length;i++){ %>
+      <div class="card mb-3 col-4 m-2">
+        <div class="card-body">
+          <span>
+            <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+              <%=Defenses[i].title%>
+                </h5>
+          </span>
+          <p class="card-text"><br><strong>Defense Date: </strong>
+            <%=Defenses[i].defense_date%> <br>
+              <strong>Location: </strong>
+              <%=Defenses[i].location%>
+              <br>
+              <strong>Grade :</strong>
+             <%=Defenses[i].grade%>
+          </p>
+          <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+                        data-bs-target="#addGrade<%=Defenses[i].thesis_serial_number%>">
+                        <i class="fas fa-pen"></i>&nbsp Add Grade
+                  </button>
+          <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+                  data-bs-target="#addComment<%=Defenses[i].thesis_serial_number%>">
+                  <i class="fas fa-comment"></i> Add Comment
+            </button>
+            <!--Add grade Model-->
+            <div class="modal fade" id="addGrade<%=Defenses[i].thesis_serial_number%>" data-bs-backdrop="static"
+              tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id=""> Add Grade For Defense Of
+                      <%=Defenses[i].title%>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form  method="POST" action ='/examiner/addGrade'>
+                  <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <input type="hidden" name = "Date"  value = <%=Defenses[i].defense_date .toString()%> >
+                        <input type="number" max = "100" class="form-control" placeholder="Add Grade" aria-label="Recipient's username" aria-describedby="button-addon2" name = "grade" required>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn view-btn" style = "color: white;"type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%> >Add </button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+            <!--Add Comment Model-->
+            <div class="modal fade" id="addComment<%=Defenses[i].thesis_serial_number%>" data-bs-backdrop="static"
+              tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id=""> Add Comment For Defense Of
+                      <%=Defenses[i].title%>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <form  method="POST" action ='/examiner/addComment'>
+                    <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <input type="hidden" name = "Date"  value = <%=Defenses[i].defense_date .toString()%> >
+                        <input type="text" maxlength= "300" class="form-control" placeholder="Add Comment" aria-label="Recipient's username" aria-describedby="button-addon2" name = "comment" required>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn view-btn" style="color: white;" type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%>>Add </button>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+
+        </div>
+      </div>
+      <%}%>
+
+
+</div>
+
+ 
+  
+  <%- include('../dashboardFooter.ejs') %>

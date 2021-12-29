@@ -22,7 +22,8 @@ router.post('/', function (req, res) {
           if (response.output.type == 0) {
             req.session.type = 0;
             res.redirect('/student');
-          } else if (response.output.type == 1) {
+          }
+          else if (response.output.type == 1) {
             req.session.type = 1;
             res.redirect('/supervisor');
           } else if (response.output.type == 2) {
@@ -31,6 +32,9 @@ router.post('/', function (req, res) {
           } else if (response.output.type == 3) {
             req.session.type = 3;
             res.redirect('/admin');
+          } else if (response.output.type == 4) {
+            req.session.type = 4
+            res.redirect('/student');
           }
         });
       }
