@@ -1,0 +1,246 @@
+<%- include('supervisorDashboardHeader.ejs') %>
+
+
+  <div class="row m-2">
+    <% theses.forEach(thesis=> { %>
+
+      <div class="card mb-3 col-4 m-2">
+        <div class="card-body">
+          <span>
+            <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+              <%=thesis.title%>
+                </h5>
+          </span>
+          <p class="card-text">
+            <br>
+            <strong>Field: </strong>
+            <%=thesis.field%>
+              <br>
+              <strong>Type: </strong>
+              <% if (thesis.type) { %>
+                Phd
+                <% } else { %>
+                  Master
+                  <% } %>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+                      data-bs-target="#staticBackdrop<%=thesis.serial_number%>">
+                      <i class="fas fa-info"></i> More Info
+                    </button>
+                    <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+                      data-bs-target="#add<%=thesis.serial_number%>">
+                      <i class="fas fa-user-shield"></i> Add Defence
+                    </button>
+                    <!-- Modal -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="add<%=thesis.serial_number%>" data-bs-backdrop="static" tabindex="-1"
+                      aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="">
+                              Add Defense for <%= thesis.title%>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form name="form<%=thesis.serial_number %>" method="POST" class="needs-validation"
+                              action="/supervisor/theses/<%=thesis.serial_number%>">
+                              <div class="mb-3">
+                                <label for="defence-date" class="col-form-label">Defence Date</label>
+                                <input type="date" class="form-control" name="date" required>
+                              </div>
+                              <div class="mb-3">
+                                <label for="location" class="col-form-label">Location</label>
+                                <input type="text" class="form-control" name="location" placeholder="GUC campus"
+                                  required>
+                              </div>
+                              <div class="container mt-5 px-2">
+                                <div class="table-responsive" id="examiner-table">
+                                  <table class="table table-responsive table-borderless ">
+                                    <caption id="examiner-caption">Add Examiner</caption>
+                                    <thead>
+                                      <tr class="bg-light">
+                                        <th scope="col" width="5%"><input class="form-check-input" type="checkbox"
+                                            onclick="toggle(this, <%= thesis.serial_number %> )" id="check-all"></th>
+                                        <th scope="col" width="5%">#</th>
+                                        <th scope="col" width="20%"> Name</th>
+                                        <th scope="col" width="20%">Field of Work</th>
+                                        <th scope="col" width="5%">National</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <% examiner.forEach(examiner=> { %>
+
+                                          <th scope="row"><input class="form-check-input" type="checkbox" required></th>
+                                          <td>
+                                            <%=examiner.id %>
+                                          </td>
+                                          <td><img src="https://i.imgur.com/VKOeFyS.png" width="25">
+                                            <%= examiner.name%>
+                                          </td>
+                                          <td>
+                                            <%= examiner.field_of_work %>
+                                          </td>
+                                          <td><span class="fw-bolder">
+                                              <%= examiner.is_national %>
+                                            </span> </td>
+                                      </tr>
+                                      <% }) %>
+                                    </tbody>
+                                  </table>
+                                  <script type="text/javascript">
+                                    function toggle(source, thesis_id) {
+                                      checkboxes = document.forms["form" + thesis_id].querySelectorAll('input[type="checkbox"]');
+                                      for (var i = 0, n = checkboxes.length; i < n; i++) {
+                                        checkboxes[i].checked = source.checked;
+                                      }
+                                    }
+                                    async function getSelectedCheckboxes(thesisNo) {
+                                      var dateField = document.forms["form" + thesisNo].querySelector('input[name="date"]');
+                                      var selectedCheckboxes = document.forms['form' + thesisNo].querySelectorAll(
+                                        'input[type=checkbox]:checked');
+                                      var examinerAlert = document.getElementById('examiner-alert');
+                                      var locationField = document.forms["form" + thesisNo].querySelector('input[name="location"]');
+                                      if (dateField.value == "" || locationField.value == "" || selectedCheckboxes.length == 0) {
+                                        console.log('YES');
+                                        examinerAlert.setAttribute('style', 'display:block');
+                                        return;
+                                      }
+                                      else {
+                                        examinerAlert.setAttribute('style', 'display:none');
+                                      }
+
+                                      var form = document.forms["form" + thesisNo];
+                                      var selectedCheckboxes = [];
+                                      var checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+                                      checkboxes.forEach(function (checkbox) {
+                                        if (checkbox.checked) {
+                                          var row = checkbox.parentNode.parentNode;
+                                          var id = row.cells[1].innerHTML.trim();
+                                          var name = row.cells[2].textContent.trim();
+                                          var field = row.cells[3].innerHTML.trim();
+                                          var is_national = row.cells[4].textContent.trim();
+                                          selectedCheckboxes.push({
+                                            id: id,
+                                            name: name,
+                                            field: field,
+                                            is_national: is_national
+                                          });
+                                        }
+                                      });
+
+                                      var examinerField = form.elements['examiner'];
+                                      data = JSON.stringify(selectedCheckboxes);
+                                      examinerField.value = data;
+                                      console.log(Object.fromEntries(new FormData(examinerField.form).entries()));
+                                      examinerField.form.submit();
+                                    }
+                                  </script>
+                                </div>
+                              </div>
+                              <div class="alert alert-danger" role="alert" style="display: none;" id="examiner-alert">
+                                <i class="fas fa-exclamation-triangle"></i> Fill all the fields
+                              </div>
+                              <input type="hidden" name="examiner" value="">
+                              <button type="button" class="btn btn-primary view-btn"
+                                onclick="getSelectedCheckboxes(<%= thesis.serial_number %> )"
+                                id="examiner-btn">Add</button>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary view-btn"
+                              data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop<%=thesis.serial_number%>" data-bs-backdrop="static"
+                      tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="">
+                              <%=thesis.title%>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+
+                            <table class="table table-striped table-bordered">
+                              <tr>
+                                <td><i class="far fa-lightbulb"></i> Field </td>
+                                <td>
+                                  <%=thesis.field%>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td> <i class="fas fa-university"></i> Type</td>
+                                <td>
+                                  <% if (thesis.type) { %>
+                                    Phd
+                                    <% } else { %>
+                                      Master
+                                      <% } %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><i class="fas fa-calendar-day"></i> Start Date</td>
+                                <td>
+                                  <%= moment(thesis.start_date).format('Do MMMM, YYYY') %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><i class="fas fa-calendar-day"></i> End Date</td>
+                                <td>
+                                  <%= moment(thesis.end_date).format('Do MMMM, YYYY') %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td> <i class="far fa-clock"></i> Duration</td>
+                                <td>
+                                  <%= thesis.duration %> days
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <i class="fas fa-calendar-day"></i> Seminar Date
+                                </td>
+                                <td>
+                                  <%= moment(thesis.seminar_date).format('Do MMMM, YYYY') %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <i class="fas fa-list"></i> Number of Extensions
+                                </td>
+                                <td>
+                                  <%= thesis.number_of_extensions %>
+                                </td>
+                              </tr>
+                            </table>
+                            <form method="POST" class="needs-validation"
+                              action="/supervisor/cancel/<%= thesis.serial_number %> ">
+                              <button type="submit" class="btn btn-primary view-btn">Cancel Thesis</button>
+                            </form>
+
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+        </div>
+      </div>
+      <% }); %>
+  </div>
+
+  <%- include('../dashboardFooter.ejs') %>

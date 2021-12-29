@@ -95,6 +95,7 @@ body {
   border-color: var(--side-bar);
 }
 
+
 .view-btn:disabled {
   background-color: var(--side-bar);
   border-radius: 8px;
@@ -128,6 +129,32 @@ body {
 
 .form-control {
   border-radius: 10px;
+}
+
+.form-control:active {
+  border-color: var(--side-bar);
+}
+
+#examiner-caption {
+  caption-side: top;
+  color: var(--black);
+}
+
+.progress-bar {
+  background-color: darkcyan;
+  border-radius: 20px;
+  font-size: smaller;
+}
+
+.progress {
+  border-radius: 20px;
+  background-color: #f0f5f9;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+#first-progress {
+  margin-bottom: 5px;
 }
 
 .form-control:active {

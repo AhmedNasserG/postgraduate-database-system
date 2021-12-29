@@ -442,11 +442,34 @@ CREATE PROC EvaluateProgressReport
     @progress_report_no INT,
     @evaluation_value INT
 AS
-UPDATE EVALUATED_BY
+-- check if it exists
+IF EXISTS (SELECT *
+FROM EVALUATED_BY
+WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no)
+BEGIN
+    UPDATE EVALUATED_BY
     SET evaluation = @evaluation_value
     WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no
-
+END
+ELSE
+BEGIN
+    INSERT INTO EVALUATED_BY
+        (
+        supervisor_id,
+        thesis_serial_number,
+        report_number,
+        evaluation
+        )
+    VALUES
+        (
+            @supervisor_id,
+            @thesis_serial_number,
+            @progress_report_no,
+            @evaluation_value
+        )
+END
 GO
+1
 
 -- 4) b) View all my students’s names and years spent in the thesis
 CREATE PROC ViewSupStudentsYears
@@ -456,11 +479,12 @@ AS
 DECLARE @current_date DATE
 SET @current_date = GETDATE()
 SELECT
-    ST.first_name + ST.last_name AS name,
+    ST.first_name + ' ' +  ST.last_name AS name,
     DATEDIFF(year, T.start_date, (SELECT MIN(X)
     FROM (VALUES
             (@current_date),
             (T.end_date)) AS VALUE(X))) AS years
+    , ST.id AS student_id
 FROM
     SUPERVISOR S INNER JOIN SUPERVISED SD ON
     S.id = SD.supervisor_id
@@ -504,17 +528,37 @@ WHERE T.student_id = @StudentId
 
 GO
 
+ get all reports of a all students I supervise
+CREATE PROC ViewAllStudentsReports
+    @supervisor_id INT
+AS
+SELECT R.*, T.title, S.first_name + ' ' + S.last_name AS student_name
+FROM THESIS T INNER JOIN SUPERVISED SD ON T.serial_number = SD.thesis_serial_number
+    INNER JOIN REPORT R ON T.serial_number = R.thesis_serial_number INNER JOIN STUDENT S ON T.student_id = S.id
+WHERE SD.supervisor_id = @supervisor_id
+Go
 -- 4) e) procedure to add a defense for a gucian student
 CREATE PROC AddDefenseGucian
     @ThesisSerialNo INT ,
     @DefenseDate DATETIME ,
     @DefenseLocation VARCHAR(15)
 AS
-INSERT INTO DEFENSE
-    (thesis_serial_number, defense_date, location)
-VALUES
-    (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+-- check if it exists
+IF EXISTS (SELECT *
+FROM DEFENSE
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+BEGIN
 
+    RAISERROR('Defense already exists', 16, 1)
+END
+ELSE
+BEGIN
+    INSERT INTO DEFENSE
+        (thesis_serial_number, defense_date, location)
+    VALUES
+        (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+
+END
 GO
 
 -- 4) e) procedure to add a defense for non-gucian student
@@ -523,41 +567,58 @@ CREATE PROC AddDefenseNonGucian
     @DefenseDate DATETIME ,
     @DefenseLocation VARCHAR(15)
 AS
-Declare @student_id INT
-SELECT @student_id = student_id
-FROM THESIS
-WHERE THESIS.serial_number = @ThesisSerialNo
-IF NOT EXISTS (SELECT T.student_id
-FROM TAKEN_BY T
-WHERE T.grade <= 50 AND T.student_id = @student_id )
-    BEGIN
-    INSERT INTO DEFENSE
-        (thesis_serial_number, defense_date, location)
-    VALUES
-        (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+-- check if it exists
+IF EXISTS (SELECT *
+FROM DEFENSE
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+BEGIN
 
+    RAISERROR('Defense already exists', 16, 1)
 END
 ELSE
 BEGIN
-    PRINT('Student must pass all courses ')
-END    
+    Declare @student_id INT
+    SELECT @student_id = student_id
+    FROM THESIS
+    WHERE THESIS.serial_number = @ThesisSerialNo
+    IF NOT EXISTS (SELECT T.student_id
+    FROM TAKEN_BY T
+    WHERE T.grade <= 50 AND T.student_id = @student_id )
+    BEGIN
+        INSERT INTO DEFENSE
+            (thesis_serial_number, defense_date, location)
+        VALUES
+            (@ThesisSerialNo, @DefenseDate, @DefenseLocation)
+
+    END
+ELSE
+BEGIN
+        RAISERROR('Student should pass all course', 16, 1)
+    END
+END
+GO
 
 GO
 
--- 4) f) prodecure for adding examiner to some defense
+- 4) f) prodecure for adding examiner to some defense
 CREATE PROC AddExaminer
-    @ThesisSerialNo INT ,
-    @DefenseDate DATETIME ,
-    @ExaminerName VARCHAR(20),
+
+    @DefenseDate DATETIME,
+    @ExaminerName VARCHAR
+(20),
     @National BIT,
-    @fieldOfWork VARCHAR(20)
+    @ThesisSerialNo INT,
+    @fieldOfWork VARCHAR
+(20)
 AS
+-- Declare @date DATETIME
 Declare @examiner_id INT
+-- set @date =  CONVERT(datetime,@DefenseDate,101)
 SELECT @examiner_id = id
 FROM EXAMINER
 WHERE name = @ExaminerName AND field_of_work = @fieldOfWork AND is_national = @National
 
-IF (@examiner_id IS NOT NULL ) 
+IF (@examiner_id IS NOT NULL )
 BEGIN
     INSERT INTO EXAMINED_BY
         (examiner_id, thesis_serial_number, defense_date)
@@ -568,6 +629,7 @@ BEGIN
             @DefenseDate
         )
 END
+
 
 GO
 -- 4) g) prodecure for cancelling thesis if evaluation of last report is zero
@@ -586,12 +648,15 @@ IF EXISTS (SELECT E.report_number
 FROM EVALUATED_BY E
 WHERE E.report_number = @latest_report_number AND E.evaluation = 0)
 BEGIN
-    DELETE FROM THESIS 
+    DELETE FROM THESIS
     WHERE THESIS.serial_number = @ThesisSerialNo
 END
-select *
-from USERS
+ELSE
+BEGIN
+    RAISERROR('Last report should be zero to cancel the thesis', 16, 1)
+END
 GO
+
 -- 4) h) procedure for adding grade for thesis
 CREATE PROC AddGrade
     @ThesisSerialNo INT
@@ -880,10 +945,6 @@ VALUES(SCOPE_IDENTITY(), @thesisSerialNo);
 GO
 
 
--- <a href
--- ="" class="" style="color: #52616b"
---               ><i class="fas fa-link"></i
---             ></a>
 CREATE PROC viewMyPublications
     @studentId INT
 AS
@@ -899,3 +960,41 @@ AS
 SELECT *
 FROM REPORT R INNER JOIN THESIS T ON R.thesis_serial_number = T.serial_number
 WHERE T.student_id = @studentId
+
+go
+
+CREATE PROC is_GUCian
+    @thesisSerialNo INT,
+    @output INT OUTPUT
+AS
+IF EXISTS (SELECT id
+from THESIS T inner join GUCIAN G on T.student_id = G.id
+where T.serial_number = @thesisSerialNo)
+BEGIN
+    SET @output = 1
+END
+ELSE
+BEGIN
+    SET @output = 0
+END
+
+go
+go
+-- get all thesis a supervisor supervise
+CREATE PROC viewSupThesis
+    @supervisor_id INT
+AS
+SELECT T.*
+FROM
+    SUPERVISOR S INNER JOIN SUPERVISED S1 ON S.id = S1.supervisor_id
+    INNER JOIN THESIS T ON S1.thesis_serial_number = T.serial_number
+WHERE S.id = @supervisor_id;
+go
+
+CREATE PROC viewExaminer
+AS
+SELECT *
+FROM EXAMINER;
+
+Go
+

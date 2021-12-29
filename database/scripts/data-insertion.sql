@@ -471,7 +471,7 @@ INSERT INTO EXAMINED_BY
 VALUES
         (14, 3, '2/2/2021', 'amazing work')
 
--- publication Insertion 
+-- publication Insertion
 INSERT INTO PUBLICATION
 VALUES
         ('Further Research for Computer Architecture', '2/2/2021', 'Cairo', 'IEEE Conference', 1)
@@ -510,6 +510,7 @@ VALUES
 INSERT INTO USERS
 Values('admin', 'admin@admin.com')
 INSERT INTO ADMIN
+
 VALUES(SCOPE_IDENTITY());
 
 SELECT *

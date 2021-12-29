@@ -1,0 +1,37 @@
+<%- include('supervisorDashboardHeader.ejs') %>
+
+<div class="row m-2">
+  <% students.forEach(student => { %>
+
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <p class="card-title text-name">
+          <i class="fas fa-user colored-icon"></i>
+          <%=student.name%>
+        </p>
+        <p id="years-info">
+          <i class="fas fa-calendar-week colored-icon"></i>
+          <%=student.years%> Years
+        </p>
+        <form action="/supervisor/students" method="POST" id="myForm">
+          <button
+            class="btn btn-primary view-btn btn-sm"
+            data-bs-toggle="modal"
+            data-bs-target="#jj<%=student.student_id%>"
+            value="<%=student.student_id%>(<%=student.name%>"
+            type="submit"
+            name="view"
+          >
+            <i class="fas fa-eye"></i>
+            View Publication
+          </button>
+        </form>
+      </span>
+    </div>
+  </div>
+
+  <% }); %>
+</div>
+
+<%- include('../dashboardFooter.ejs') %>
