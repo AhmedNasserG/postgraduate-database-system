@@ -9,22 +9,26 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
+  userLogin(email, password, req.session, res);
+});
+
+function userLogin(email, password, session, res) {
   try {
     userProcedures.userLogin(email, password).then(response => {
       if (response.output.success == false) {
         res.render('login', { verify: 'no' });
       } else {
-        req.session.userId = response.output.id;
+        session.userId = response.output.id;
         userProcedures.userType(response.output.id).then(response => {
-          req.session.type = response.output.type;
-          routeUser(req.session, res);
+          session.type = response.output.type;
+          routeUser(session, res);
         });
       }
     });
   } catch (err) {
     console.log(error);
   }
-});
+}
 
 function routeUser(session, res) {
   if (session.type == 0 || session.type == 4) {
