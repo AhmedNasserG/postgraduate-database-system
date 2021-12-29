@@ -1,12 +1,24 @@
 # pg-database
 
 # AUTH
-To login as supervisor use 
 
-`email` : `slim-constraint@email.com`
+Login credentials for testing purposes:
+- GUCian Student
+`email`: `GUCStudent@test.com`
+`password`: `student`
+- Non-GUCian Student
+`email`: `NONGUCStudent@test.com`
+`password`: `student`
+- Supervisor
+`email`: `supervisor@test.com`
+`password`: `supervisor`
+- Admin
+`email`: `admin@test.com`
+`password`: `admin`
+- Examiner
+`email`: `examiner@test.com`
+`password`: `examiner`
 
-
-`password` : `6656asds25466as@dsad`
 
 ## Project Structure 
  ```
