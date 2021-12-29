@@ -87,7 +87,7 @@ const supervisorAddExaminer = async (
 
   request.input('DefenseDate', sql.DateTime, defenseDate);
   request.input('ExaminerName', sql.VarChar, examinerName);
-  request.input('National', isNational);
+  request.input('National', sql.Bit, isNational);
   request.input('fieldOfWork', sql.VarChar, fieldOfWork);
   request.input('ThesisSerialNo', sql.Int, thesisSerialNo);
   return request.execute('AddExaminer');
