@@ -106,6 +106,7 @@
                           type="radio"
                           name="thesis_serial_number"
                           value="<%= thesis.serial_number%>"
+                          required
                         />
                       </th>
                       <td><%=thesis.serial_number %></td>
@@ -155,7 +156,11 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/student/publications">
+        <form
+          method="POST"
+          action="/student/publications"
+          class="needs-validation"
+        >
           <div class="mb-3">
             <label for="publication-title" class="col-form-label"
               >Title :</label
@@ -165,6 +170,7 @@
               class="form-control"
               id="publication-title"
               name="title"
+              required
             />
           </div>
           <div class="mb-3">
@@ -176,6 +182,7 @@
               class="form-control"
               id="publication-date"
               name="date"
+              required
             />
           </div>
           <div class="mb-3">
@@ -185,6 +192,7 @@
               class="form-control"
               id="publication-host"
               name="host"
+              required
             />
           </div>
           <div class="mb-3">
@@ -196,6 +204,7 @@
               class="form-control"
               id="publication-place"
               name="place"
+              required
             />
           </div>
           <div class="mb-3">
@@ -207,6 +216,7 @@
               class="form-control"
               id="publication-status"
               name="status"
+              required
             />
           </div>
           <div class="modal-footer">

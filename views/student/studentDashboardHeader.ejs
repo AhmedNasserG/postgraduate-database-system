@@ -51,26 +51,34 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/student/publications">
+        <form method="POST" action="/student/publications" class="needs-validation">
           <div class="mb-3">
             <label for="publication-title" class="col-form-label">Title :</label>
-            <input type="text" class="form-control" id="publication-title" name="title">
+            <input type="text" class="form-control" id="publication-title" name="title" required>
           </div>
           <div class="mb-3">
             <label for="publication-date" class="col-form-label">Publication Date :</label>
-            <input type="date" class="form-control" id="publication-date" name="date">
+            <input type="date" class="form-control" id="publication-date" name="date" required>
           </div>
           <div class="mb-3">
             <label for="publication-host" class="col-form-label">Host :</label>
-            <input type="text" class="form-control" id="publication-host" name="host">
+            <input type="text" class="form-control" id="publication-host" name="host" required>
           </div>
           <div class="mb-3">
             <label for="publication-place" class="col-form-label">Place :</label>
-            <input type="text" class="form-control" id="publication-place" name="place">
+            <input type="text" class="form-control" id="publication-place" name="place" required>
           </div>
           <div class="mb-3">
             <label for="publication-status" class="col-form-label">Status :</label>
-            <input type="text" class="form-control" id="publication-status" name="status">
+            <br>
+            <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="status" id="yes" value="option1" required>
+  <label class="form-check-label" for="yes">Accepted</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="status" id="no" value="option2" required>
+  <label class="form-check-label" for="no">Rejected</label>
+</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
