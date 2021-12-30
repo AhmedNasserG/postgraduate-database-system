@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userProcedures = require('../procedures/userProcedures');
+const { userLogin, userType } = require('../procedures/userProcedures');
 const { ROLE } = require('../utilities/auth');
 
 router.get('/', function (req, res, next) {
@@ -8,19 +8,17 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  userLogin(email, password, req, res);
+  login(req, res, req.body.email, req.body.password);
 });
 
-function userLogin(email, password, req, res) {
+function login(req, res, email, password) {
   try {
-    userProcedures.userLogin(email, password).then(response => {
-      if (response.output.success == false) {
+    userLogin(email, password).then(response => {
+      if (!response.output.success) {
         res.render('login', { verify: 'no' });
       } else {
         req.session.userId = response.output.id;
-        userProcedures.userType(response.output.id).then(response => {
+        userType(response.output.id).then(response => {
           req.session.type = response.output.type;
           routeUser(req, res);
         });
