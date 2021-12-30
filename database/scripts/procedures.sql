@@ -544,7 +544,7 @@ AS
 -- check if it exists
 IF EXISTS (SELECT *
 FROM DEFENSE
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+WHERE thesis_serial_number = @ThesisSerialNo)
 BEGIN
 
     RAISERROR('Defense already exists', 16, 1)
@@ -568,7 +568,7 @@ AS
 -- check if it exists
 IF EXISTS (SELECT *
 FROM DEFENSE
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate)
+WHERE thesis_serial_number = @ThesisSerialNo)
 BEGIN
 
     RAISERROR('Defense already exists', 16, 1)
@@ -600,11 +600,11 @@ GO
 
 CREATE PROC AddExaminer
 
+    @ThesisSerialNo INT,
     @DefenseDate DATETIME,
     @ExaminerName VARCHAR
 (20),
     @National BIT,
-    @ThesisSerialNo INT,
     @fieldOfWork VARCHAR
 (20)
 AS
@@ -741,7 +741,7 @@ ELSE
 BEGIN
     SELECT S.*, U.email
     FROM STUDENT S INNER JOIN USERS U ON S.id = U.id
-    WHERE id = @studentId
+    WHERE S.id = @studentId
 End
 
 GO
