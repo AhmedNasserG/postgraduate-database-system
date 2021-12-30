@@ -34,6 +34,7 @@ router.get('/theses', async function (req, res) {
     });
 });
 
+
 //get defenses
 router.get('/defenses', function (req, res) {
   const id = req.session.userId;
@@ -44,6 +45,10 @@ router.get('/defenses', function (req, res) {
   });
 });
 
+//get profile
+router.get('/profile',function(req,res){
+  res.render('examiner/examinerProfile')
+})
 router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
