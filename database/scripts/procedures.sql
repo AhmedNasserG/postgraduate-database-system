@@ -726,7 +726,7 @@ where T.title like @query
 
 GO
 -- 6) a) procedure to view my profile as student
-CREATE PROC viewMyProfile
+CREATE PROC viewStudentProfile
     @studentId INT
 AS
 IF (EXISTS (SELECT id
@@ -739,15 +739,41 @@ BEGIN
 END
 ELSE
 BEGIN
-    SELECT S.*
-    FROM STUDENT S
-    WHERE
-id = @studentId
+    SELECT S.*, U.email
+    FROM STUDENT S INNER JOIN USERS U ON S.id = U.id
+    WHERE id = @studentId
 End
 
 GO
+
+CREATE PROC editExaminerProfile
+    @examiner_id INT,
+    @email VARCHAR(50),
+    @examiner_name VARCHAR(50),
+    @field_of_work VARCHAR(20),
+    @is_national BIT
+AS
+UPDATE EXAMINER
+SET name = @examiner_name, field_of_work = @field_of_work, is_national = @is_national
+WHERE id = @examiner_id
+
+UPDATE USERS
+SET email = @email
+WHERE id = @examiner_id
+
+GO
+
+CREATE PROC viewExaminerProfile
+    @examiner_id INT
+AS
+SELECT E.*, U.email
+FROM EXAMINER E INNER JOIN USERS U ON E.id = U.id
+WHERE E.id = @examiner_id
+
+GO
+
 -- 6) b) procedure to edit profile as student
-CREATE PROC editMyProfile
+CREATE PROC editStudentProfile
     @studentID INT,
     @firstName VARCHAR(10),
     @lastName VARCHAR(10),
@@ -994,8 +1020,8 @@ FROM EXAMINER;
 go
 
 Create Proc ShowThesisSupervisors
-@thesis_serial_number INT
-AS 
+    @thesis_serial_number INT
+AS
 SELECT Sup.first_name+' '+Sup.last_name As supervisor_name
 From SUPERVISED S INNER JOIN Supervisor Sup on (S.supervisor_id = Sup.id)
 where S.thesis_serial_number = @thesis_serial_number

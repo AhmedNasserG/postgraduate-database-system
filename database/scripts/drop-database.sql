@@ -1,0 +1,1 @@
+drop DATABASE pg_database;
