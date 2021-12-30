@@ -3,20 +3,13 @@ var router = express.Router();
 const examinerProcedures = require('../procedures/examinerProcedures');
 const moment = require('moment');
 const toast = require('../utilities/toast');
+const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  /* if(req.session.type !==2){
-    res.redirect('/')
-  }*/
+router.get('/', authUser, authRole(ROLE.EXAMINER), function (req, res, next) {
   res.render('examiner/examinerDashboard');
 });
 
-//get theses
-router.get('/theses', function (req, res) {
-  /* if(req.session.type !== 2){
-    res.redirect('/')
-  }*/
+router.get('/theses', authUser, authRole(ROLE.EXAMINER), function (req, res) {
   const id = req.session.userId;
   console.log(id);
   examinerProcedures.showExaminerTheses(id).then(response => {
@@ -25,8 +18,7 @@ router.get('/theses', function (req, res) {
   });
 });
 
-//get defenses
-router.get('/defenses', function (req, res) {
+router.get('/defenses', authUser, authRole(ROLE.EXAMINER), function (req, res) {
   const id = req.session.userId;
   examinerProcedures.showExaminerDefenses(id).then(response => {
     res.render('examiner/examinerDefenses', {
@@ -39,19 +31,20 @@ router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const grade = req.body.grade;
-  console.log(thesisSerialNumber);
-  console.log(defenseDate);
-  console.log(grade);
   examinerProcedures
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {
-      toast.showToast(req,'success','Grade added successfully')
-      res.redirect('/examiner/defenses')  
+      toast.showToast(req, 'success', 'Grade added successfully');
+      res.redirect('/examiner/defenses');
     })
     .catch(err => {
-      toast.showToast(req,'error','Grade not added Please try again')    
+      toast.showToast(req, 'error', 'Grade not added Please try again');
       res.redirect('/examiner/defenses');
     });
+});
+
+router.get('/search', authUser, authRole(ROLE.EXAMINER), function (req, res) {
+  res.render('examiner/examinerSearch');
 });
 
 router.post('/addComment', function (req, res) {
@@ -62,24 +55,20 @@ router.post('/addComment', function (req, res) {
   examinerProcedures
     .addComment(id, thesisSerialNumber, defenseDate, comment)
     .then(response => {
-      toast.showToast(req,'success','Comment added successfully')
-      res.redirect('/examiner/defenses')  
+      toast.showToast(req, 'success', 'Comment added successfully');
+      res.redirect('/examiner/defenses');
     })
     .catch(err => {
-      toast.showToast(req,'error','Grade not added Please try again')    
+      toast.showToast(req, 'error', 'Grade not added Please try again');
       res.redirect('/examiner/defenses');
     });
-});
-
-router.get('/search', function (req, res) {
-  res.render('examiner/examinerSearch');
 });
 
 router.post('/search', function (req, res) {
   const searchTerm = req.body.searchTerm.trim();
   if (searchTerm === '') {
-    toast.showToast(req,'error','Please add value to search for')    
-     res.redirect('/examiner/search')
+    toast.showToast(req, 'error', 'Please add value to search for');
+    res.redirect('/examiner/search');
   } else {
     console.log(searchTerm);
     examinerProcedures.searchForThesis(searchTerm).then(response => {
