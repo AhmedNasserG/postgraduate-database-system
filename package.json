@@ -15,7 +15,7 @@
     "express-session": "^1.17.2",
     "http-errors": "~1.6.3",
     "moment": "^2.29.1",
-    "morgan": "~1.9.1",
+    "morgan": "~1.10.0",
     "mssql": "^7.3.0"
   },
   "devDependencies": {
