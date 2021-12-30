@@ -1,3 +1,11 @@
+const ROLE = {
+  GUCIAN_STUDENT: 0,
+  SUPERVISOR: 1,
+  EXAMINER: 2,
+  ADMIN: 3,
+  NON_GUCIAN_STUDENt: 4
+};
+
 const authUser = function (req, res, next) {
   if (req.session.type) {
     next();
@@ -18,4 +26,4 @@ const authRole = function (role) {
   };
 };
 
-module.exports = { authUser, authRole };
+module.exports = { authUser, authRole, ROLE };
