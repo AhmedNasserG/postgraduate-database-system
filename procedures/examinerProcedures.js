@@ -80,6 +80,14 @@ const searchForThesis = async (
   return request.execute('SearchForThesis')
 }
 
+const showProfile = async(
+  id
+)=>{
+  const request = new sql.Request()
+  request.input('examiner_id',sql.Int,id)
+  return request.execute('viewExaminerProfile')
+}
+
 module.exports = {
   examinerRegister,
   showExaminerTheses,
@@ -87,5 +95,6 @@ module.exports = {
   addGrade,
   addComment,
   searchForThesis,
-  showThesisSupervisors
+  showThesisSupervisors,
+  showProfile
 };

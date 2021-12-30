@@ -16,6 +16,7 @@ body {
   background-color: var(--body);
 }
 
+
 .side-navbar {
   width: 250px;
   height: 100%;
@@ -93,6 +94,7 @@ body {
   background-color: var(--side-bar);
   border-radius: 8px;
   border-color: var(--side-bar);
+  color: var(--white);
 }
 
 

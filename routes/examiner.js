@@ -46,8 +46,13 @@ router.get('/search', authUser, authRole([ROLE.EXAMINER]), function (req, res) {
 });
 
 //get profile
-router.get('/profile',function(req,res){
-  res.render('examiner/examinerProfile')
+router.get('/profile',authUser, authRole([ROLE.EXAMINER]),function(req,res){
+  const id = req.session.userId
+  examinerProcedures.showProfile(id).then(response =>{
+    console.log(response.recordset)
+    res.render('examiner/examinerProfile',{examiner:response.recordset})
+
+  })
 })
 router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
@@ -93,11 +98,25 @@ router.post('/search', function (req, res) {
       console.log(response.recordset);
       console.log(1)
       res.render('examiner/examinerSearch', {
-        theses: response.recordset,
-        moment: moment
+        theses: response.recordset
       });
     });
   }
 });
-
+ 
+router.post('/profile', function(req,res){
+  const id = req.session.userId
+  const name = req.body.name
+  const email = req.body.email
+  const fieldOfWork = req.body.fieldOfWork
+  const type = req.body.type
+  examinerProcedures.updateProfile(id,name,email,fieldOfWork,type).then(response=>{
+    console.log(response)
+    toast.showToast(req,'success','Profile updated successfully')
+    res.redirect('/examiner/profile')
+  }).catch(err=>{
+    toast.showToast(req,'error','Profile not updated please try again')
+    res.redirect('/examiner/profile')
+  })
+})
 module.exports = router;

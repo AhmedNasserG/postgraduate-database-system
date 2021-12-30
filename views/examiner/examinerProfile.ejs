@@ -1,72 +1,134 @@
 <%- include('examinerDashboardHeader.ejs')%>
-<div class="container rounded mb-5">
-  <div class="row justify-content-md-center">
+<div class="container rounded mb-5 mt -5">
+  <div class="row justify-content-md-center mt-2">
     <div class="col-md-5 border-right bg-white">
       <div class="p-3 py-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="text-right">Profile Settings</h4>
+          <h4 class="text-right"> <i class="fas fa-user"></i>
+            Profile Settings</h4>
         </div>
+        <form method="POST" action = "/examiner/profile">
         <div class="row mt-2">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label class="labels">Name</label
             ><input
+              name = 'name'
               type="text"
-              class="form-control"
-              placeholder="first name"
-              value=""
+              class="form-control editable"
+              value="<%=examiner[0].name%>"
+              placeholder="Enter your name"
+              required
               readonly
-            />
-          </div>
-          <div class="col-md-6">
-            <label class="labels">Last Name</label
-            ><input
-              type="text"
-              class="form-control"
-              value=""
-              placeholder="surname"
             />
           </div>
         </div>
         <div class="row mt-3">
           <div class="col-md-12">
-            <label class="labels">Email ID</label
+            <label class="labels">Email </label
             ><input
+              name = 'email'
               type="text"
-              class="form-control"
-              placeholder="enter email id"
-              value=""
+              class="form-control editable"
+              placeholder="enter email "
+              value="<%=examiner[0].email%>"
+              required
+              readonly
             />
           </div>
+          </div>
+          <div class="row mt-3">
           <div class="col-md-12 mt-2">
             <label class="labels">Field Of Work</label
             ><input
+              name = 'fieldOfWork'
               type="text"
-              class="form-control"
-              placeholder="education"
-              value=""
+              class="form-control editable"
+              placeholder="Enter your field of work"
+              value="<%=examiner[0].field_of_work%>"
+              required
+              readonly
             />
           </div>
-        </div>
+          </div>
+          <div class="row mt-4 justify-content-md-center">
 
+          <div
+          class="btn-group "
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check enable"
+            name="type"
+            id="national"
+            value="1"
+            autocomplete="off"
+            disabled
+          />
+          <label class="btn btn-outline-secondary" for="national"
+            >National</label
+          >
+
+          <input
+            type="radio"
+            class="btn-check enable"
+            name="type"
+            id="international"
+            value="0"
+            autocomplete="off"
+            disabled
+          />
+          <label class="btn btn-outline-secondary" for="international"
+            >International</label
+          >
+        </div>
+        </div>
         <div class="mt-5 text-center">
-          <button class="btn view-btn" type="button" style="color: white">
+          <button class="btn view-btn" type="submit" >
             Save Profile
           </button>
         </div>
+    </form>
+
       </div>
     </div>
     <div class="col-md-2 bg-white">
       <div class="p-3 py-5">
         <div
-          class="d-flex justify-content-between align-items-center experience"
+          class="d-flex justify-content-between align-items-center experience btn" 
+          id = "edit-btn"
         >
-          <span class="border px-3 p-1 add-experience btn"
-            ><i class="fa fa-plus"></i>&nbsp;Experience</span
-          >
+          <i class="fas fa-edit"></i>
+
         </div>
         <br />
       </div>
     </div>
   </div>
 </div>
+<script>
+document.getElementById('edit-btn').onclick = function() {
+    inputs = document.getElementsByClassName('editable')
+    for(input of inputs){
+        input.removeAttribute('readonly')
+    }
+    type = document.getElementsByClassName('enable')
+    for (type of type){
+        type.removeAttribute('disabled')
+    }
+};
+</script>
+<% if (examiner[0].is_national === true) {%>
+    <script>
+        document.getElementById('national').checked = true
+    </script>
+<% }else {        console.log(examiner[0].is_national)
+    %>
+    
+    <script>
+         document.getElementById('international').checked = true
+        
+    </script>    
+<%}%>
 <%- include('../dashboardFooter.ejs') %>

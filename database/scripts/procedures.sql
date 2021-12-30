@@ -568,7 +568,11 @@ AS
 -- check if it exists
 IF EXISTS (SELECT *
 FROM DEFENSE
+<<<<<<< Updated upstream
 WHERE thesis_serial_number = @ThesisSerialNo)
+=======
+WHERE thesis_serial_number = @ThesisSerialNo )
+>>>>>>> Stashed changes
 BEGIN
 
     RAISERROR('Defense already exists', 16, 1)
