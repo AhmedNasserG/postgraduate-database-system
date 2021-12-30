@@ -16,7 +16,6 @@ body {
   background-color: var(--body);
 }
 
-
 .side-navbar {
   width: 250px;
   height: 100%;
@@ -97,7 +96,6 @@ body {
   color: var(--white);
 }
 
-
 .view-btn:disabled {
   background-color: var(--side-bar);
   border-radius: 8px;
@@ -161,4 +159,10 @@ body {
 
 .form-control:active {
   border-color: var(--side-bar);
+}
+
+.highlight {
+  color: coral;
+  padding: 0;
+  margin: 0;
 }
