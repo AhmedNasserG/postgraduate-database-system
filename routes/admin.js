@@ -4,24 +4,30 @@ const router = express.Router();
 
 const adminProcedures = require('../procedures/adminProcedures');
 const toast = require('../utilities/toast');
+const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-router.get('/', function (req, res, next) {
+router.get('/', authUser, authRole([ROLE.ADMIN]), function (req, res, next) {
   res.render('admin/adminDashboard');
 });
 
-router.get('/supervisors', function (req, res) {
-  adminProcedures
-    .listSupervisors()
-    .then(response => {
-      res.render('admin/supervisors', { supervisors: response.recordset });
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect('/');
-    });
-});
+router.get(
+  '/supervisors',
+  authUser,
+  authRole([ROLE.ADMIN]),
+  function (req, res) {
+    adminProcedures
+      .listSupervisors()
+      .then(response => {
+        res.render('admin/supervisors', { supervisors: response.recordset });
+      })
+      .catch(err => {
+        console.log(err);
+        res.redirect('/');
+      });
+  }
+);
 
-router.get('/theses', function (req, res) {
+router.get('/theses', authUser, authRole([ROLE.ADMIN]), function (req, res) {
   adminProcedures
     .listTheses()
     .then(thesesResponse => {

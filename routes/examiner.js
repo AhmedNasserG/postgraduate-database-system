@@ -3,20 +3,13 @@ var router = express.Router();
 const examinerProcedures = require('../procedures/examinerProcedures');
 const moment = require('moment');
 const toast = require('../utilities/toast');
+const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  /* if(req.session.type !==2){
-    res.redirect('/')
-  }*/
+router.get('/', authUser, authRole([ROLE.EXAMINER]), function (req, res, next) {
   res.render('examiner/examinerDashboard');
 });
 
-//get theses
-router.get('/theses', async function (req, res) {
-  /* if(req.session.type !== 2){
-    res.redirect('/')
-  }*/
+router.get('/theses', authUser, authRole([ROLE.EXAMINER]), async function (req, res) {
   const id = req.session.userId;
   console.log(id);
   
@@ -34,15 +27,22 @@ router.get('/theses', async function (req, res) {
     });
 });
 
-
-//get defenses
-router.get('/defenses', function (req, res) {
-  const id = req.session.userId;
-  examinerProcedures.showExaminerDefenses(id).then(response => {
-    res.render('examiner/examinerDefenses', {
-      Defenses: response.recordset
+router.get(
+  '/defenses',
+  authUser,
+  authRole([ROLE.EXAMINER]),
+  function (req, res) {
+    const id = req.session.userId;
+    examinerProcedures.showExaminerDefenses(id).then(response => {
+      res.render('examiner/examinerDefenses', {
+        Defenses: response.recordset
+      });
     });
-  });
+  }
+);
+
+router.get('/search', authUser, authRole([ROLE.EXAMINER]), function (req, res) {
+  res.render('examiner/examinerSearch', {theses:[]});
 });
 
 //get profile
@@ -53,9 +53,6 @@ router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const grade = req.body.grade;
-  console.log(thesisSerialNumber);
-  console.log(defenseDate);
-  console.log(grade);
   examinerProcedures
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {
@@ -83,10 +80,6 @@ router.post('/addComment', function (req, res) {
       toast.showToast(req, 'error', 'Grade not added Please try again');
       res.redirect('/examiner/defenses');
     });
-});
-
-router.get('/search', function (req, res) {
-  res.render('examiner/examinerSearch',{theses:[]});
 });
 
 router.post('/search', function (req, res) {

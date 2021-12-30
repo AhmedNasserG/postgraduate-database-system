@@ -1,27 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const userProcedures = require('../procedures/userProcedures');
+const { userLogin, userType } = require('../procedures/userProcedures');
+const { ROLE } = require('../utilities/auth');
 
 router.get('/', function (req, res, next) {
-  routeUser(req.session, res);
+  routeUser(req, res);
 });
 
 router.post('/', function (req, res) {
-  const email = req.body.email;
-  const password = req.body.password;
-  userLogin(email, password, req.session, res);
+  login(req, res, req.body.email, req.body.password);
 });
 
-function userLogin(email, password, session, res) {
+function login(req, res, email, password) {
   try {
-    userProcedures.userLogin(email, password).then(response => {
-      if (response.output.success == false) {
+    userLogin(email, password).then(response => {
+      if (!response.output.success) {
         res.render('login', { verify: 'no' });
       } else {
-        session.userId = response.output.id;
-        userProcedures.userType(response.output.id).then(response => {
-          session.type = response.output.type;
-          routeUser(session, res);
+        req.session.userId = response.output.id;
+        userType(response.output.id).then(response => {
+          req.session.type = response.output.type;
+          routeUser(req, res);
         });
       }
     });
@@ -30,17 +29,25 @@ function userLogin(email, password, session, res) {
   }
 }
 
-function routeUser(session, res) {
-  if (session.type == 0 || session.type == 4) {
-    res.redirect('/student');
-  } else if (session.type == 1) {
-    res.redirect('/supervisor');
-  } else if (session.type == 2) {
-    res.redirect('/examiner');
-  } else if (session.type == 3) {
-    res.redirect('/admin');
-  } else {
-    res.render('login');
+function routeUser(req, res) {
+  switch (req.session.type) {
+    case ROLE.GUCIAN_STUDENT:
+      res.redirect('/student');
+      break;
+    case ROLE.SUPERVISOR:
+      res.redirect('/supervisor');
+      break;
+    case ROLE.EXAMINER:
+      res.redirect('/examiner');
+      break;
+    case ROLE.ADMIN:
+      res.redirect('/admin');
+      break;
+    case ROLE.NON_GUCIAN_STUDENT:
+      res.redirect('/student');
+      break;
+    default:
+      res.render('login');
   }
 }
 
