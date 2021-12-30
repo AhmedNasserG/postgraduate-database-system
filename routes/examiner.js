@@ -5,11 +5,11 @@ const moment = require('moment');
 const toast = require('../utilities/toast');
 const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-router.get('/', authUser, authRole(ROLE.EXAMINER), function (req, res, next) {
+router.get('/', authUser, authRole([ROLE.EXAMINER]), function (req, res, next) {
   res.render('examiner/examinerDashboard');
 });
 
-router.get('/theses', authUser, authRole(ROLE.EXAMINER), function (req, res) {
+router.get('/theses', authUser, authRole([ROLE.EXAMINER]), function (req, res) {
   const id = req.session.userId;
   console.log(id);
   examinerProcedures.showExaminerTheses(id).then(response => {
@@ -18,14 +18,19 @@ router.get('/theses', authUser, authRole(ROLE.EXAMINER), function (req, res) {
   });
 });
 
-router.get('/defenses', authUser, authRole(ROLE.EXAMINER), function (req, res) {
-  const id = req.session.userId;
-  examinerProcedures.showExaminerDefenses(id).then(response => {
-    res.render('examiner/examinerDefenses', {
-      Defenses: response.recordset
+router.get(
+  '/defenses',
+  authUser,
+  authRole([ROLE.EXAMINER]),
+  function (req, res) {
+    const id = req.session.userId;
+    examinerProcedures.showExaminerDefenses(id).then(response => {
+      res.render('examiner/examinerDefenses', {
+        Defenses: response.recordset
+      });
     });
-  });
-});
+  }
+);
 
 router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;

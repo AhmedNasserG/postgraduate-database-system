@@ -5,14 +5,14 @@ const toast = require('../utilities/toast');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
 const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-router.get('/', authUser, authRole(ROLE.SUPERVISOR), function (req, res) {
+router.get('/', authUser, authRole([ROLE.SUPERVISOR]), function (req, res) {
   res.render('supervisor/supervisorDashboard');
 });
 
 router.get(
   '/students',
   authUser,
-  authRole(ROLE.SUPERVISOR),
+  authRole([ROLE.SUPERVISOR]),
   function (req, res) {
     const supervisorId = req.session.userId;
     supervisorProcedures.supervisorViewStudents(supervisorId).then(response => {
@@ -23,23 +23,28 @@ router.get(
   }
 );
 
-router.get('/theses', authUser, authRole(ROLE.SUPERVISOR), function (req, res) {
-  const supervisorId = req.session.userId;
-  supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
-    supervisorProcedures.viewExaminer().then(response2 => {
-      res.render('supervisor/theses', {
-        theses: response.recordset,
-        moment: moment,
-        examiner: response2.recordset
+router.get(
+  '/theses',
+  authUser,
+  authRole([ROLE.SUPERVISOR]),
+  function (req, res) {
+    const supervisorId = req.session.userId;
+    supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
+      supervisorProcedures.viewExaminer().then(response2 => {
+        res.render('supervisor/theses', {
+          theses: response.recordset,
+          moment: moment,
+          examiner: response2.recordset
+        });
       });
     });
-  });
-});
+  }
+);
 
 router.get(
   '/reports',
   authUser,
-  authRole(ROLE.SUPERVISOR),
+  authRole([ROLE.SUPERVISOR]),
   function (req, res) {
     const supervisorId = req.session.userId;
     supervisorProcedures

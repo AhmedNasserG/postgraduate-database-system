@@ -15,9 +15,9 @@ const authUser = function (req, res, next) {
   }
 };
 
-const authRole = function (role) {
+const authRole = function (roles) {
   return (req, res, next) => {
-    if (req.session.type === role) {
+    if (roles.includes(req.session.type)) {
       next();
     } else {
       res.status(401);
