@@ -88,6 +88,22 @@ const showProfile = async(
   return request.execute('viewExaminerProfile')
 }
 
+const updateProfile = async(
+  id,
+  examinerName,
+  email,
+  fieldOfWork,
+  isNational
+)=>{
+  const request = new sql.Request()
+  request.input('examiner_id',sql.Int, id)
+  request.input('email',sql.VarChar,email)
+  request.input('examiner_name',sql.VarChar,examinerName)
+  request.input('field_of_work',sql.VarChar,fieldOfWork)
+  request.input('is_national',isNational)
+  return request.execute('editExaminerProfile')
+}
+
 module.exports = {
   examinerRegister,
   showExaminerTheses,
@@ -96,5 +112,6 @@ module.exports = {
   addComment,
   searchForThesis,
   showThesisSupervisors,
-  showProfile
+  showProfile,
+  updateProfile
 };
