@@ -3,20 +3,56 @@ var router = express.Router();
 const moment = require('moment');
 const toast = require('../utilities/toast');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
+const { authUser, authRole, ROLE } = require('../utilities/auth');
 
-/* GET home page. */
-router.get('/', function (req, res) {
+router.get('/', authUser, authRole(ROLE.SUPERVISOR), function (req, res) {
   res.render('supervisor/supervisorDashboard');
 });
 
-router.get('/students', function (req, res) {
+router.get(
+  '/students',
+  authUser,
+  authRole(ROLE.SUPERVISOR),
+  function (req, res) {
+    const supervisorId = req.session.userId;
+    supervisorProcedures.supervisorViewStudents(supervisorId).then(response => {
+      res.render('supervisor/students', {
+        students: response.recordset
+      });
+    });
+  }
+);
+
+router.get('/theses', authUser, authRole(ROLE.SUPERVISOR), function (req, res) {
   const supervisorId = req.session.userId;
-  supervisorProcedures.supervisorViewStudents(supervisorId).then(response => {
-    res.render('supervisor/students', {
-      students: response.recordset
+  supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
+    supervisorProcedures.viewExaminer().then(response2 => {
+      res.render('supervisor/theses', {
+        theses: response.recordset,
+        moment: moment,
+        examiner: response2.recordset
+      });
     });
   });
 });
+
+router.get(
+  '/reports',
+  authUser,
+  authRole(ROLE.SUPERVISOR),
+  function (req, res) {
+    const supervisorId = req.session.userId;
+    supervisorProcedures
+      .supervisorViewAllStudentsReports(supervisorId)
+      .then(response => {
+        console.log(response.recordset);
+        res.render('supervisor/reports', {
+          reports: response.recordset,
+          moment: moment
+        });
+      });
+  }
+);
 
 router.post('/theses/:serial_number', function (req, res) {
   const serialNumber = req.params.serial_number;
@@ -90,18 +126,6 @@ router.post('/theses/:serial_number', function (req, res) {
   console.log(examiners);
   res.redirect('/supervisor/theses');
 });
-router.get('/theses', function (req, res) {
-  const supervisorId = req.session.userId;
-  supervisorProcedures.supervisorViewThesis(supervisorId).then(response => {
-    supervisorProcedures.viewExaminer().then(response2 => {
-      res.render('supervisor/theses', {
-        theses: response.recordset,
-        moment: moment,
-        examiner: response2.recordset
-      });
-    });
-  });
-});
 
 router.post('/students', function (req, res) {
   console.log(req.body.view);
@@ -115,19 +139,6 @@ router.post('/students', function (req, res) {
       res.render('supervisor/supervisorPublication', {
         publications: response.recordset,
         studentName: studentName
-      });
-    });
-});
-
-router.get('/reports', function (req, res) {
-  const supervisorId = req.session.userId;
-  supervisorProcedures
-    .supervisorViewAllStudentsReports(supervisorId)
-    .then(response => {
-      console.log(response.recordset);
-      res.render('supervisor/reports', {
-        reports: response.recordset,
-        moment: moment
       });
     });
 });
