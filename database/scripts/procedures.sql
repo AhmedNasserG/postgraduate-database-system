@@ -671,9 +671,8 @@ GO
 CREATE PROC ShowExaminerTheses
     @examiner_id int
 AS
-SELECT T.serial_number , T.title, Sup.first_name+' '+Sup.last_name AS supervisor_name, St.first_name +' '+St.last_name AS student_name
-From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_number) INNER JOIN SUPERVISED Su ON( T.serial_number = Su.thesis_serial_number)
-    INNER JOIN SUPERVISOR Sup on (Su.supervisor_id = Sup.id) INNER JOIN STUDENT St on (T.student_id = St.id)
+SELECT distinct T.serial_number , T.title, St.first_name +' '+St.last_name AS student_name
+From EXAMINED_BY Ex INNER JOIN Thesis T on (Ex.thesis_serial_number = T.serial_number) INNER JOIN STUDENT St on (T.student_id = St.id)
 WHERE Ex.examiner_id = @examiner_id
 GO
 
@@ -727,7 +726,7 @@ where T.title like @query
 
 GO
 -- 6) a) procedure to view my profile as student
-CREATE PROC viewMyProfile
+CREATE PROC viewStudentProfile
     @studentId INT
 AS
 IF (EXISTS (SELECT id
@@ -740,15 +739,41 @@ BEGIN
 END
 ELSE
 BEGIN
-    SELECT S.*
-    FROM STUDENT S
-    WHERE
-id = @studentId
+    SELECT S.*, U.email
+    FROM STUDENT S INNER JOIN USERS U ON S.id = U.id
+    WHERE id = @studentId
 End
 
 GO
+
+CREATE PROC editExaminerProfile
+    @examiner_id INT,
+    @email VARCHAR(50),
+    @examiner_name VARCHAR(50),
+    @field_of_work VARCHAR(20),
+    @is_national BIT
+AS
+UPDATE EXAMINER
+SET name = @examiner_name, field_of_work = @field_of_work, is_national = @is_national
+WHERE id = @examiner_id
+
+UPDATE USERS
+SET email = @email
+WHERE id = @examiner_id
+
+GO
+
+CREATE PROC viewExaminerProfile
+    @examiner_id INT
+AS
+SELECT E.*, U.email
+FROM EXAMINER E INNER JOIN USERS U ON E.id = U.id
+WHERE E.id = @examiner_id
+
+GO
+
 -- 6) b) procedure to edit profile as student
-CREATE PROC editMyProfile
+CREATE PROC editStudentProfile
     @studentID INT,
     @firstName VARCHAR(10),
     @lastName VARCHAR(10),
@@ -992,6 +1017,14 @@ CREATE PROC viewExaminer
 AS
 SELECT *
 FROM EXAMINER;
+go
+
+Create Proc ShowThesisSupervisors
+    @thesis_serial_number INT
+AS
+SELECT Sup.first_name+' '+Sup.last_name As supervisor_name
+From SUPERVISED S INNER JOIN Supervisor Sup on (S.supervisor_id = Sup.id)
+where S.thesis_serial_number = @thesis_serial_number
 
 Go
 

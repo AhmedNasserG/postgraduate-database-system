@@ -2,19 +2,49 @@
 
   <div class="row m-2">
     <% for(var i=0;i < Theses.length;i++){ %>
-      <div class="card mb-3 col-4 m-2">
+      <div class="card mb-3 col-5 m-2">
         <div class="card-body">
           <span>
             <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
               <%=Theses[i].title%>
                 </h5>
           </span>
-          <p class="card-text"><br><strong>Supervisor Name </strong>
-            <%=Theses[i].supervisor_name%> <br>
-              <strong>Student Name </strong>
+          <p class="card-text"><br>
+              <strong>Student Name: </strong>
               <%=Theses[i].student_name%>
           </p>
-
+          <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop<%=Theses[i].serial_number%>">
+                        <i class="fas fa-users"></i> &nbsp Show Supervisor(s)
+           </button>
+           <div class="modal fade" id="staticBackdrop<%=Theses[i].serial_number%>" data-bs-backdrop="static"
+            tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id=""> Supervisors Of
+                    <%=thesis.title%>
+                  </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-striped table-bordered">
+                    <% for (var k = 0;k < supervisors[i].length;k++){%>
+                    <tr>
+                      <td><i class="fas fa-user-tie"></i></td>
+                      <td>
+                        <%=supervisors[i][k].supervisor_name%>
+                      </td>
+                    </tr>
+                    <%}%>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <%}%>
