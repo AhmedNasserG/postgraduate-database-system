@@ -88,6 +88,7 @@ router.post('/addComment', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const comment = req.body.comment;
+  console.log(defenseDate)
   examinerProcedures
     .addComment(id, thesisSerialNumber, defenseDate, comment)
     .then(response => {

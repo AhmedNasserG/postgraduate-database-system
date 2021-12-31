@@ -47,7 +47,7 @@ const supervisorAddDefenseGUCian = async (thesisId, location, date) => {
   console.log('GUCIAN');
   request.input('ThesisSerialNo', sql.Int, thesisId);
   request.input('DefenseLocation', sql.VarChar, location);
-  request.input('DefenseDate', sql.DateTime, date);
+  request.input('DefenseDate', sql.Date, date);
   return request.execute('AddDefenseGucian');
 };
 
@@ -61,7 +61,7 @@ const supervisorAddDefenseNonGUCian = async (thesisId, location, date) => {
   const request = new sql.Request();
   request.input('ThesisSerialNo', sql.Int, thesisId);
   request.input('DefenseLocation', sql.VarChar, location);
-  request.input('DefenseDate', sql.DateTime, date);
+  request.input('DefenseDate', sql.Date, date);
   return request.execute('AddDefenseNonGucian');
 };
 
@@ -85,9 +85,9 @@ const supervisorAddExaminer = async (
   console.log(fieldOfWork);
   console.log(thesisSerialNo);
 
-  request.input('DefenseDate', sql.DateTime, defenseDate);
+  request.input('DefenseDate', sql.Date, defenseDate);
   request.input('ExaminerName', sql.VarChar, examinerName);
-  request.input('National', sql.Bit, isNational);
+  request.input('National', isNational);
   request.input('fieldOfWork', sql.VarChar, fieldOfWork);
   request.input('ThesisSerialNo', sql.Int, thesisSerialNo);
   return request.execute('AddExaminer');

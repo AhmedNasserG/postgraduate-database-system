@@ -33,7 +33,7 @@ router.post('/student', function (req, res) {
       toast.showToast(req,'success','Registered successfully')
       res.redirect('/');
     }).catch (err => {
-      toast.showToast(req,'error','Registered successfully')
+      toast.showToast(req,'error','already registered email!')
     res.redirect('back');
   }
 )});
@@ -46,19 +46,20 @@ router.post('/supervisor', function (req, res) {
   const faculty = req.body.faculty;
   const password = req.body.password;
   // console.log(req.body)
-  try {
     supervisorProcedures.supervisorRegister(
       firstName,
       lastName,
       email,
       faculty,
       password
-    );
-    res.redirect('/');
-  } catch (error) {
+    ).then(response =>{
+      toast.showToast(req,'success','Registered successfully')
+      res.redirect('/');
+    }).catch (error => {
+      toast.showToast(req,'error','already registered email!')
     res.render('register', { ok: no });
   }
-});
+)});
 
 /* examiner Registration */
 router.post('/examiner', function (req, res) {
@@ -69,18 +70,19 @@ router.post('/examiner', function (req, res) {
   const password = req.body.password;
   const type = req.body.type;
   // console.log(req.body)
-  try {
-    examinerProcedures.examinerRegister(
+  examinerProcedures.examinerRegister(
       firstName,
       lastName,
       email,
       password,
       type,
       fieldOfWork
-    );
-    res.redirect('/');
-  } catch (error) {
+    ).then(response =>{
+      toast.showToast(req,'success','Registered successfully')
+      res.redirect('/');
+    }).catch (error =>{
+      toast.showToast(req,'error','already registered email!')
     res.render('register', { ok: no });
   }
-});
+)});
 module.exports = router;

@@ -62,6 +62,7 @@ const addComment = async (
   defenseDate,
   comment
 ) =>{
+  console.log(defenseDate)
   const request = new sql.Request()
   console.log(thesisSerialNo)
   request.input('examiner_id',sql.Int,id)
