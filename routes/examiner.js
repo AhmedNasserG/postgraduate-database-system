@@ -71,6 +71,7 @@ router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const grade = req.body.grade;
+  console.log(defenseDate)
   examinerProcedures
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {

@@ -1,6 +1,7 @@
 USE pg_database;
 SELECT * from users
 GO
+SELECT * from NON_GUCIAN
 
 EXEC StudentRegister 'mazen', 'Nasr', 'student123', 'MET', 0, 'ahmed@student.guc.edu.eg', 'New Cairo'
 

@@ -689,7 +689,7 @@ GO
 CREATE Proc ShowExaminerDefense
     @examiner_id int
 AS
-SELECT CONVERT(varchar(50), D.defense_date, 101) as defense_date , D.thesis_serial_number, D.location, D.grade, T.title
+SELECT D.defense_date, D.thesis_serial_number, D.location, D.grade, T.title, E.comment
 FROM
     EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.serial_number)
 where Ex.examiner_id = @examiner_id
@@ -699,7 +699,7 @@ GO
 
 CREATE PROC AddDefenseGrade
     @ThesisSerialNo INT ,
-    @DefenseDate varchar(20),
+    @DefenseDate DATETIME,
     @grade DECIMAL(5, 2)
 AS
 
@@ -707,21 +707,20 @@ declare @date DATETIME
 set @date = CONVERT(datetime,@DefenseDate,101)
 UPDATE DEFENSE
 SET grade = @grade
-WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @date
+WHERE thesis_serial_number = @ThesisSerialNo and defense_date = @DefenseDate
 
 GO
 -- 5) b) procedure to add comments for defense
 CREATE PROC AddCommentsGrade
     @examiner_id int,
     @ThesisSerialNo INT ,
-    @DefenseDate VARCHAR(20) ,
+    @DefenseDate DATETIME ,
     @comments VARCHAR(300)
 AS
-declare @date DATETIME
-set @date = CONVERT(datetime,@DefenseDate,101)
+
 UPDATE EXAMINED_BY
 SET comments = @comments
-WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @date and examiner_id=@examiner_id
+WHERE thesis_serial_number = @ThesisSerialNo AND defense_date = @DefenseDate and examiner_id=@examiner_id
 
 GO
 CREATE PROC SearchForThesis
@@ -781,7 +780,8 @@ FROM EXAMINER E INNER JOIN USERS U ON E.id = U.id
 WHERE E.id = @examiner_id
 
 GO
-
+select * from DEFENSE
+where defense_date = '12/13/2021 12:00'
 -- 6) b) procedure to edit profile as student
 CREATE PROC editStudentProfile
     @studentID INT,
