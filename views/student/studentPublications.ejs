@@ -135,8 +135,8 @@
 
   <% }); %>
 </div>
-<!-- Publication Modal -->
 
+<!-- Publication Modal -->
 <div
   class="modal fade"
   id="exampleModal"
@@ -160,6 +160,7 @@
           method="POST"
           action="/student/publications"
           class="needs-validation"
+          id="pubForm"
         >
           <div class="mb-3">
             <label for="publication-title" class="col-form-label"
@@ -170,6 +171,7 @@
               class="form-control"
               id="publication-title"
               name="title"
+              maxlength="50"
               required
             />
           </div>
@@ -192,6 +194,7 @@
               class="form-control"
               id="publication-host"
               name="host"
+              maxlength="50"
               required
             />
           </div>
@@ -204,6 +207,7 @@
               class="form-control"
               id="publication-place"
               name="place"
+              maxlength="50"
               required
             />
           </div>
@@ -211,28 +215,50 @@
             <label for="publication-status" class="col-form-label"
               >Status :</label
             >
-            <input
-              type="text"
-              class="form-control"
-              id="publication-status"
-              name="status"
-              required
-            />
+            <br />
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="status"
+                id="yes"
+                value="1"
+                required
+              />
+              <label class="form-check-label" for="yes">Accepted</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="status"
+                id="no"
+                value="0"
+                required
+              />
+              <label class="form-check-label" for="no">Rejected</label>
+            </div>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
               data-bs-dismiss="modal"
+              onclick="resetForm()"
             >
               Close
             </button>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary view-btn">Add</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+<script>
+  function resetForm() {
+    document.getElementById('pubForm').reset();
+  }
+</script>
 
 <%- include('../dashboardFooter.ejs') %>
