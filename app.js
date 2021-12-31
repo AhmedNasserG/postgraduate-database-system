@@ -65,6 +65,10 @@ app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
 
+app.use(function (req, res) {
+  res.status(404).send('404: Page not found');
+});
+
 app.locals = {
   app: app,
   toastState: '',
