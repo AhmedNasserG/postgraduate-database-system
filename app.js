@@ -39,7 +39,7 @@ const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
 const logoutRoute = require('./routes/logout');
-
+const addMobileRoute = require('./routes/addMobile')
 const app = express();
 
 // view engine setup
@@ -64,7 +64,7 @@ app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
-
+app.use('/addMobile',addMobileRoute)
 app.use(function (req, res) {
   res.status(404).send('404: Page not found');
 });

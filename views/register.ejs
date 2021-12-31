@@ -375,6 +375,29 @@
           </div>
         </div>
       </div>
+      <% if (locals.toastState === 'success') {%>
+        <div class="toast align-items-center bg-success" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
+          <div class="d-flex">
+            <div class="toast-body">
+              <%=locals.toastMessage%>
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <%} else if (locals.toastState === 'error') {%>
+        <div class="toast align-items-center bg-danger" role="alert" aria-live="assertive" aria-atomic="true" style="position: absolute; top: 10px; right: 10px;">
+          <div class="d-flex">
+            <div class="toast-body">
+              <%=locals.toastMessage%>
+            </div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        <%}%> 
+        <% locals.app.locals.toastState = '';
+        locals.app.locals.toastMessage = ''; %>
+        
+        
       <!-- Pills content -->
     </div>
   </body>

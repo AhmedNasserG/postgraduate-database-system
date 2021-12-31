@@ -75,7 +75,7 @@ router.post('/addGrade', function (req, res) {
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {
       toast.showToast(req, 'success', 'Grade added successfully');
-      res.redirect('/examiner/defenses');
+      res.redirect('back');
     })
     .catch(err => {
       toast.showToast(req, 'error', 'Grade not added Please try again');
