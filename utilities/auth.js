@@ -1,3 +1,5 @@
+const { StatusCodes } = require('http-status-codes');
+
 const ROLE = {
   GUCIAN_STUDENT: '0',
   SUPERVISOR: '1',
@@ -10,7 +12,7 @@ const authUser = function (req, res, next) {
   if (req.session.type) {
     next();
   } else {
-    res.status(401);
+    res.status(StatusCodes.UNAUTHORIZED);
     res.redirect('/');
   }
 };
@@ -20,8 +22,10 @@ const authRole = function (roles) {
     if (roles.includes(req.session.type)) {
       next();
     } else {
-      res.status(401);
-      res.send('Unauthorized');
+      res.status(StatusCodes.UNAUTHORIZED).render('error', {
+        title: '401 UNAUTHORIZED',
+        message: 'Error 401 : UNAUTHORIZED'
+      });
     }
   };
 };

@@ -1,11 +1,13 @@
-const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
+const path = require('path')
 const logger = require('morgan');
 const session = require('express-session');
 const sql = require('mssql');
 const moment = require('moment');
+const { StatusCodes } = require('http-status-codes');
+const errorHandler = require('express-error-handler');
+
 
 require('dotenv').config();
 const sqlConfig = {
@@ -39,6 +41,7 @@ const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
 const logoutRoute = require('./routes/logout');
+const { handle } = require('express/lib/application');
 
 const app = express();
 
@@ -56,6 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
+app.use('/', express.static(path.join(__dirname + 'public')));
 
 app.use('/', loginRoute);
 app.use('/register', registerRoute);
@@ -65,8 +69,12 @@ app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
 
-app.use(function (req, res) {
-  res.status(404).send('404: Page not found');
+
+app.use((req, res) => {
+  res.status(StatusCodes.NOT_FOUND).render('error', {
+    title: '404 NOT FOUND',
+    message: 'Error 404 : Page Not Found'
+  });
 });
 
 app.locals = {
