@@ -1,6 +1,4 @@
-const req = require('express/lib/request');
 const sql = require('mssql');
-const { RequestError } = require('mssql/lib/base');
 
 const studentRegister = async (
   firstName,
@@ -29,7 +27,23 @@ const viewMyProfile = async (
 ) => {
   const request = new sql.Request();
   request.input('studentId', sql.Int, studentId);
-  return request.execute('viewMyProfile');
+  return request.execute('viewStudentProfile');
+};
+
+const updateProfile = async (
+  studentId,
+  firstName,
+  lastName,
+  email,
+  address
+) => {
+  const request = new sql.Request();
+  request.input('studentID', sql.Int, studentId);
+  request.input('firstName', sql.VarChar, firstName);
+  request.input('lastName', sql.VarChar, lastName);
+  request.input('email', sql.VarChar, email);
+  request.input('address', sql.VarChar, address);
+  return request.execute('editStudentProfile');
 };
 
 const viewAllMyTheses = async (
@@ -119,6 +133,7 @@ const viewMyPublications = async (
 module.exports = {
   studentRegister,
   viewMyProfile,
+  updateProfile,
   viewAllMyTheses,
   viewCoursesGrades,
   addProgressReport,

@@ -158,7 +158,6 @@ CREATE TABLE REPORT
     description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
 );
-SELECT * FROM REPORT;
 
 -- create table evaluted by
 CREATE TABLE EVALUATED_BY

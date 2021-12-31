@@ -8,7 +8,7 @@ router.get(
   '/',
   authUser,
   authRole([ROLE.GUCIAN_STUDENT, ROLE.NON_GUCIAN_STUDENT]),
-  function (req, res, next) {
+  function (req, res) {
     const type = req.session.type;
     res.render('student/studentDashboard', { type: type });
   }
@@ -24,7 +24,7 @@ router.get(
     studentProcedures.viewMyProfile(id).then(response => {
       const profile = response.recordset[0];
       res.render('student/studentProfile', {
-        profile: profile,
+        student: profile,
         type: type
       });
     });
@@ -170,6 +170,28 @@ router.post('/linkPublication', (req, res) => {
       toast.showToast(req, 'error', 'Cannot link Publication');
       res.redirect('/student/publications');
     });
+});
+
+/* Edit Student profile */
+router.post('/profile', (req, res) => {
+  const id = req.session.userId;
+  const firstName = req.body.name.split(" ")[0];
+  const lastName = req.body.name.split(" ")[1];
+  const email = req.body.email;
+  const address = req.body.address;
+  studentProcedures.updateProfile(
+    id,
+    firstName,
+    lastName,
+    email,
+    address
+  ).then((response) => {
+    toast.showToast(req, 'success', 'Profile updated successfully');
+    res.redirect('/student/profile');
+  }).catch(err => {
+    toast.showToast(req, 'error', 'Profile not updated please try again');
+    res.redirect('/student/profile');
+  })
 });
 
 module.exports = router;
