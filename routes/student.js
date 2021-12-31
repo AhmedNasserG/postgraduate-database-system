@@ -52,7 +52,7 @@ router.get(
 router.get(
   '/courses',
   authUser,
-  authRole([ROLE.GUCIAN_STUDENT, ROLE.NON_GUCIAN_STUDENT]),
+  authRole([ROLE.NON_GUCIAN_STUDENT]),
   (req, res) => {
     const id = req.session.userId;
     const type = req.session.type;
