@@ -330,6 +330,11 @@ SELECT @num_of_installments = num_of_installments
 FROM PAYMENT
 WHERE id = @payment_id
 SET @counter = @num_of_installments
+IF NOT EXISTS(
+    SELECT * FROM INSTALLMENT
+    WHERE payment_id = @payment_id
+)
+BEGIN
 WHILE @counter > 0
     BEGIN
     INSERT INTO INSTALLMENT
@@ -348,6 +353,11 @@ WHILE @counter > 0
             )
     SET @installment_date = DATEADD(month, 6, @installment_date)
     SET @counter = @counter - 1
+END
+END
+ELSE
+BEGIN
+RAISERROR('Cannot issue installments again', 16, 1);
 END
 
 GO
@@ -568,11 +578,7 @@ AS
 -- check if it exists
 IF EXISTS (SELECT *
 FROM DEFENSE
-<<<<<<< Updated upstream
 WHERE thesis_serial_number = @ThesisSerialNo)
-=======
-WHERE thesis_serial_number = @ThesisSerialNo )
->>>>>>> Stashed changes
 BEGIN
 
     RAISERROR('Defense already exists', 16, 1)
@@ -779,23 +785,19 @@ GO
 -- 6) b) procedure to edit profile as student
 CREATE PROC editStudentProfile
     @studentID INT,
-    @firstName VARCHAR(10),
-    @lastName VARCHAR(10),
-    @password VARCHAR(10),
-    @email VARCHAR(10),
-    @address VARCHAR(10),
-    @type VARCHAR(10)
+    @firstName VARCHAR(20),
+    @lastName VARCHAR(20),
+    @email VARCHAR(50),
+    @address VARCHAR(50)
 AS
 UPDATE STUDENT
 SET first_name = @firstName,
-LAST_NAME = @lastName,
-ADDRESS = @address,
-TYPE = @type
+last_name = @lastName,
+address = @address
 WHERE id = @studentID
 
 UPDATE USERS
-SET PASSWORD = @password,
-email = @email
+SET email = @email
 WHERE id = @studentID
 
 GO
