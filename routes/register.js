@@ -3,6 +3,7 @@ const router = express.Router();
 const studentProcedures = require('../procedures/studentProcedures');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
 const examinerProcedures = require('../procedures/examinerProcedures');
+const toast = require('../utilities/toast');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -19,8 +20,7 @@ router.post('/student', function (req, res) {
   const password = req.body.password;
   const type = req.body.type;
   console.log(req.body);
-  try {
-    studentProcedures.studentRegister(
+  studentProcedures.studentRegister(
       firstName,
       lastName,
       email,
@@ -28,14 +28,15 @@ router.post('/student', function (req, res) {
       faculty,
       password,
       type
-    );
-    console.log(type);
-    req.session.type = type;
-    res.redirect('/');
-  } catch (err) {
-    res.render('register', { ok: 'no' });
+    ).then(response=>{
+      console.log(type);
+      toast.showToast(req,'success','Registered successfully')
+      res.redirect('/');
+    }).catch (err => {
+      toast.showToast(req,'error','Registered successfully')
+    res.redirect('back');
   }
-});
+)});
 
 /* supervisor Registration */
 router.post('/supervisor', function (req, res) {

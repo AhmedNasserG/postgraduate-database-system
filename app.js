@@ -41,7 +41,9 @@ const studentRoute = require('./routes/student');
 const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
 const logoutRoute = require('./routes/logout');
+const addMobileRoute = require('./routes/addMobile')
 const { handle } = require('express/lib/application');
+
 
 const app = express();
 
@@ -68,6 +70,9 @@ app.use('/admin', adminRoute);
 app.use('/student', studentRoute);
 app.use('/supervisor', supervisorRoute);
 app.use('/examiner', examinerRoute);
+app.use('/addMobile',addMobileRoute)
+
+
 
 
 app.use((req, res) => {
@@ -75,6 +80,7 @@ app.use((req, res) => {
     title: '404 NOT FOUND',
     message: 'Error 404 : Page Not Found'
   });
+
 });
 
 app.locals = {

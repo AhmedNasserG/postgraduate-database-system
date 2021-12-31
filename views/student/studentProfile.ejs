@@ -1,7 +1,7 @@
 <%- include('studentDashboardHeader.ejs', {type : type}) %>
 
-<div class="container rounded mb-5 mt -5">
-  <div class="row justify-content-md-center mt-2">
+<div class="container rounded mb-3 mt -3">
+  <div class="row justify-content-md-center">
     <div class="col-md-5 border-right bg-white">
       <div class="p-3 py-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-md-12 mt-2">
+            <div class="col-md-12 ">
               <label class="labels">Address</label
               ><input
                 name="address"
@@ -56,7 +56,7 @@
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <label class="labels">GUC ID</label
               ><input
                 name="guc_id"
@@ -68,9 +68,7 @@
                 readonly
               />
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12 mt-2">
+            <div class="col-md-6 ">
               <label class="labels">Faculty</label
               ><input
                 name="faculty"
@@ -83,8 +81,9 @@
               />
             </div>
           </div>
+         
           <div class="row mt-3">
-            <div class="col-md-12 mt-2">
+            <div class="col-md-6 ">
               <label class="labels">GPA</label
               ><input
                 name="gpa"
@@ -99,9 +98,7 @@
                 readonly
               />
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12 mt-2">
+            <div class="col-md-6 ">
               <label class="labels">Type</label
               ><input
                 name="type"
@@ -114,7 +111,8 @@
               />
             </div>
           </div>
-          <div class="row mt-4 justify-content-md-center">
+         
+          <div class="row mt-3 justify-content-md-center">
             <div
               class="btn-group"
               role="group"
@@ -147,7 +145,7 @@
               >
             </div>
           </div>
-          <div class="mt-5 text-center">
+          <div class="mt-3 text-center">
             <button class="btn view-btn" type="submit">Save Profile</button>
           </div>
         </form>
@@ -155,6 +153,9 @@
     </div>
     <div class="col-md-2 bg-white">
       <div class="p-3 py-5">
+        <div class="row mt-4">
+          <div class="col-md-3 bg-white">
+
         <div
           class="
             d-flex
@@ -167,7 +168,74 @@
         >
           <i class="fas fa-edit"></i>
         </div>
-        <br />
+        </div>
+        <div class="col-md-3 bg-white">
+
+        <div
+          class="
+            d-flex
+            justify-content-between
+            align-items-center
+            experience
+            btn
+          "
+          data-bs-toggle="modal"
+            data-bs-target="#addMobile"
+        >
+        <i class="fas fa-mobile-alt"></i>
+
+        </div>
+         
+
+        </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="addMobile"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Add Mobile</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form method="POST" action="/addMobile">
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <input
+                  type="number"
+                  maxlength="20"
+                  class="form-control"
+                  placeholder="Add mobile"
+                  aria-label="Recipient's username"
+                  aria-describedby="button-addon2"
+                  name="mobile"
+                  required
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn view-btn"
+                style="color: white"
+                type="submit"
+                id="button-addon2"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
