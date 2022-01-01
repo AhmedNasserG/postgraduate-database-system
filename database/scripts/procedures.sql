@@ -331,33 +331,34 @@ FROM PAYMENT
 WHERE id = @payment_id
 SET @counter = @num_of_installments
 IF NOT EXISTS(
-    SELECT * FROM INSTALLMENT
-    WHERE payment_id = @payment_id
+    SELECT *
+FROM INSTALLMENT
+WHERE payment_id = @payment_id
 )
 BEGIN
-WHILE @counter > 0
+    WHILE @counter > 0
     BEGIN
-    INSERT INTO INSTALLMENT
-        (
-        payment_id,
-        installment_date,
-        amount
-        )
-    VALUES
-        (
-            @payment_id,
-            @installment_date,
-            (SELECT total_amount / @num_of_installments
-            FROM PAYMENT
-            WHERE id = @payment_id)
+        INSERT INTO INSTALLMENT
+            (
+            payment_id,
+            installment_date,
+            amount
             )
-    SET @installment_date = DATEADD(month, 6, @installment_date)
-    SET @counter = @counter - 1
-END
+        VALUES
+            (
+                @payment_id,
+                @installment_date,
+                (SELECT total_amount / @num_of_installments
+                FROM PAYMENT
+                WHERE id = @payment_id)
+            )
+        SET @installment_date = DATEADD(month, 6, @installment_date)
+        SET @counter = @counter - 1
+    END
 END
 ELSE
 BEGIN
-RAISERROR('Cannot issue installments again', 16, 1);
+    RAISERROR('Cannot issue installments again', 16, 1);
 END
 
 GO
@@ -544,6 +545,9 @@ SELECT R.*, T.title, S.first_name + ' ' + S.last_name AS student_name
 FROM THESIS T INNER JOIN SUPERVISED SD ON T.serial_number = SD.thesis_serial_number
     INNER JOIN REPORT R ON T.serial_number = R.thesis_serial_number INNER JOIN STUDENT S ON T.student_id = S.id
 WHERE SD.supervisor_id = @supervisor_id
+SELECT *
+from USERS
+DELETE from DEFENSE
 Go
 -- 4) e) procedure to add a defense for a gucian student
 CREATE PROC AddDefenseGucian
@@ -689,7 +693,7 @@ GO
 CREATE Proc ShowExaminerDefense
     @examiner_id int
 AS
-SELECT D.defense_date, D.thesis_serial_number, D.location, D.grade, T.title, E.comment
+SELECT D.defense_date, D.thesis_serial_number, D.location, D.grade, T.title, Ex.comments
 FROM
     EXAMINED_BY Ex INNER JOIN Defense D on (Ex.thesis_serial_number = D.thesis_serial_number and Ex.defense_date = D.defense_date) INNER JOIN THESIS T ON (D.thesis_serial_number = T.serial_number)
 where Ex.examiner_id = @examiner_id
@@ -780,8 +784,6 @@ FROM EXAMINER E INNER JOIN USERS U ON E.id = U.id
 WHERE E.id = @examiner_id
 
 GO
-select * from DEFENSE
-where defense_date = '12/13/2021 12:00'
 -- 6) b) procedure to edit profile as student
 CREATE PROC editStudentProfile
     @studentID INT,
