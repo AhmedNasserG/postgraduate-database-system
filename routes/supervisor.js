@@ -64,13 +64,13 @@ router.post('/theses/:serial_number', function (req, res) {
   const location = req.body.location;
   console.log(req.body);
   console.log(req.body.date);
-  const date = moment(req.body.date).format('MM/DD/YYYY');
+  const date = req.body.date;
   console.log(date);
   console.log(serialNumber);
   console.log(location);
   console.log(date);
   const examiners = eval(req.body.examiner);
-  examiners['is_national'] = req.body.is_national ? 1 : 0;
+  examiners['is_national'] = req.body.is_national == 'true';
   console.log(examiners['is_national']);
   supervisorProcedures
     .isGucian(serialNumber)
@@ -92,9 +92,7 @@ router.post('/theses/:serial_number', function (req, res) {
                 .then(response => {
                   console.log(response);
                 })
-                .catch(err => {
-                  toast.showToast(req, 'error', err);
-                });
+                .catch(err => {});
             });
           });
       } else {
@@ -115,9 +113,7 @@ router.post('/theses/:serial_number', function (req, res) {
                 .then(response => {
                   console.log(response);
                 })
-                .catch(err => {
-                  toast.showToast(req, 'error', err);
-                });
+                .catch(err => {});
             });
           })
           .catch(err => {

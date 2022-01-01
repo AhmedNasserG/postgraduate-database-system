@@ -1,113 +1,109 @@
 <%- include('supervisorDashboardHeader.ejs') %>
 
 
-    <div class="row m-2">
-        <% reports.forEach(report=>{ %>
+<div class="row m-2">
+  <% reports.forEach(report=>{ %>
+  <div class="card mb-3 col-4 m-2">
+    <div class="card-body">
+      <span>
+        <table class="table table-striped table-bordered">
+          <!-- Table Heading -->
+          <thead>
+            <p class="card-title text-name" style="text-align: center;">
+              <i class="fas fa-graduation-cap colored-icon"></i>
+              Report for <%=report.title%>
+            </p>
+          </thead>
+          <tr>
+            <td>
 
-            <div class="card mb-3 col-4 m-2">
-                <div class="card-body">
-                    <span>
-                        <table class="table table-striped table-bordered">
-                            <!-- Table Heading -->
-                            <thead>
-                                <p class="card-title text-name" style="text-align: center;">
-                                    <i class="fas fa-graduation-cap colored-icon"></i>
-                                    Report for <%=report.title%>
-                                </p>
-                            </thead>
-                            <tr>
-                                <td>
+              <i class="fas fa-user colored-icon"></i> Student Name
+            </td>
+            <td>
+              <%=report.student_name%>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <i class="fas fa-calendar-day colored-icon"></i> Date
+            </td>
+            <td>
+              <%= moment(report.report_date).format('Do MMMM, YYYY') %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <i class="fas fa-file-signature colored-icon"></i> Description
+            </td>
+            <td>
+              <%= report.description %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <i class="fas fa-list colored-icon"></i> Number
+            </td>
+            <td>
+              <%= report.report_number %>
+            </td>
+          </tr>
+          <tr>
+            <td>State</td>
+            <td>
+              <%= report.state %>
+            </td>
+          </tr>
+        </table>
+        <button class="btn btn-primary view-btn" data-bs-toggle="modal" data-bs-target="#k<%=report.report_number%>">
+          <i class="fas fa-pen"></i>
+          Evaluate
+        </button>
+      </span>
+      <div class="modal fade" id="k<%=report.report_number%>" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">
+                Add Defense for
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="POST" class="needs-validation" action="/supervisor/reports/<%= report.thesis_serial_number %>">
+                <label for="customRange3" class="form-label">Add Grade</label>
+                <input type="hidden" value="<%= report.report_number %> " name="report_number">
+                <input type="number" id="input<%=report.report_number%>" class="form-control" style="margin-bottom:20px" pattern="[0-3]" name="grade">
+                <!-- make sure its a number between 0,3 -->
+                <script>
+                  var input = document.getElementById("input<%=report.report_number%>");
+                  if (input) {
+                    input.addEventListener('input', function(event) {
+                      if (event.target.value < 0 || event.target.value > 3) {
+                        // event.target.value = '';
+                        // custom validation message
+                        event.target.setCustomValidity('Please enter a number between 0 and 3');
+                      } else {
+                        event.target.setCustomValidity('');
 
-                                    <i class="fas fa-user colored-icon"></i> Student Name
-                                </td>
-                                <td>
-                                    <%=report.student_name%>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fas fa-calendar-day colored-icon"></i> Date
-                                </td>
-                                <td>
-                                    <%= moment(report.report_date).format('Do MMMM, YYYY') %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fas fa-file-signature colored-icon"></i> Description
-                                </td>
-                                <td>
-                                    <%= report.description %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fas fa-list colored-icon"></i> Number
-                                </td>
-                                <td>
-                                    <%= report.report_number %>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>State</td>
-                                <td>
-                                    <%= report.state %>
-                                </td>
-                            </tr>
-                        </table>
-                        <button class="btn btn-primary view-btn" data-bs-toggle="modal"
-                            data-bs-target="#k<%=report.report_id%>">
-                            <i class="fas fa-pen"></i>
-                            Evaluate
-                        </button>
-                    </span>
-                    <div class="modal fade" id="k<%report.report_id%>" data-bs-backdrop="static" tabindex="-1"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable ">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="">
-                                        Add Defense for
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" class="needs-validation"
-                                        action="/supervisor/reports/<%= report.thesis_serial_number %>">
-                                        <label for="customRange3" class="form-label">Add Grade</label>
-                                        <input type="hidden" value="<%= report.report_number %> " name="report_number">
-                                        <input type="number" class="form-control" style="margin-bottom:20px"
-                                            pattern="[0-3]" name="grade">
-                                        <!-- make sure its a number between 0,3 -->
-                                        <script>
-                                            var input = document.querySelector('input[type="number"]');
-                                            if (input) {
-                                                input.addEventListener('input', function (event) {
-                                                    if (event.target.value < 0 || event.target.value > 3) {
-                                                        // event.target.value = '';
-                                                        // custom validation message
-                                                        event.target.setCustomValidity('Please enter a number between 0 and 3');
-                                                    } else {
-                                                        event.target.setCustomValidity('');
+                      }
+                    });
+                  }
+                </script>
+                <button class="btn btn-primary view-btn">
+                  Add
+                </button>
+            </div>
+            </form>
+            <div class=" modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }); %>
+</div>
 
-                                                    }
-                                                });
-                                            }
-                                        </script>
-                                        <button class="btn btn-primary view-btn">
-                                            Add
-                                        </button>
-                                </div>
-                                </form>
-                                <div class=" modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <% }); %>
-                    </div>
-
-                    <%- include('../dashboardFooter.ejs') %>
+<%- include('../dashboardFooter.ejs') %>
