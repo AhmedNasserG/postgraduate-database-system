@@ -6,7 +6,6 @@ const session = require('express-session');
 const sql = require('mssql');
 const moment = require('moment');
 const { StatusCodes } = require('http-status-codes');
-const errorHandler = require('express-error-handler');
 
 
 require('dotenv').config();
@@ -42,7 +41,6 @@ const supervisorRoute = require('./routes/supervisor');
 const examinerRoute = require('./routes/examiner');
 const logoutRoute = require('./routes/logout');
 const addMobileRoute = require('./routes/addMobile')
-const { handle } = require('express/lib/application');
 
 
 const app = express();

@@ -6,21 +6,14 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
-    "debug": "~4.3.3",
     "dotenv": "^10.0.0",
-    "ejs": "~3.1.6",
+    "ejs": "^3.1.6",
     "express": "~4.17.2",
-    "express-error-handler": "^1.1.0",
     "express-session": "^1.17.2",
-    "http-errors": "~2.0.0",
     "http-status-codes": "^2.2.0",
     "moment": "^2.29.1",
     "morgan": "~1.10.0",
     "mssql": "^7.3.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.5.0"
   }
 }
