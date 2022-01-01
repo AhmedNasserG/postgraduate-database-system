@@ -157,6 +157,7 @@ CREATE TABLE REPORT
     report_number INT NOT NULL IDENTITY,
     description VARCHAR(200),
     PRIMARY KEY (thesis_serial_number, report_number),
+    FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE cascade
 );
 
 -- create table evaluted by
