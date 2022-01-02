@@ -453,32 +453,13 @@ CREATE PROC EvaluateProgressReport
     @progress_report_no INT,
     @evaluation_value INT
 AS
+update REPORT 
+set evaluation = @evaluation_value ,
+    supervisor_id = @supervisor_id
+    where thesis_serial_number = @thesis_serial_number and  report_number = @progress_report_no
 -- check if it exists
-IF EXISTS (SELECT *
-FROM EVALUATED_BY
-WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no)
-BEGIN
-    UPDATE EVALUATED_BY
-    SET evaluation = @evaluation_value
-    WHERE supervisor_id = @supervisor_id AND thesis_serial_number = @thesis_serial_number AND report_number = @progress_report_no
-END
-ELSE
-BEGIN
-    INSERT INTO EVALUATED_BY
-        (
-        supervisor_id,
-        thesis_serial_number,
-        report_number,
-        evaluation
-        )
-    VALUES
-        (
-            @supervisor_id,
-            @thesis_serial_number,
-            @progress_report_no,
-            @evaluation_value
-        )
-END
+
+
 GO
 
 -- 4) b) View all my students’s names and years spent in the thesis
@@ -655,9 +636,9 @@ WHERE R.thesis_serial_number = @ThesisSerialNo AND R.report_Date >=ALL(SELECT R1
     WHERE R1.thesis_serial_number = R.thesis_serial_number)
 
 
-IF EXISTS (SELECT E.report_number
-FROM EVALUATED_BY E
-WHERE E.report_number = @latest_report_number AND E.evaluation = 0)
+IF EXISTS (SELECT R.report_number
+FROM REPORT R 
+WHERE R.report_number = @latest_report_number AND R.evaluation = 0)
 BEGIN
     DELETE FROM THESIS
     WHERE THESIS.serial_number = @ThesisSerialNo

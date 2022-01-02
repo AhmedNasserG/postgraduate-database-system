@@ -1,4 +1,3 @@
---drop dataBase pg_database
 CREATE DATABASE pg_database;
 GO
 USE pg_database;
@@ -123,7 +122,7 @@ CREATE TABLE THESIS
     title VARCHAR(50) NOT NULL,
     start_date DATETIME NOT NULL,
     end_date DATETIME NOT NULL,
-    duration AS DATEDIFF(day,start_date, end_date),
+    duration AS DATEDIFF(year,start_date, end_date),
     type BIT,
     grade DECIMAL(5, 2) CHECK (
         grade >= 0.0
@@ -156,28 +155,16 @@ CREATE TABLE REPORT
     report_date DATE NOT NULL,
     report_number INT NOT NULL IDENTITY,
     description VARCHAR(200),
-    PRIMARY KEY (thesis_serial_number, report_number),
-    FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE cascade
-);
-
--- create table evaluted by
-CREATE TABLE EVALUATED_BY
-(
-    supervisor_id INT NOT NULL,
-    thesis_serial_number INT NOT NULL,
-    report_number INT NOT NULL,
     evaluation INT CHECK (
         evaluation >= 0
             AND evaluation <= 3
     ),
-    PRIMARY KEY (
-        supervisor_id,
-        thesis_serial_number,
-        report_number
-    ),
-    FOREIGN KEY (thesis_serial_number, report_number) REFERENCES REPORT(thesis_serial_number, report_number) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (supervisor_id) REFERENCES SUPERVISOR(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    supervisor_id int,
+    PRIMARY KEY (thesis_serial_number, report_number),
+    FOREIGN KEY (thesis_serial_number) REFERENCES THESIS(serial_number) ON DELETE CASCADE ON UPDATE cascade,
+    FOREIGN KEY (supervisor_id) REFERENCES SUPERVISOR(id) 
 );
+
 
 -- create table defense
 CREATE TABLE DEFENSE
