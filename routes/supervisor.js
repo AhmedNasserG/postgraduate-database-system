@@ -63,7 +63,6 @@ router.get(
     supervisorProcedures
       .supervisorViewAllStudentsReports(supervisorId)
       .then(response => {
-        console.log(response.recordset);
         res.render('supervisor/reports', {
           reports: response.recordset,
           moment: moment
@@ -75,20 +74,13 @@ router.get(
 router.post('/theses/:serial_number', function (req, res) {
   const serialNumber = req.params.serial_number;
   const location = req.body.location;
-  console.log(req.body);
-  console.log(req.body.date);
   const date = req.body.date;
-  console.log(date);
-  console.log(serialNumber);
-  console.log(location);
-  console.log(date);
   const examiners = eval(req.body.examiner);
   examiners['is_national'] = req.body.is_national == 'true';
-  console.log(examiners['is_national']);
   supervisorProcedures
     .isGucian(serialNumber)
     .then(response => {
-      if (response.output.toString() === '1') {
+      if (response.output.output == 1) {
         supervisorProcedures
           .supervisorAddDefenseGUCian(serialNumber, location, date)
           .then(response => {
@@ -141,14 +133,11 @@ router.post('/theses/:serial_number', function (req, res) {
 });
 
 router.post('/students', function (req, res) {
-  console.log(req.body.view);
   const studentId = req.body.view.split('(')[0].toString();
   const studentName = req.body.view.split('(')[1].toString();
-
   supervisorProcedures
     .supervisorViewStudentPublications(studentId)
     .then(response => {
-      console.log(response.recordset);
       res.render('supervisor/supervisorPublication', {
         publications: response.recordset,
         studentName: studentName
