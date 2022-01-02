@@ -36,26 +36,32 @@
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop<%=thesis.serial_number%>" data-bs-backdrop="static" tabindex="-1"
-          aria-hidden="true">
-          <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="">
-                  <%=thesis.title%>
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <table class="table table-striped table-bordered">
-                  <tr>
-                    <td><i class="far fa-lightbulb"></i> Field </td>
-                    <td><%=thesis.field%></td>
-                  </tr>
-                  <tr>
-                    <td><i class="fas fa-university"></i> Type</td>
-                    <td> <% if (thesis.type) { %>
-                      PHD
-                      <% } else { %>
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">
+          <%=thesis.title%>
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td><i class="fas fa-hashtag"></i> Serial No </td>
+            <td>
+              <%=thesis.serial_number%>
+            </td>
+          </tr>
+          <tr>
+            <td><i class="far fa-lightbulb"></i> Field </td>
+            <td><%=thesis.field%></td>
+          </tr>
+          <tr>
+            <td><i class="fas fa-university"></i> Type</td>
+            <td> <% if (thesis.type) { %>
+              PHD
+              <% } else { %>
                       MASTER
                       <% } %></td>
                   </tr>
