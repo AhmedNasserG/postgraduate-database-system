@@ -1,6 +1,7 @@
 USE pg_database;
 GO
 -- Unregisetered user
+SELECT * FROM USERS;
 -- 1) a) Student
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
@@ -11,6 +12,15 @@ CREATE PROC StudentRegister
     @email VARCHAR(50),
     @address VARCHAR(50)
 AS
+IF EXISTS(
+    SELECT email FROM USERS U
+    WHERE U.email = @email
+)
+BEGIN
+RAISERROR('Email already exists', 16, 1);
+END
+ELSE
+BEGIN
 INSERT INTO
     USERS
 values
@@ -52,6 +62,7 @@ BEGIN
     VALUES
         (@id)
 END
+END
 
 GO
 
@@ -63,6 +74,15 @@ CREATE PROC SupervisorRegister
     @faculty VARCHAR(20),
     @email VARCHAR(50)
 AS
+IF EXISTS(
+    SELECT email FROM USERS U
+    WHERE U.email = @email
+)
+BEGIN
+RAISERROR('Email already exists', 16, 1)
+END
+ELSE
+BEGIN
 INSERT INTO
     USERS
 VALUES
@@ -78,6 +98,8 @@ VALUES
         @last_name,
         @faculty
     )
+END
+
 GO
 
 CREATE PROC ExaminerRegister
@@ -88,6 +110,15 @@ CREATE PROC ExaminerRegister
     @password VARCHAR(50)
 
 AS
+IF EXISTS(
+    SELECT email FROM USERS U
+    WHERE U.email = @email
+)
+BEGIN
+RAISERROR('Email already exists', 16, 1)
+END
+ELSE
+BEGIN 
 INSERT INTO
     USERS
 VALUES
@@ -103,6 +134,7 @@ VALUES
         @National,
         @fieldOFWork
     )
+END
 
 -- Registered user
 
@@ -193,8 +225,14 @@ SELECT *
 FROM SUPERVISOR
 
 GO
-SELECT * FROM USERS;
 -- 3) b) View supervisor profile
+CREATE PROC AdminViewProfile
+@admin_id INT
+AS
+SELECT email FROM USERS
+WHERE id = @admin_id
+
+GO
 CREATE PROC AdminViewSupervisorProfile
     @id INT
 AS
