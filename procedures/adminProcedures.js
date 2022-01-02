@@ -1,5 +1,13 @@
 const sql = require('mssql');
 
+const adminViewProfile = async (
+  adminId
+) => {
+  const request = new sql.Request()
+  request.input('admin_id', sql.Int, adminId);
+  return request.execute('AdminViewProfile');
+}
+
 const listSupervisors = async () => {
   const request = new sql.Request();
   return request.execute('AdminListSup');
@@ -58,5 +66,6 @@ module.exports = {
   issueThesisPayment,
   getThesisPaymentId,
   issueThesisPaymentInstallment,
-  updateExtension
+  updateExtension,
+  adminViewProfile
 };

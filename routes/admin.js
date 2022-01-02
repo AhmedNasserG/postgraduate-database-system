@@ -10,6 +10,16 @@ router.get('/', authUser, authRole([ROLE.ADMIN]), function (req, res, next) {
   res.render('admin/adminDashboard');
 });
 
+router.get('/profile', authUser, authRole([ROLE.ADMIN]), (req, res) => {
+  const id = req.session.userId;
+  adminProcedures.adminViewProfile(id).then(response => {
+    const profile = response.recordset[0];
+    res.render('admin/adminProfile', {
+      admin: profile
+    })
+  });
+});
+
 router.get(
   '/supervisors',
   authUser,
