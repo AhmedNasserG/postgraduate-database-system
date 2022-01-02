@@ -66,7 +66,6 @@ const viewExaminer = async () => {
 
 const supervisorAddDefenseNonGUCian = async (thesisId, location, date) => {
   console.log('NoN GUCIAN');
-  console.log(date);
   const request = new sql.Request();
   request.input('ThesisSerialNo', sql.Int, thesisId);
   request.input('DefenseLocation', sql.VarChar, location);

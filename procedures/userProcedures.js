@@ -1,4 +1,3 @@
-const { request } = require('express');
 const sql = require('mssql');
 
 const userLogin = async (email, password) => {

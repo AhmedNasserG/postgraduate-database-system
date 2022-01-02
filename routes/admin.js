@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 const adminProcedures = require('../procedures/adminProcedures');
 const toast = require('../utilities/toast');
 const { authUser, authRole, ROLE } = require('../utilities/auth');
@@ -31,7 +29,6 @@ router.get(
         res.render('admin/supervisors', { supervisors: response.recordset });
       })
       .catch(err => {
-        console.log(err);
         res.redirect('/');
       });
   }
@@ -49,7 +46,6 @@ router.get('/theses', authUser, authRole([ROLE.ADMIN]), function (req, res) {
       });
     })
     .catch(err => {
-      console.log(err);
       res.redirect('/');
     });
 });
@@ -79,7 +75,6 @@ router.post('/:thesis_serial_number/issue-payment', function (req, res) {
             res.redirect('/admin/theses');
           })
           .catch(err => {
-            console.log(err);
             toast.showToast(
               req,
               'error',
@@ -128,7 +123,6 @@ router.post(
         }
       })
       .catch(err => {
-        console.log(err);
         toast.showToast(req, 'error');
         res.redirect('/admin/theses');
       });
@@ -143,7 +137,6 @@ router.post('/:thesis_serial_number/update-extension', function (req, res) {
       res.redirect('/admin/theses');
     })
     .catch(err => {
-      console.log(err);
       toast.showToast(req, 'error', 'Update extension failed');
       res.redirect('/admin/theses');
     });

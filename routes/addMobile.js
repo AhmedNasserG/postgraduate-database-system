@@ -15,7 +15,6 @@ router.post('/', function (req, res) {
             toast.showToast(req, 'success', 'Mobile added successfully')
             res.redirect('back')
         }).catch(err => {
-            console.log(err)
             toast.showToast(req, 'error', 'same mobile added ')
             res.redirect('back')
         })

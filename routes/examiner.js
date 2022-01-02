@@ -1,7 +1,6 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const examinerProcedures = require('../procedures/examinerProcedures');
-const moment = require('moment');
 const toast = require('../utilities/toast');
 const { authUser, authRole, ROLE } = require('../utilities/auth');
 
@@ -15,8 +14,6 @@ router.get(
   authRole([ROLE.EXAMINER]),
   async function (req, res) {
     const id = req.session.userId;
-    console.log(id);
-
     await examinerProcedures.showExaminerTheses(id).then(async response => {
       let supervisors = [];
       theses = response.recordset;
@@ -27,7 +24,6 @@ router.get(
             supervisors.push(response1.recordset);
           });
       }
-      console.log(supervisors);
       res.render('examiner/examinerTheses', {
         Theses: response.recordset,
         supervisors: supervisors
@@ -62,7 +58,6 @@ router.get(
   function (req, res) {
     const id = req.session.userId;
     examinerProcedures.showProfile(id).then(response => {
-      console.log(response.recordset);
       res.render('examiner/examinerProfile', { examiner: response.recordset });
     });
   }
@@ -71,7 +66,6 @@ router.post('/addGrade', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const grade = req.body.grade;
-  console.log(defenseDate)
   examinerProcedures
     .addGrade(thesisSerialNumber, defenseDate, grade)
     .then(response => {
@@ -89,7 +83,6 @@ router.post('/addComment', function (req, res) {
   const thesisSerialNumber = req.body.thesis;
   const defenseDate = req.body.Date;
   const comment = req.body.comment;
-  console.log(defenseDate)
   examinerProcedures
     .addComment(id, thesisSerialNumber, defenseDate, comment)
     .then(response => {
@@ -108,17 +101,14 @@ router.post('/search', function (req, res) {
     toast.showToast(req, 'error', 'Please add value to search for');
     res.redirect('/examiner/search');
   } else {
-    console.log(searchTerm);
     examinerProcedures.searchForThesis(searchTerm).then(response => {
       response.recordset.forEach(thesis => {
         thesis.title = thesis.title.replace(
           new RegExp(searchTerm, 'gi'),
           `<span class="highlight">${searchTerm}</span>`
         );
-        console.log(typeof thesis.title);
         thesis.title = thesis.title.toLowerCase();
       });
-      console.log(response.recordset);
       res.render('examiner/examinerSearch', {
         theses: response.recordset
       });
@@ -135,7 +125,6 @@ router.post('/profile', function (req, res) {
   examinerProcedures
     .updateProfile(id, name, email, fieldOfWork, type)
     .then(response => {
-      console.log(response);
       toast.showToast(req, 'success', 'Profile updated successfully');
       res.redirect('/examiner/profile');
     })

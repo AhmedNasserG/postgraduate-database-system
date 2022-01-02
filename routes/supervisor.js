@@ -1,6 +1,5 @@
-var express = require('express');
-var router = express.Router();
-const moment = require('moment');
+const express = require('express');
+const router = express.Router();
 const toast = require('../utilities/toast');
 const supervisorProcedures = require('../procedures/supervisorProcedures');
 const { authUser, authRole, ROLE } = require('../utilities/auth');
@@ -13,7 +12,6 @@ router.get('/profile', authUser, authRole([ROLE.SUPERVISOR]), (req, res) => {
   const id = req.session.userId
   supervisorProcedures.viewSupervisorProfile(id).then(response => {
     const profile = response.recordset[0];
-    console.log(profile);
     res.render('supervisor/supervisorProfile', {
       supervisor: profile
     })
@@ -46,7 +44,6 @@ router.get(
       supervisorProcedures.viewExaminer().then(response2 => {
         res.render('supervisor/theses', {
           theses: response.recordset,
-          moment: moment,
           examiner: response2.recordset
         });
       });
@@ -65,7 +62,6 @@ router.get(
       .then(response => {
         res.render('supervisor/reports', {
           reports: response.recordset,
-          moment: moment
         });
       });
   }

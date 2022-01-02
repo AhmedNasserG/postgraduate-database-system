@@ -25,7 +25,6 @@ function login(req, res, email, password) {
       }
     });
   } catch (err) {
-    console.log(error);
   }
 }
 
