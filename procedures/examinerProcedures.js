@@ -15,7 +15,7 @@ const examinerRegister = async (
   request.input('fieldOfWork', sql.VarChar, fieldOfWork);
   request.input('National', type);
   request.input('email', sql.VarChar, email);
-  request.execute('ExaminerRegister');
+  return request.execute('ExaminerRegister');
   //sql.close()
 };
 

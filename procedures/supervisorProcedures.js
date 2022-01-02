@@ -14,7 +14,7 @@ const supervisorRegister = async (
   request.input('password', sql.VarChar, password);
   request.input('faculty', sql.VarChar, faculty);
   request.input('email', sql.VarChar, email);
-  request.execute('SupervisorRegister');
+  return request.execute('SupervisorRegister');
   //sql.close()
 };
 
@@ -88,12 +88,6 @@ const supervisorAddExaminer = async (
   thesisSerialNo
 ) => {
   const request = new sql.Request();
-  console.log(defenseDate);
-  console.log(examinerName);
-  console.log(isNational);
-  console.log(fieldOfWork);
-  console.log(thesisSerialNo);
-
   request.input('DefenseDate', sql.DateTime, defenseDate);
   request.input('ExaminerName', sql.VarChar, examinerName);
   request.input('National', isNational);

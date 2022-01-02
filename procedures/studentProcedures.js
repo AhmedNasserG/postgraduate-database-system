@@ -99,7 +99,7 @@ const addPublication = async (
   request.input('pubDate', sql.DateTime, publicationDate);
   request.input('host', sql.VarChar, host);
   request.input('place', sql.VarChar, place);
-  request.input('accepted', sql.Bit, isAccepted);
+  request.input('accepted', isAccepted);
   request.input('studentId', sql.Int, studentId);
   return request.execute('addPublication');
 };
