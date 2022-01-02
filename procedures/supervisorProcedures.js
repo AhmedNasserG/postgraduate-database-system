@@ -18,6 +18,14 @@ const supervisorRegister = async (
   //sql.close()
 };
 
+const viewSupervisorProfile = async (
+  supervidorId
+) => {
+  const request = new sql.Request();
+  request.input('id', sql.Int, supervidorId);
+  return request.execute('AdminViewSupervisorProfile');
+};
+
 const supervisorViewStudents = async supervisorId => {
   const request = new sql.Request();
   request.input('supervisor_id', sql.Int, supervisorId);
@@ -126,5 +134,6 @@ module.exports = {
   supervisorCancelThesis,
   supervisorAddExaminer,
   supervisorViewAllStudentsReports,
-  supervisorEvaluateReport: supervisorEvaluateReport
+  supervisorEvaluateReport,
+  viewSupervisorProfile
 };

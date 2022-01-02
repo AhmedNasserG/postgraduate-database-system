@@ -193,13 +193,14 @@ SELECT *
 FROM SUPERVISOR
 
 GO
+SELECT * FROM USERS;
 -- 3) b) View supervisor profile
 CREATE PROC AdminViewSupervisorProfile
     @id INT
 AS
-SELECT *
-FROM SUPERVISOR
-WHERE id = @id
+SELECT S.*, U.email
+FROM SUPERVISOR S INNER JOIN USERS U ON S.id = U.id
+WHERE S.id = @id
 
 GO
 -- 3) c) View Theses

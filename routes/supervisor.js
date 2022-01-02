@@ -9,6 +9,19 @@ router.get('/', authUser, authRole([ROLE.SUPERVISOR]), function (req, res) {
   res.render('supervisor/supervisorDashboard');
 });
 
+router.get('/profile', authUser, authRole([ROLE.SUPERVISOR]), (req, res) => {
+  const id = req.session.userId
+  supervisorProcedures.viewSupervisorProfile(id).then(response => {
+    const profile = response.recordset[0];
+    console.log(profile);
+    res.render('supervisor/supervisorProfile', {
+      supervisor: profile
+    })
+  }).catch(err => {
+    res.redirect('/supervisor');
+  });
+});
+
 router.get(
   '/students',
   authUser,
@@ -79,7 +92,6 @@ router.post('/theses/:serial_number', function (req, res) {
         supervisorProcedures
           .supervisorAddDefenseGUCian(serialNumber, location, date)
           .then(response => {
-            console.log(response);
             examiners.forEach(examiner => {
               supervisorProcedures
                 .supervisorAddExaminer(
@@ -90,17 +102,18 @@ router.post('/theses/:serial_number', function (req, res) {
                   serialNumber
                 )
                 .then(response => {
-                  console.log(response);
                 })
-                .catch(err => {});
+                .catch(err => { });
             });
+            toast.showToast(req, 'success', 'Defense added successfully');
+          }).catch(err => {
+
+            toast.showToast(req, 'error', err);
           });
       } else {
         supervisorProcedures
           .supervisorAddDefenseNonGUCian(serialNumber, location, date)
           .then(response => {
-            console.log(response);
-            console.log(examiners);
             examiners.forEach(examiner => {
               supervisorProcedures
                 .supervisorAddExaminer(
@@ -111,10 +124,10 @@ router.post('/theses/:serial_number', function (req, res) {
                   serialNumber
                 )
                 .then(response => {
-                  console.log(response);
                 })
-                .catch(err => {});
+                .catch(err => { });
             });
+            toast.showToast(req, 'success', 'Defense added successfully');
           })
           .catch(err => {
             toast.showToast(req, 'error', err);
@@ -124,7 +137,6 @@ router.post('/theses/:serial_number', function (req, res) {
     .catch(err => {
       toast.showToast(req, 'error', err);
     });
-  console.log(examiners);
   res.redirect('/supervisor/theses');
 });
 
@@ -152,7 +164,7 @@ router.post('/reports/:thesisId', function (req, res) {
   supervisorProcedures
     .supervisorEvaluateReport(supervisorId, thesisId, reportNo, grade)
     .then(response => {
-      console.log(response);
+      toast.showToast(req, 'success', 'Report evaluated successfully');
       res.redirect('/supervisor/reports');
     })
     .catch(err => {
@@ -167,7 +179,7 @@ router.post('/cancel/:thesisSerial', (req, res) => {
   supervisorProcedures
     .supervisorCancelThesis(thesisSerial)
     .then(response => {
-      console.log(response);
+      toast.showToast(req, 'success', 'Thesis cancelled successfully');
       res.redirect('/supervisor/theses');
     })
     .catch(err => {
@@ -175,5 +187,6 @@ router.post('/cancel/:thesisSerial', (req, res) => {
       res.redirect('/supervisor/theses');
     });
 });
+
 
 module.exports = router;
