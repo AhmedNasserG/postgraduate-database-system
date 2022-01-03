@@ -1,6 +1,101 @@
-# pg-database
+# Postgraduate Database System
 
-# AUTH
+## Description
+This project is part of the Databases Course. The project is a PostGraduate system designed to keep track of student's theses (Masters or PHD), progress reports, publications along with their respective defenses. Furthermore, examiners and supervisors can register also to the system where the supervisor supervises the student and his/her thesis and the examiner examines the defenses of certain theses. There is also admin access where he/she can see all content in the system and has also certain authorities and capabilities, such as issuing payments, installments, and update extensions of specific theses.
+
+## Project Structure
+
+```
+.
+├── bin
+│   └── www
+├── database  
+│   ├── db-design                   <- data base design
+│   │   ├── csv
+│   │   │   ├── pg.csv            
+│   │   │   └── pg.txt
+│   │   ├── diagram                 <- EERD 
+│   │   │   ├── final.drawio.pdf
+│   │   │   └── final.drawio.xml
+│   │   └── schema                  <- database relational schema
+│   │       ├── schema.pdf
+│   │       └── schema.tex
+│   └── scripts                     <- data base implementation
+│       ├── data-insertion.sql
+│       ├── procedures.sql
+│       ├── tables.sql
+│       └── ... 
+├── app.js                          <- launch server           
+├── package.json
+├── package-lock.json
+├── README.md
+├── procedures                      <- handle database procedures using js
+│   ├── adminProcedures.js
+│   ├── examinerProcedures.js
+│   ├── supervisorProcedures.js
+│   └── ... 
+├── public                          <- static files
+│   ├── images
+│   │   └── guc_logo.png
+│   ├── scripts
+│   │   └── supervisorTheses.js
+│   └── stylesheets                 <- css
+│       ├── style.css
+│       ├── dashboard.css
+│       ├── errorStyle.css
+│       └── ...
+├── routes
+│   ├── register.js
+│   ├── login.js
+│   ├── admin.js
+│   └── ... 
+├── utilities
+│   ├── auth.js
+│   └── toast.js
+└── views
+    ├── login.ejs
+    ├── register.ejs
+    ├── dashboardFooter.ejs
+    ├── dashboardHeader.ejs
+    ├── admin
+    │   ├── adminDashboard.ejs
+    │   ├── theses.ejs
+    │   ├── supervisors.ejs
+    │   └── ... 
+    ├── student
+    │   ├── studentDashboard.ejs
+    │   ├── courses.ejs
+    │   ├── profile.ejs
+    │   └── ...
+    └── ... 
+
+```
+
+## Installation
+
+1) In order to run the project, you need to install the following:
+[MSSQL](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+[Node.js](https://nodejs.org/en/download/)
+
+2) Clone the project from github
+```bash
+> git clone https://github.com/AhmedNasserG/pg-database.git
+```
+
+3) Run `npm i` command in the project folder
+   
+4) Create .env file in root directory like the below example
+```
+DB_USER_ADMIN="your_database_server_username"
+DB_PASS_ADMIN="your_database_server_password"
+PORT="port_number"
+```
+
+1) Execute [tables.sql](/database/scripts/tables.sql) (to create tables in the database), [stored-procedures](/database/scripts/procedures.sql) (to create procedures in the database), and [data-insertions](/database/scripts/data-insertion.sql) (to insert data in the database) (NOTE: you should execute these files in order to create the database)
+   
+2) Run `node app.js` (to launch the server)
+
+# Authentication
 
 Login credentials for testing purposes:
 
@@ -12,60 +107,8 @@ Login credentials for testing purposes:
 |Admin|admin@test.com|admin|
 |Examiner|examiner@test.com|examiner|
 
-
-## Project Structure 
- ```
- .
-├── app.js   <- lanuch server
-├── bin
-├── database  
-│   ├── db-design   <- data base design related files
-│   │   ├── csv
-│   │   ├── diagram
-│   │   │   ├── final.drawio.pdf
-│   │   │   └── final.drawio.xml
-│   │   └── schema
-│   │       ├── schema.pdf
-│   │       └── schema.tex
-│   └── scripts         <- sql proc and exce 
-│       ├── data-insertion.sql
-│       ├── execution.sql
-│       ├── procedures.sql
-│       ├── roles.sql
-│       └── tables.sql
-├── package.json
-├── package-lock.json 
-├── procedures    <- sql proc to js 
-│   ├── examinerProcedures.js
-│   ├── studentProcedures.js
-│   ├── supervisorProcedures.js
-│   └── userProcedures.js
-├── public
-│   ├── images
-│   │   └── guc_logo.png 
-│   └── stylesheets    -< css files 
-│       ├── loginStyle.css
-│       ├── student.css  
-│       └── style.css
-├── README.md
-├── routes
-│   ├── examiner.js
-│   ├── login.js
-│   ├── register.js
-│   ├── student.js
-│   └── supervisor.js
-└── views                             <- html files (ejs)
-    ├── examinerDashboard.ejs
-    ├── login.ejs
-    ├── register.ejs
-    ├── studentDashboard.ejs
-    └── supervisorDashboard.ejs
-├── .env   <- env variables like port and db user and pass
-├── .eslintrc.json <- linter config
-```
-
 ## Design
-- [Color scheme](https://colorhunt.co/palette/f0f5f9c9d6df52616b1e2022)
-- [sidebar](https://codepen.io/jainharshit/pen/bGBRyLP)
-- [icons](https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
 
+- [Color scheme](https://colorhunt.co/palette/f0f5f9c9d6df52616b1e2022)
+- [Sidebar](https://codepen.io/jainharshit/pen/bGBRyLP)
+- [Icons](https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
