@@ -94,9 +94,12 @@ router.post('/theses/:serial_number', function (req, res) {
                 .catch(err => { });
             });
             toast.showToast(req, 'success', 'Defense added successfully');
+            res.redirect('/supervisor/theses');
+
           }).catch(err => {
 
             toast.showToast(req, 'error', err);
+            res.redirect('/supervisor/theses');
           });
       } else {
         supervisorProcedures
@@ -116,16 +119,21 @@ router.post('/theses/:serial_number', function (req, res) {
                 .catch(err => { });
             });
             toast.showToast(req, 'success', 'Defense added successfully');
+            res.redirect('/supervisor/theses');
+
           })
           .catch(err => {
             toast.showToast(req, 'error', err);
+            res.redirect('/supervisor/theses');
+
           });
       }
     })
     .catch(err => {
       toast.showToast(req, 'error', err);
+      res.redirect('/supervisor/theses');
+
     });
-  res.redirect('/supervisor/theses');
 });
 
 router.post('/students', function (req, res) {
