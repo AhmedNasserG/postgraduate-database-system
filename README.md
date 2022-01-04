@@ -4,6 +4,9 @@
 This project is part of the Databases Course. The project is a PostGraduate system designed to keep track of student's theses (Masters or PHD), progress reports, publications along with their respective defenses. Furthermore, examiners and supervisors can register also to the system where the supervisor supervises the student and his/her thesis and the examiner examines the defenses of certain theses. There is also admin access where he/she can see all content in the system and has also certain authorities and capabilities, such as issuing payments, installments, and update extensions of specific theses.
 
 ## Project Structure
+<details>
+<summary>Show Project Structure</summary>
+<p>
 
 ```
 .
@@ -70,6 +73,9 @@ This project is part of the Databases Course. The project is a PostGraduate syst
     └── ... 
 
 ```
+</p>
+</details>  
+
 
 ## Installation
 
