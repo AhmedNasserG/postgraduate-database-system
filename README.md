@@ -131,7 +131,7 @@ DB_PASS_ADMIN="your_database_server_password"
 PORT="port_number"
 ```
 
-5) Execute [tables.sql](/database/scripts/tables.sql) (to create tables in the database), [stored-procedures](/database/scripts/procedures.sql) (to create procedures in the database), and [data-insertions](/database/scripts/data-insertion.sql) (to insert data in the database) (NOTE: you should execute these files in order to create the database)
+5) Execute [tables.sql](/database/scripts/tables.sql) (to create tables in the database), [stored-procedures](/database/scripts/procedures.sql) (to create procedures in the database), and [data-insertions](/database/scripts/testing-data-insertion.sql) (to insert data in the database) (NOTE: you should execute these files in order to create the database)
    
 6) Run `node app.js` (to launch the server)
 
