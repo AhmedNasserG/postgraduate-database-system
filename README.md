@@ -3,6 +3,28 @@
 ## Description
 This project is part of the Databases Course. The project is a PostGraduate system designed to keep track of student's theses (Masters or PHD), progress reports, publications along with their respective defenses. Furthermore, examiners and supervisors can register also to the system where the supervisor supervises the student and his/her thesis and the examiner examines the defenses of certain theses. There is also admin access where he/she can see all content in the system and has also certain authorities and capabilities, such as issuing payments, installments, and update extensions of specific theses.
 
+## Sample GIF
+1) Registering a new user
+   
+![register](/gifs/register.gif)
+
+2) Searching for a thesis
+
+![search](/gifs/search.gif)
+
+3) Viewing and editing profile
+
+![profile](/gifs/profile.gif)
+
+4) Adding report
+
+![report](/gifs/report.gif)
+
+5) Adding defense
+
+![defense](/gifs/defense.gif)
+
+
 ## Project Structure
 <details>
 <summary>Show Project Structure</summary>
