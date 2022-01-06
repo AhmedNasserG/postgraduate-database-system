@@ -1,37 +1,52 @@
 <%- include('examinerDashboardHeader.ejs') %>
-<div class= "container ">
-<div class="row m-2 ">
+  <div class="container ">
+    <div class="row m-2 ">
 
-    <% for(var i=0;i < Defenses.length;i++){ %>
-      <div class="card mb-3 col-5 m-2">
-        <div class="card-body">
-          <span>
-            <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
-              <%=Defenses[i].title%>
-                </h5>
-          </span>
-          <p class="card-text"><br><strong>Defense Date: </strong>
-            <%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('Do MMMM, YYYY')%> <br>
-              <strong>Location: </strong>
-              <%=Defenses[i].location%>
-              <br>
-              <strong>Grade :</strong>
-             <%=Defenses[i].grade%>
-             <br>
-             <strong>Comments:</strong>
-             <%=Defenses[i].comments%>
-          </p>
-          <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
-                        data-bs-target="#addGrade<%=i%>">
-                        <i class="fas fa-pen"></i>&nbsp Add Grade
-                  </button>
-          <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
-                  data-bs-target="#addComment<%=i%>">
-                  <i class="fas fa-comment"></i> Add Comment
+      <% for(var i=0;i < Defenses.length;i++){ %>
+        <div class="card mb-3 col-5 m-2">
+          <div class="card-body">
+            <span>
+              <h4 class="card-title "><i class="fas fa-graduation-cap"></i>
+                <%=Defenses[i].title%>
+                  </h5>
+            </span>
+            <table class="table table-striped table-bordered">
+              <tr>
+                <td><i class="fas fa-calendar-day"></i> Date</td>
+                <td>
+                  <%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('Do MMMM, YYYY')%>
+                </td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-university"></i> Location</td>
+                <td>
+                  <%= Defenses[i].location%>
+                </td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-list colored-icon"></i> Grade</td>
+                <td>
+                  <%= Defenses[i].grade%>
+                </td>
+              </tr>
+              <tr>
+                <td><i class="fas fa-comment colored-icon"></i> Comments</td>
+                <td>
+                  <%= Defenses[i].comments%>
+                </td>
+              </tr>
+
+            </table>
+            <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+              data-bs-target="#addGrade<%=i%>">
+              <i class="fas fa-pen"></i>&nbsp Add Grade
+            </button>
+            <button type="button" class="btn btn-primary view-btn" data-bs-toggle="modal"
+              data-bs-target="#addComment<%=i%>">
+              <i class="fas fa-comment"></i> Add Comment
             </button>
             <!--Add grade Model-->
-            <div class="modal fade" id="addGrade<%=i%>" data-bs-backdrop="static"
-              tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="addGrade<%=i%>" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -40,23 +55,25 @@
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <form  method="POST" action ='/examiner/addGrade'>
-                  <div class="modal-body">
+                  <form method="POST" action='/examiner/addGrade'>
+                    <div class="modal-body">
                       <div class="input-group mb-3">
-                        <input type="hidden" name = "Date"  value ="<%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('MM/DD/YY HH:mm')%>" >
-                        <input type="number" max = "100" min = "0" step="any" class="form-control" placeholder="Add Grade" aria-label="Recipient's username" aria-describedby="button-addon2" name = "grade" required>
+                        <input type="hidden" name="Date"
+                          value="<%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('MM/DD/YY HH:mm')%>">
+                        <input type="number" max="100" min="0" step="any" class="form-control" placeholder="Add Grade"
+                          aria-label="Recipient's username" aria-describedby="button-addon2" name="grade" required>
                       </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button class="btn view-btn" style = "color: white;"type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%> >Add </button>
-                  </div>
-                </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn view-btn" style="color: white;" type="submit" id="button-addon2" name="thesis"
+                        value=<%=Defenses[i].thesis_serial_number%> >Add </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
             <!--Add Comment Model-->
-            <div class="modal fade" id="addComment<%=i%>" data-bs-backdrop="static"
-              tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="addComment<%=i%>" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -65,28 +82,31 @@
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <form  method="POST" action ='/examiner/addComment'>
+                  <form method="POST" action='/examiner/addComment'>
                     <div class="modal-body">
                       <div class="input-group mb-3">
-                        <input type="hidden" name = "Date"  value ="<%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('MM/DD/YY HH:mm')%>" >
-                        <input type="text" maxlength= "300" class="form-control" placeholder="Add Comment" aria-label="Recipient's username" aria-describedby="button-addon2" name = "comment" required>
+                        <input type="hidden" name="Date"
+                          value="<%=locals.moment(Defenses[i].defense_date).utcOffset('+0000').format('MM/DD/YY HH:mm')%>">
+                        <input type="text" maxlength="300" class="form-control" placeholder="Add Comment"
+                          aria-label="Recipient's username" aria-describedby="button-addon2" name="comment" required>
                       </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button class="btn view-btn" style="color: white;" type="submit" id="button-addon2" name= "thesis" value= <%=Defenses[i].thesis_serial_number%>>Add </button>
-                  </div>
-                </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn view-btn" style="color: white;" type="submit" id="button-addon2" name="thesis"
+                        value=<%=Defenses[i].thesis_serial_number%>>Add </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
 
+          </div>
         </div>
-      </div>
-      <%}%>
-    
+        <%}%>
 
-</div>
-</div>
- 
-  
+
+    </div>
+  </div>
+
+
   <%- include('../dashboardFooter.ejs') %>
