@@ -1,262 +1,150 @@
 <%- include('studentDashboardHeader.ejs', {type : type}) %>
 
-<div class="container rounded mb-3 mt -3">
-  <div class="row justify-content-md-center">
-    <div class="col-md-5 border-right bg-white">
-      <div class="p-3 py-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="text-right">
-            <i class="fas fa-user"></i> Profile Settings
-          </h4>
-        </div>
-        <form method="POST" action="/student/profile">
-          <div class="row mt-2">
-            <div class="col-md-12">
-              <label class="labels">Name</label
-              ><input
-                name="name"
-                type="text"
-                class="form-control editable"
-                value="<%= student.first_name %> <%= student.last_name %>"
-                placeholder="Enter your name"
-                maxlength="41"
-                required
-                readonly
-              />
-            </div>
+  <div class="container rounded mb-3 mt -3">
+    <div class="row justify-content-md-center">
+      <div class="col-md-5 border-right bg-white">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">
+              <i class="fas fa-user"></i> Profile Settings
+            </h4>
           </div>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <label class="labels">Email</label
-              ><input
-                name="email"
-                type="text"
-                class="form-control editable"
-                placeholder="enter email "
-                value="<%=student.email%>"
-                maxlength="50"
-                required
-                readonly
-              />
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <label class="labels">Address</label
-              ><input
-                name="address"
-                type="text"
-                class="form-control editable"
-                placeholder="Enter your address"
-                value="<%=student.address%>"
-                maxlength="50"
-                required
-                readonly
-              />
-            </div>
-          </div>
-          <div class="row mt-3">
-            <% if (type == 0) { %>
-            <div class="col-md-6">
-              <label class="labels">GUC ID</label
-              ><input
-                name="guc_id"
-                type="text"
-                class="form-control"
-                placeholder=""
-                value="<%=student.guc_id%>"
-                required
-                readonly
-              />
-            </div>
-            <div class="col-md-6">
-            <% } else { %>
-            <div class="col-md-12">
-            <% } %>
-              <label class="labels">Faculty</label
-              ><input
-                name="faculty"
-                type="text"
-                class="form-control"
-                placeholder="Enter your"
-                value="<%=student.faculty%>"
-                required
-                readonly
-              />
-            </div>
-          </div>
-
-          <div class="row mt-3">
-            <div class="col-md-6">
-              <label class="labels">GPA</label
-              ><input
-                name="gpa"
-                type="number"
-                class="form-control"
-                placeholder=""
-                value="<%=student.gpa%>"
-                step="any"
-                min="0.7"
-                max="5"
-                required
-                readonly
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="labels">Type</label
-              ><input
-                name="type"
-                type="text"
-                class="form-control"
-                placeholder="Enter your type"
-                value="<%=student.type%>"
-                required
-                readonly
-              />
-            </div>
-          </div>
-
-          <div class="row mt-3 justify-content-md-center">
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic radio toggle button group"
-            >
-              <input
-                type="radio"
-                class="btn-check"
-                name="type"
-                id="gucian"
-                value="1"
-                autocomplete="off"
-                disabled
-              />
-              <label class="btn btn-outline-secondary" for="gucian"
-                >Gucian</label
-              >
-
-              <input
-                type="radio"
-                class="btn-check"
-                name="type"
-                id="nongucian"
-                value="0"
-                autocomplete="off"
-                disabled
-              />
-              <label class="btn btn-outline-secondary" for="nongucian"
-                >Non Gucian</label
-              >
-            </div>
-          </div>
-          <div class="mt-3 text-center">
-            <button class="btn view-btn" type="submit">Save Profile</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="col-md-2 bg-white">
-      <div class="p-3 py-5">
-        <div class="row mt-4">
-          <div class="col-md-3 bg-white">
-            <div
-              class="
-                d-flex
-                justify-content-between
-                align-items-center
-                experience
-                btn
-              "
-              id="edit-btn"
-            >
-              <i class="fas fa-edit"></i>
-            </div>
-          </div>
-          <div class="col-md-3 bg-white">
-            <div
-              class="
-                d-flex
-                justify-content-between
-                align-items-center
-                experience
-                btn
-              "
-              data-bs-toggle="modal"
-              data-bs-target="#addMobile"
-            >
-              <i class="fas fa-mobile-alt"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modal fade"
-      id="addMobile"
-      data-bs-backdrop="static"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="">Add Mobile</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <form method="POST" action="/addMobile">
-            <div class="modal-body">
-              <div class="input-group mb-3">
-                <input
-                  type="number"
-                  maxlength="20"
-                  class="form-control"
-                  placeholder="Add mobile"
-                  aria-label="Recipient's username"
-                  aria-describedby="button-addon2"
-                  name="mobile"
-                  required
-                />
+          <form method="POST" action="/student/profile">
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <label class="labels">Name</label><input name="name" type="text" class="form-control editable"
+                  value="<%= student.first_name %> <%= student.last_name %>" placeholder="Enter your name"
+                  maxlength="41" required readonly />
               </div>
             </div>
-            <div class="modal-footer">
-              <button
-                class="btn view-btn"
-                style="color: white"
-                type="submit"
-                id="button-addon2"
-              >
-                Add
-              </button>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Email</label><input name="email" type="text" class="form-control editable"
+                  placeholder="enter email " value="<%=student.email%>" maxlength="50" required readonly />
+              </div>
             </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Address</label><input name="address" type="text" class="form-control editable"
+                  placeholder="Enter your address" value="<%=student.address%>" maxlength="50" required readonly />
+              </div>
+            </div>
+            <div class="row mt-3">
+              <% if (type==0) { %>
+                <div class="col-md-6">
+                  <label class="labels">GUC ID</label><input name="guc_id" type="text" class="form-control"
+                    placeholder="" value="<%=student.guc_id%>" required readonly />
+                </div>
+                <div class="col-md-6">
+                  <% } else { %>
+                    <div class="col-md-12">
+                      <% } %>
+                        <label class="labels">Faculty</label><input name="faculty" type="text" class="form-control"
+                          placeholder="Enter your" value="<%=student.faculty%>" required readonly />
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <label class="labels">GPA</label><input name="gpa" type="number" class="form-control" placeholder=""
+                      value="<%=student.gpa%>" step="any" min="0.7" max="5" required readonly />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="labels">Type</label><input name="type" type="text" class="form-control"
+                      placeholder="Enter your type" value="<%=student.type%>" required readonly />
+                  </div>
+                </div>
+
+                <div class="row mt-3 justify-content-md-center">
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="type" id="gucian" value="1" autocomplete="off"
+                      disabled />
+                    <label class="btn btn-outline-secondary" for="gucian">Gucian</label>
+
+                    <input type="radio" class="btn-check" name="type" id="nongucian" value="0" autocomplete="off"
+                      disabled />
+                    <label class="btn btn-outline-secondary" for="nongucian">Non Gucian</label>
+                  </div>
+                </div>
+                <div class="mt-3 text-center">
+                  <button class="btn view-btn" type="submit">Save Profile</button>
+                </div>
           </form>
+        </div>
+      </div>
+      <div class="col-md-2 bg-white">
+        <div class="p-3 py-5">
+          <div class="row mt-4">
+            <div class="col-md-3 bg-white">
+              <div class="
+                d-flex
+                justify-content-between
+                align-items-center
+                experience
+                btn
+              " id="edit-btn">
+                <i class="fas fa-edit"></i>
+              </div>
+            </div>
+            <div class="col-md-3 bg-white">
+              <div class="
+                d-flex
+                justify-content-between
+                align-items-center
+                experience
+                btn
+              " data-bs-toggle="modal" data-bs-target="#addMobile">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="addMobile" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">Add Mobile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/addMobile" onsubmit="return validate(this)">
+              <div class="modal-body">
+                <div class="input-group mb-3">
+                  <input type="number" maxlength="20" class="form-control" placeholder="Add mobile"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" name="mobile" id="mobile"
+                    required />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn view-btn" style="color: white" type="submit" id="button-addon2">
+                  Add
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  document.getElementById('edit-btn').onclick = function () {
-    inputs = document.getElementsByClassName('editable');
-    for (input of inputs) {
-      input.removeAttribute('readonly');
-    }
-    type = document.getElementsByClassName('enable');
-    for (type of type) {
-      type.removeAttribute('disabled');
-    }
-  };
-</script>
-<% if (type == 0) {%>
-<script>
-  document.getElementById('gucian').checked = true;
-</script>
-<% }else { %>
-<script>
-  document.getElementById('nongucian').checked = true;
-</script>
-<%}%> <%- include('../dashboardFooter.ejs') %>
+  <script>
+    document.getElementById('edit-btn').onclick = function () {
+      inputs = document.getElementsByClassName('editable');
+      for (input of inputs) {
+        input.removeAttribute('readonly');
+      }
+      type = document.getElementsByClassName('enable');
+      for (type of type) {
+        type.removeAttribute('disabled');
+      }
+    };
+  </script>
+  <% if (type==0) {%>
+    <script>
+      document.getElementById('gucian').checked = true;
+    </script>
+    <% }else { %>
+      <script>
+        document.getElementById('nongucian').checked = true;
+      </script>
+      <%}%>
+        <%- include('../dashboardFooter.ejs') %>
