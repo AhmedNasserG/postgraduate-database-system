@@ -1,174 +1,97 @@
 <%- include('examinerDashboardHeader.ejs')%>
- <!-- Top Nav -->
-<div class="container rounded mb-3 mt -3">
-  <div class="row justify-content-md-center mt-2">
-    <div class="col-md-5 border-right bg-white">
-      <div class="p-3 py-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="text-right">
-            <i class="fas fa-user"></i> Profile Settings
-          </h4>
-        </div>
-        <form method="POST" action="/examiner/profile">
-          <div class="row mt-2">
-            <div class="col-md-12">
-              <label class="labels">Name</label
-              ><input
-                name="name"
-                type="text"
-                class="form-control editable"
-                value="<%=examiner[0].name%>"
-                placeholder="Enter your name"
-                required
-                readonly
-                maxlength="20"
-              />
-            </div>
+  <!-- Top Nav -->
+  <div class="container rounded mb-3 mt -3">
+    <div class="row justify-content-md-center mt-2">
+      <div class="col-md-5 border-right bg-white">
+        <div class="p-3 py-5">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">
+              <i class="fas fa-user"></i> Profile Settings
+            </h4>
           </div>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <label class="labels">Email </label
-              ><input
-                name="email"
-                type="text"
-                class="form-control editable"
-                placeholder="enter email "
-                value="<%=examiner[0].email%>"
-                required
-                readonly
-                maxlength="50"
-              />
+          <form method="POST" action="/examiner/profile">
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <label class="labels">Name</label><input name="name" type="text" class="form-control editable"
+                  value="<%=examiner[0].name%>" placeholder="Enter your name" required readonly maxlength="20" />
+              </div>
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12 mt-2">
-              <label class="labels">Field Of Work</label
-              ><input
-                name="fieldOfWork"
-                type="text"
-                class="form-control editable"
-                placeholder="Enter your field of work"
-                value="<%=examiner[0].field_of_work%>"
-                required
-                readonly
-                maxlength="20"
-              />
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Email </label><input name="email" type="text" class="form-control editable"
+                  placeholder="enter email " value="<%=examiner[0].email%>" required readonly maxlength="50" />
+              </div>
             </div>
-          </div>
-          <div class="row mt-4 justify-content-md-center">
-            <div
-              class="btn-group"
-              role="group"
-              aria-label="Basic radio toggle button group"
-            >
-              <input
-                type="radio"
-                class="btn-check enable"
-                name="type"
-                id="national"
-                value="1"
-                autocomplete="off"
-                disabled
-              />
-              <label class="btn btn-outline-secondary" for="national"
-                >National</label
-              >
+            <div class="row mt-3">
+              <div class="col-md-12 mt-2">
+                <label class="labels">Field Of Work</label><input name="fieldOfWork" type="text"
+                  class="form-control editable" placeholder="Enter your field of work"
+                  value="<%=examiner[0].field_of_work%>" required readonly maxlength="20" />
+              </div>
+            </div>
+            <div class="row mt-4 justify-content-md-center">
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check enable" name="type" id="national" value="1" autocomplete="off"
+                  disabled />
+                <label class="btn btn-outline-secondary" for="national">National</label>
 
-              <input
-                type="radio"
-                class="btn-check enable"
-                name="type"
-                id="international"
-                value="0"
-                autocomplete="off"
-                disabled
-              />
-              <label class="btn btn-outline-secondary" for="international"
-                >International</label
-              >
+                <input type="radio" class="btn-check enable" name="type" id="international" value="0" autocomplete="off"
+                  disabled />
+                <label class="btn btn-outline-secondary" for="international">International</label>
+              </div>
             </div>
-          </div>
-          <div class="mt-5 text-center">
-            <button class="btn view-btn" type="submit">Save Profile</button>
-          </div>
-        </form>
+            <div class="mt-5 text-center">
+              <button class="btn view-btn" type="submit">Save Profile</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-    <div class="col-md-2 bg-white">
-      <div class="p-3 py-5">
-        <div class="row mt-4">
-          <div class="col-md-3 bg-white">
-            <div
-              class="
+      <div class="col-md-2 bg-white">
+        <div class="p-3 py-5">
+          <div class="row mt-4">
+            <div class="col-md-3 bg-white">
+              <div class="
                 d-flex
                 justify-content-between
                 align-items-center
                 experience
                 btn
-              "
-              id="edit-btn"
-            >
-              <i class="fas fa-edit"></i>
+              " id="edit-btn">
+                <i class="fas fa-edit"></i>
+              </div>
             </div>
-          </div>
-          <div class="col-md-3 bg-white">
-            <div
-              class="
+            <div class="col-md-3 bg-white">
+              <div class="
                 d-flex
                 justify-content-between
                 align-items-center
                 experience
                 btn
-              "
-              data-bs-toggle="modal"
-              data-bs-target="#addMobile"
-            >
-              <i class="fas fa-mobile-alt"></i>
-            </div>
-            <div
-              class="modal fade"
-              id="addMobile"
-              data-bs-backdrop="static"
-              tabindex="-1"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="">Add Mobile</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <form method="POST" action="/addMobile">
-                    <div class="modal-body">
-                      <div class="input-group mb-3">
-                        <input
-                          type="number"
-                          maxlength="20"
-                          class="form-control"
-                          placeholder="Add mobile"
-                          aria-label="Recipient's username"
-                          aria-describedby="button-addon2"
-                          name="mobile"
-                          required
-                        />
+              " data-bs-toggle="modal" data-bs-target="#addMobile">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div class="modal fade" id="addMobile" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="">Add Mobile</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="/addMobile" onsubmit=" return validate(this)">
+                      <div class="modal-body">
+                        <div class="input-group mb-3">
+                          <input type="number" maxlength="20" class="form-control" placeholder="Add mobile"
+                            aria-label="Recipient's username" aria-describedby="button-addon2" name="mobile" id="mobile"
+                            required />
+                        </div>
                       </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        class="btn view-btn"
-                        style="color: white"
-                        type="submit"
-                        id="button-addon2"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </form>
+                      <div class="modal-footer">
+                        <button class="btn view-btn" style="color: white" type="submit" id="button-addon2">
+                          Add
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -177,26 +100,41 @@
       </div>
     </div>
   </div>
-</div>
-<script>
-  document.getElementById('edit-btn').onclick = function () {
-    inputs = document.getElementsByClassName('editable');
-    for (input of inputs) {
-      input.removeAttribute('readonly');
+  <script>
+    document.getElementById('edit-btn').onclick = function () {
+      inputs = document.getElementsByClassName('editable');
+      for (input of inputs) {
+        input.removeAttribute('readonly');
+      }
+      type = document.getElementsByClassName('enable');
+      for (type of type) {
+        type.removeAttribute('disabled');
+      }
+    };
+    function validate(form) {
+      console.log('validate');
+      mobileField = document.getElementById('mobile');
+      // check if mobile is valid with regex
+      if (!mobileField.value.match(/^[0-9]{11}$/)) {
+        mobileField.setCustomValidity('Mobile number must be 11 digits');
+        mobileField.reportValidity();
+        mobileField.style.borderColor = 'red';
+        mobileField.focus();
+        return false;
+      }
+      mobileField.setCustomValidity('');
+      mobileField.style.borderColor = 'green';
+      return true;
     }
-    type = document.getElementsByClassName('enable');
-    for (type of type) {
-      type.removeAttribute('disabled');
-    }
-  };
-</script>
-<% if (examiner[0].is_national === true) {%>
-<script>
-  document.getElementById('national').checked = true;
-</script>
-<% }else { console.log(examiner[0].is_national) %>
+  </script>
+  <% if (examiner[0].is_national===true) {%>
+    <script>
+      document.getElementById('national').checked = true;
+    </script>
+    <% }else { console.log(examiner[0].is_national) %>
 
-<script>
-  document.getElementById('international').checked = true;
-</script>
-<%}%> <%- include('../dashboardFooter.ejs') %>
+      <script>
+        document.getElementById('international').checked = true;
+      </script>
+      <%}%>
+        <%- include('../dashboardFooter.ejs') %>
