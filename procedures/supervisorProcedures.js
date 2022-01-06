@@ -19,10 +19,10 @@ const supervisorRegister = async (
 };
 
 const viewSupervisorProfile = async (
-  supervidorId
+  supervisorId
 ) => {
   const request = new sql.Request();
-  request.input('id', sql.Int, supervidorId);
+  request.input('id', sql.Int, supervisorId);
   return request.execute('AdminViewSupervisorProfile');
 };
 
