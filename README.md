@@ -36,6 +36,9 @@ Other tools:
 
 ![defense](preview/gifs/defense.gif)
 
+## Website Preview
+
+[Watch the video on Youtube](https://youtu.be/VRQ7bSIFmiI)
 
 ## Project Structure
 <details>
