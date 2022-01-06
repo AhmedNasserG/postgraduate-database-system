@@ -124,7 +124,7 @@ Other tools:
 
 3) Run `npm i` command in the project folder
    
-4) Create .env file in root director 
+4) Create .env file in root directory
 ```bash
 > echo DB_USER_ADMIN="your_database_server_username" > .env
 > echo DB_PASS_ADMIN="your_database_server_password" >> .env
