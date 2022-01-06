@@ -124,11 +124,11 @@ Other tools:
 
 3) Run `npm i` command in the project folder
    
-4) Create .env file in root directory like the below example
-```
-DB_USER_ADMIN="your_database_server_username"
-DB_PASS_ADMIN="your_database_server_password"
-PORT="port_number"
+4) Create .env file in root director 
+```bash
+> echo DB_USER_ADMIN="your_database_server_username" > .env
+> echo DB_PASS_ADMIN="your_database_server_password" >> .env
+> echo PORT="port_number" >> .env
 ```
 
 5) Execute [tables.sql](/database/scripts/tables.sql) (to create tables in the database), [stored-procedures](/database/scripts/procedures.sql) (to create procedures in the database), and [data-insertions](/database/scripts/testing-data-insertion.sql) (to insert data in the database) (NOTE: you should execute these files in order to create the database)
