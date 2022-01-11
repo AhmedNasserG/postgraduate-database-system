@@ -1,7 +1,6 @@
 USE pg_database;
 GO
 -- Unregisetered user
-SELECT * FROM USERS;
 -- 1) a) Student
 CREATE PROC StudentRegister
     @first_name VARCHAR(20),
