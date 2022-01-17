@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
-    "dotenv": "^11.0.0",
+    "dotenv": "^14.1.0",
     "ejs": "^3.1.6",
     "express": "~4.17.2",
     "express-session": "^1.17.2",
