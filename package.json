@@ -14,6 +14,6 @@
     "http-status-codes": "^2.2.0",
     "moment": "^2.29.2",
     "morgan": "~1.10.0",
-    "mssql": "^8.0.2"
+    "mssql": "^8.1.0"
   }
 }
